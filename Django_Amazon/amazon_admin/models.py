@@ -1,4 +1,17 @@
 from django.db import models
+from phone_field import PhoneField
+from localflavor.in_.models import INStateField
+from djmoney.models.fields import MoneyField
+
+gender_choices = (
+    ("Male", "Male"),
+    ("Female", "Female"),
+    ("Other", "Other"),
+)
+id_proof = (
+    ("Aadhar Card", "Aadhar Card"),
+    ("Pan Card", "Pan Card"),
+)
 
 
 # Create your models here.
@@ -13,16 +26,16 @@ class Amazon_Admin(models.Model):
     phone = PhoneField(blank=False, unique=True)
     alt_phone = PhoneField(blank=False)
     email = models.EmailField(unique=True)
-    profile_photo = models.ImageField(upload_to="media/Zomato_Admins/image")
+    profile_photo = models.ImageField(upload_to="media/Amazon_Admins/profile")
     active = models.BooleanField(default=True)
     Address = models.CharField(max_length=200)
     city = models.CharField(max_length=20)
     state = INStateField(null=True, blank=True)
     pincode = models.PositiveIntegerField(default=0)
     id_proof = models.CharField(max_length=30, choices=id_proof)
-    id_proof_file = models.FileField(upload_to="media/Zomato_Admins/id_proof_file")
+    id_proof_file = models.FileField(upload_to="media/Amazon_Admins/id_proof_file")
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     get_notified = models.BooleanField(default=True)
     password = models.CharField(max_length=300, unique=True, null=True, blank=True, editable=False)
-    qr_code = models.ImageField(upload_to='media/Zomato_Admins/qr_codes', blank=True)
+    qr_code = models.ImageField(upload_to='media/Amazon_Admins/qr_codes', blank=True)
