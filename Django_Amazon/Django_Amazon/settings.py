@@ -37,6 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
+    'rest_auth.registration',
+    'allauth',
+    'allauth.account',
     'user',
 ]
 
@@ -51,6 +58,12 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'Django_Amazon.urls'
+AUTH_USER_MODEL = 'user.User'
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 TEMPLATES = [
     {
