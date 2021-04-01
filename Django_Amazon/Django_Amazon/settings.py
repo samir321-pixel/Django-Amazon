@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'user',
+    'amazon_admin',
 ]
 
 MIDDLEWARE = [
