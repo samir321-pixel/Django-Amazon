@@ -39,4 +39,5 @@ urlpatterns = [
                                  cache_timeout=0), name='schema-swagger-ui'),
     path('auth/', include('rest_auth.urls')),
     path('rest-auth/registration/', include('rest_auth.registration.urls')),
+    path('manage_amazon_admin/', include('amazon_admin.urls'))
 ]
