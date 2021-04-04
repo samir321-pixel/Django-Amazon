@@ -20,7 +20,7 @@ from drf_yasg import openapi
 from rest_framework import permissions
 from django.conf.urls.static import static
 from django.conf import settings
-
+from rest_auth import urls
 schema_view = get_schema_view(
     openapi.Info(
         title="Amazon API",
@@ -39,5 +39,6 @@ urlpatterns = [
                                  cache_timeout=0), name='schema-swagger-ui'),
     path('auth/', include('rest_auth.urls')),
     path('rest-auth/registration/', include('rest_auth.registration.urls')),
-    path('manage_amazon_admin/', include('amazon_admin.urls'))
+    path('manage_amazon_admin/', include('amazon_admin.urls')),
+    path('manage_amazon_admin/', include('amazon_admin.urls')),
 ]
