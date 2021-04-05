@@ -37,7 +37,7 @@ class Amazon_Admin(models.Model):
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     get_notified = models.BooleanField(default=True)
-    password = models.CharField(max_length=300, null=True, blank=True)
+    password = models.CharField(max_length=300, null=True, blank=True, unique=True, editable=False)
     qr_code = models.ImageField(upload_to='media/Amazon_Admins/qr_codes', blank=True)
 
     def __str__(self):
