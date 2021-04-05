@@ -42,3 +42,11 @@ class Amazon_Admin(models.Model):
 
     def __str__(self):
         return "{}".format(self.first_name)
+
+
+class Amazon_admin_Notifications(models.Model):
+    amazon_admin = models.ForeignKey(Amazon_Admin, on_delete=models.CASCADE, null=True, blank=True)
+    message = models.TextField()
+    seen = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
