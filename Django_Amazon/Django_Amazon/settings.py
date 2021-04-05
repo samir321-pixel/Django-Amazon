@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     'user',
     'amazon_admin',
+    'customer',
 ]
 
 MIDDLEWARE = [
