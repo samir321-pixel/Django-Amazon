@@ -11,7 +11,3 @@ def Unique_Password():
     password = uuid.uuid4().hex[:6].upper()
     print(password)
     return password
-
-
-Unique_Name()
-Unique_Password()
