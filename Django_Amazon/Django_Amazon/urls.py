@@ -40,5 +40,6 @@ urlpatterns = [
     path('auth/', include('rest_auth.urls')),
     path('rest-auth/registration/', include('rest_auth.registration.urls')),
     path('manage_amazon_admin/', include('amazon_admin.urls')),
+    path('manage_amazon_customer/', include('customer.urls')),
 
 ]

@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Amazon_Admin',
+            name='Amazon_Customer',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('unique_id', models.CharField(blank=True, editable=False, max_length=200, null=True, unique=True)),
@@ -27,30 +27,34 @@ class Migration(migrations.Migration):
                 ('phone', phone_field.models.PhoneField(max_length=31, unique=True)),
                 ('alt_phone', phone_field.models.PhoneField(max_length=31)),
                 ('email', models.EmailField(max_length=254, unique=True)),
-                ('profile_photo', models.ImageField(upload_to='media/Amazon_Admins/profile')),
+                ('profile_photo', models.ImageField(upload_to='media/Amazon_Customers/profile')),
                 ('active', models.BooleanField(default=True)),
                 ('Address', models.CharField(max_length=200)),
                 ('city', models.CharField(max_length=20)),
                 ('state', localflavor.in_.models.INStateField(blank=True, max_length=2, null=True)),
                 ('pincode', models.PositiveIntegerField(default=0)),
                 ('id_proof', models.CharField(choices=[('Aadhar Card', 'Aadhar Card'), ('Pan Card', 'Pan Card')], max_length=30)),
-                ('id_proof_file', models.FileField(upload_to='media/Amazon_Admins/id_proof_file')),
+                ('id_proof_file', models.FileField(upload_to='media/Amazon_Customers/id_proof_file')),
                 ('created_at', models.DateTimeField(auto_now=True)),
                 ('updated_at', models.DateTimeField(auto_now_add=True)),
                 ('get_notified', models.BooleanField(default=True)),
                 ('password', models.CharField(blank=True, editable=False, max_length=300, null=True, unique=True)),
-                ('qr_code', models.ImageField(blank=True, upload_to='media/Amazon_Admins/qr_codes')),
+                ('qr_code', models.ImageField(blank=True, upload_to='media/Amazon_Customers/qr_codes')),
             ],
         ),
         migrations.CreateModel(
-            name='Amazon_admin_Notifications',
+            name='Amazon_customers_Notifications',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('message', models.TextField()),
                 ('seen', models.BooleanField(default=False)),
+                ('product_delivery', models.BooleanField()),
+                ('delivery_date', models.DateField()),
+                ('customer_product', models.CharField(max_length=100)),
+                ('amazon_offers', models.CharField(default=True, max_length=200)),
                 ('created_at', models.DateTimeField(auto_now=True)),
                 ('updated_at', models.DateTimeField(auto_now_add=True)),
-                ('amazon_admin', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='amazon_admin.amazon_admin')),
+                ('amazon_customers', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='customer.amazon_customer')),
             ],
         ),
     ]
