@@ -3,7 +3,7 @@ from .serializers import *
 from rest_framework import generics, status
 from rest_framework.response import Response
 from user.models import User
-from .utils import Unique_Name, Unique_Password
+
 
 
 class Amazon_Customers_Signup_View(generics.CreateAPIView):
@@ -18,7 +18,7 @@ class Amazon_Customers_Signup_View(generics.CreateAPIView):
                                                   email=self.request.data['email'],
                                                   password=self.request.data['Password'],
                                                   last_name=self.request.data["last_name"],
-                                                  is_amazon_admin=True)
+                                                  is_amazon_customer=True)
             serializer.save(user=user_query)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
