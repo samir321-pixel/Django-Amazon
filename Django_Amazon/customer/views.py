@@ -13,10 +13,10 @@ class Amazon_Customers_Signup_View(generics.CreateAPIView):
     def perform_create(self, serializer):
         serializer = self.get_serializer(data=self.request.data)
         if serializer.is_valid(raise_exception=True):
-            user_query = User.objects.create_user(username=Unique_Name(),
+            user_query = User.objects.create_user(username=self.request.data['first_name'],
                                                   first_name=self.request.data['first_name'],
                                                   email=self.request.data['email'],
-                                                  password=Unique_Password(),
+                                                  password=self.request.data['Password'],
                                                   last_name=self.request.data["last_name"],
                                                   is_amazon_admin=True)
             serializer.save(user=user_query)
