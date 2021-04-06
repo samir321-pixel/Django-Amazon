@@ -19,7 +19,9 @@ class Amazon_Admin_Signup_View(generics.CreateAPIView):
                                                   password=Unique_Password(),
                                                   last_name=self.request.data["last_name"],
                                                   is_amazon_admin=True)
-            serializer.save(user=user_query)
+            admin_query = serializer.save(user=user_query)  # Amazon Admin
+            Amazon_admin_Notifications.objects.create(amazon_admin=admin_query,
+                                                      message="Congratulation you are now member of Amazon Service")
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
