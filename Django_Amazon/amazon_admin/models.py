@@ -51,5 +51,8 @@ class Amazon_admin_Notifications(models.Model):
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
-    def admin_registered(self,amazon_admin):
-        message="Congratulation you are now member of Amazon Service"
+    def admin_registered(self, amazon_admin, admin_name):
+        message = "Congratulation you are now member of Amazon Service"
+        Amazon_admin_Notifications.objects.create(amazon_admin=amazon_admin,
+                                                  message=message)
+        print("This is working")
