@@ -4,6 +4,9 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from user.models import User
 from .utils import Unique_Name, Unique_Password
+from django.core.exceptions import ObjectDoesNotExist
+
+import datetime
 
 
 class Amazon_Admin_Signup_View(generics.CreateAPIView):
@@ -59,10 +62,26 @@ class Amazon_Admin_Retrieve_View(generics.RetrieveUpdateAPIView):
 
     def retrieve(self, request, *args, **kwargs):
         if self.request.user.is_superuser:
-            query = Amazon_Admin.objects.get(id=self.kwargs["id"])
-            serializer = self.get_serializer(query)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            try:
+                query = Amazon_Admin.objects.get(id=self.kwargs["id"])
+                serializer = self.get_serializer(query)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            except ObjectDoesNotExist:
+                return Response({"DOES_NOT_EXIST": "Does not exist"}, status=status.HTTP_404_NOT_FOUND)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
-    
+    def update(self, request, *args, **kwargs):
+        if self.request.user.is_superuser:
+            try:
+                instance = Amazon_Admin.objects.get(id=self.kwargs["id"])
+            except ObjectDoesNotExist:
+                return Response({"DOES_NOT_EXIST": "Does not exist"}, status=status.HTTP_404_NOT_FOUND)
+            serializer = self.get_serializer(instance, data=self.request.data, partial=True)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save(updated_at=datetime.datetime.now())
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+        else:
+            return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)

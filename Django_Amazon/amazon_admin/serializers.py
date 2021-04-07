@@ -19,3 +19,9 @@ class Amazon_Admin_List_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Amazon_Admin
         fields = "__all__"
+
+
+class Amazon_Admin_Update_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Amazon_Admin
+        exclude = ["id_proof", "profile_photo", "id_proof_file"]
