@@ -27,7 +27,7 @@ class Amazon_Admin(models.Model):
     alt_phone = PhoneField(blank=False)
     email = models.EmailField(unique=True)
     profile_photo = models.ImageField(upload_to="media/Amazon_Admins/profile")
-    active = models.BooleanField(default=True)
+    active = models.BooleanField(default=False)
     Address = models.CharField(max_length=200)
     city = models.CharField(max_length=20)
     state = INStateField(null=True, blank=True)

@@ -19,7 +19,7 @@ class Amazon_Admin_Signup_View(generics.CreateAPIView):
                                                   password=Unique_Password(),
                                                   last_name=self.request.data["last_name"],
                                                   is_amazon_admin=True)
-            admin_query = serializer.save(user=user_query)  # Amazon Admin
+            admin_query = serializer.save(user=user_query, active=False)  # Amazon Admin
             Amazon_admin_Notifications.admin_registered(self=self, amazon_admin=admin_query,
                                                         admin_name=admin_query.first_name)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -39,3 +39,12 @@ class Amazon_Admin_Notification_View(generics.ListAPIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class Amazon_Admin_ListView(generics.ListAPIView):
+    queryset = Amazon_Admin.objects.all()
+    serializer_class = Amazon_Admin_List_Serializer
+
+    def list(self, request, *args, **kwargs):
+        if self.request.user.is_superuser:
+            serializer = self.get_serializer(queryset)
