@@ -80,7 +80,7 @@ class Amazon_Admin_Retrieve_View(generics.RetrieveUpdateAPIView):
                 return Response({"DOES_NOT_EXIST": "Does not exist"}, status=status.HTTP_404_NOT_FOUND)
             serializer = self.get_serializer(instance, data=self.request.data, partial=True)
             if serializer.is_valid(raise_exception=True):
-                serializer.save(updated_at=datetime.datetime.now())
+                serializer.save(updated_at=datetime.datetime.now(), active=True)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
