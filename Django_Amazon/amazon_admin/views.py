@@ -58,7 +58,7 @@ class Amazon_Admin_ListView(generics.ListAPIView):
 
 class Amazon_Admin_Retrieve_View(generics.RetrieveUpdateAPIView):
     queryset = Amazon_Admin.objects.all()
-    serializer_class = Amazon_Admin_List_Serializer
+    serializer_class = Amazon_Admin_Update_Serializer
 
     def retrieve(self, request, *args, **kwargs):
         if self.request.user.is_superuser:
@@ -70,6 +70,7 @@ class Amazon_Admin_Retrieve_View(generics.RetrieveUpdateAPIView):
                 return Response({"DOES_NOT_EXIST": "Does not exist"}, status=status.HTTP_404_NOT_FOUND)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+
 
     def update(self, request, *args, **kwargs):
         if self.request.user.is_superuser:
