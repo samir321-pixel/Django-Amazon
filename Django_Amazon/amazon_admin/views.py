@@ -51,3 +51,16 @@ class Amazon_Admin_ListView(generics.ListAPIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class Amazon_Admin_Retrieve_View(generics.RetrieveAPIView):
+    queryset = Amazon_Admin.objects.all()
+    serializer_class = Amazon_Admin_List_Serializer
+
+    def retrieve(self, request, *args, **kwargs):
+        if self.request.user.is_superuser:
+            query = Amazon_Admin.objects.get(id=self.kwargs["id"])
+            serializer = self.get_serializer(query)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
