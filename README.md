@@ -1,3 +1,3 @@
-# Django-Amazo
+# Django-Amaz
  
 
