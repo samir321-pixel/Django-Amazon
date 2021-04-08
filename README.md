@@ -1,3 +1,3 @@
-# Django-Amazon
+# Django-Amazo
  
 
