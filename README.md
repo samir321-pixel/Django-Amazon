@@ -1,3 +1,2 @@
 # Django-Amazon
  
-Dd
