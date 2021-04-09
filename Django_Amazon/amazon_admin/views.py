@@ -12,6 +12,7 @@ from io import BytesIO
 from PIL import Image, ImageDraw
 from django.core.files import File
 
+
 class Amazon_Admin_Signup_View(generics.CreateAPIView):
     queryset = Amazon_Admin.objects.all()
     serializer_class = Amazon_Admin_Signup_Serializer
@@ -26,7 +27,7 @@ class Amazon_Admin_Signup_View(generics.CreateAPIView):
                                                   password=Unique_Password(),
                                                   last_name=self.request.data["last_name"],
                                                   is_amazon_admin=True)
-            admin_query = serializer.save(user=user_query, active=True)  # Amazon Admin
+            admin_query = serializer.save(user=user_query, active=False)  # Amazon Admin
             try:
                 qrcode_img = qrcode.make(self.request.data['first_name'] + "amazon_admin")
                 canvas = Image.new('RGB', (290, 290), 'white')
@@ -98,17 +99,18 @@ class Amazon_Admin_Retrieve_View(generics.RetrieveUpdateAPIView):
             if serializer.is_valid(raise_exception=True):
                 if serializer.validated_data.get('active'):
                     serializer.save(updated_at=datetime.datetime.now(), active=True)
-
                     Amazon_admin_Notifications.admin_activated(self=self, amazon_admin=instance,
-                                                        amazon_admin_name=instance.first_name, email=instance.email,
-                                                        from_email=EMAIL_HOST_USER)
+                                                               amazon_admin_name=instance.first_name,
+                                                               email=instance.email,
+                                                               from_email=EMAIL_HOST_USER)
+                    return Response(serializer.data, status=status.HTTP_200_OK)  #Here is the solution of your yesterday prpblem!
                 elif not serializer.validated_data.get('active'):
                     serializer.save(updated_at=datetime.datetime.now(), active=False)
                     Amazon_admin_Notifications.admin_deactivated(self=self, amazon_admin=instance,
-                                                          amazon_admin_name=instance.first_name,
-                                                          email=instance.email,
-                                                          from_email=EMAIL_HOST_USER)
-                return Response(serializer.data, status=status.HTTP_200_OK)
+                                                                 amazon_admin_name=instance.first_name,
+                                                                 email=instance.email,
+                                                                 from_email=EMAIL_HOST_USER)
+                    return Response(serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
         else:
