@@ -36,7 +36,7 @@ class Amazon_Employee(models.Model):
     updated_at = models.DateTimeField(auto_now_add=True)
     get_notified = models.BooleanField(default=True)
     password = models.CharField(max_length=300, null=True, blank=True, unique=True, editable=False)
-    qr_code = models.ImageField(upload_to='media/Amazon_Admins/qr_codes', blank=True)
+    qr_code = models.ImageField(upload_to='media/Employee_Admins/qr_codes', blank=True)
 
     def __str__(self):
         return "{}".format(self.first_name)
