@@ -2,7 +2,7 @@ from django.db import models
 from phone_field import PhoneField
 from localflavor.in_.models import INStateField
 from djmoney.models.fields import MoneyField
-
+from django.core.mail import send_mail
 gender_choices = (
     ("Male", "Male"),
     ("Female", "Female"),
@@ -56,3 +56,22 @@ class Amazon_admin_Notifications(models.Model):
         Amazon_admin_Notifications.objects.create(amazon_admin=amazon_admin,
                                                   message=message)
 
+    def admin_activated(self, amazon_admin, amazon_admin_name, email, from_email):
+        subject = "Activated Successful"
+        message = "Hi {}, your account is successfully activated.".format(
+            amazon_admin)
+        Amazon_admin_Notifications.objects.create(amazon_admin=amazon_admin, message=message)
+        try:
+            send_mail(subject, message, from_email, [email])
+        except:
+            pass
+
+    def admin_deactivated(self, amazon_admin, amazon_admin_name, email, from_email):
+        subject = "Accound Deactivated"
+        message = "Hi {}, your account is deactivated. Thank you for your service".format(
+            amazon_admin)
+        Amazon_admin_Notifications.objects.create(amazon_admin=amazon_admin, message=message)
+        try:
+            send_mail(subject, message, from_email, [email])
+        except:
+            pass

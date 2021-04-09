@@ -48,7 +48,7 @@ class Amazon_customers_Notifications(models.Model):
     updated_at = models.DateTimeField(auto_now_add=True)
 
     def customer_registered(self, amazon_customer, customer_name):
-        message = "Congratulations {} you are now member of Amazon Service".format(customer_name)
+        message = "Congratulations {} being a part of Amazon Family".format(customer_name)
         Amazon_customers_Notifications.objects.create(amazon_customer=amazon_customer,
                                                   message=message,
                                                       )
