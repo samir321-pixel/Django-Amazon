@@ -23,3 +23,17 @@ class Amazon_Customers_Signup_View(generics.CreateAPIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+
+class Amazon_Customer_Notification_View(generics.ListAPIView):
+    queryset = Amazon_customers_Notifications.objects.all()
+    serializer_class = Amazon_Customer_Notificartions_Serializer
+
+    def list(self, request, *args, **kwargs):
+        if self.request.user.is_amazon_customer:
+            customer_query = Amazon_Customer.objects.get(user=self.request.user)
+            query = Amazon_customers_Notifications.objects.get(amazon_admin=customer_query)
+            serializer = self.get_serializer(query, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)

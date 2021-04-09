@@ -5,9 +5,12 @@ from rest_framework.response import Response
 from user.models import User
 from .utils import Unique_Name, Unique_Password
 from django.core.exceptions import ObjectDoesNotExist
-
+from Django_Amazon.settings import EMAIL_HOST_USER
 import datetime
-
+import qrcode
+from io import BytesIO
+from PIL import Image, ImageDraw
+from django.core.files import File
 
 class Amazon_Admin_Signup_View(generics.CreateAPIView):
     queryset = Amazon_Admin.objects.all()
@@ -15,6 +18,7 @@ class Amazon_Admin_Signup_View(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         serializer = self.get_serializer(data=self.request.data)
+
         if serializer.is_valid(raise_exception=True):
             user_query = User.objects.create_user(username=Unique_Name(),
                                                   first_name=self.request.data['first_name'],
@@ -22,7 +26,20 @@ class Amazon_Admin_Signup_View(generics.CreateAPIView):
                                                   password=Unique_Password(),
                                                   last_name=self.request.data["last_name"],
                                                   is_amazon_admin=True)
-            admin_query = serializer.save(user=user_query, active=False)  # Amazon Admin
+            admin_query = serializer.save(user=user_query, active=True)  # Amazon Admin
+            try:
+                qrcode_img = qrcode.make(self.request.data['first_name'] + "amazon_admin")
+                canvas = Image.new('RGB', (290, 290), 'white')
+                draw = ImageDraw.Draw(canvas)
+                canvas.paste(qrcode_img)
+                username = self.request.data['first_name']
+                fname = f'amazon_code-{username}' + '.png'
+                buffer = BytesIO()
+                canvas.save(buffer, 'PNG')
+                admin_query.qr_code.save(fname, File(buffer), save=True)
+                canvas.close()
+            except:
+                pass
             Amazon_admin_Notifications.admin_registered(self=self, amazon_admin=admin_query,
                                                         admin_name=admin_query.first_name)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -71,7 +88,6 @@ class Amazon_Admin_Retrieve_View(generics.RetrieveUpdateAPIView):
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
-
     def update(self, request, *args, **kwargs):
         if self.request.user.is_superuser:
             try:
@@ -80,7 +96,18 @@ class Amazon_Admin_Retrieve_View(generics.RetrieveUpdateAPIView):
                 return Response({"DOES_NOT_EXIST": "Does not exist"}, status=status.HTTP_404_NOT_FOUND)
             serializer = self.get_serializer(instance, data=self.request.data, partial=True)
             if serializer.is_valid(raise_exception=True):
-                serializer.save(updated_at=datetime.datetime.now(), active=True)
+                if serializer.validated_data.get('active'):
+                    serializer.save(updated_at=datetime.datetime.now(), active=True)
+
+                    Amazon_admin_Notifications.admin_activated(self=self, amazon_admin=instance,
+                                                        amazon_admin_name=instance.first_name, email=instance.email,
+                                                        from_email=EMAIL_HOST_USER)
+                elif not serializer.validated_data.get('active'):
+                    serializer.save(updated_at=datetime.datetime.now(), active=False)
+                    Amazon_admin_Notifications.admin_deactivated(self=self, amazon_admin=instance,
+                                                          amazon_admin_name=instance.first_name,
+                                                          email=instance.email,
+                                                          from_email=EMAIL_HOST_USER)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)

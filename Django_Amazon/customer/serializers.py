@@ -12,4 +12,4 @@ class Amazon_Customer_Signup_Serializer(serializers.ModelSerializer):
 class Amazon_Customer_Notificartions_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Amazon_customers_Notifications
-        fields = ["__all__"]
+        fields = "__all__"
