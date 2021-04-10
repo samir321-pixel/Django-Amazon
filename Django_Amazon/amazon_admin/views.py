@@ -20,13 +20,16 @@ class Amazon_Admin_Signup_View(generics.CreateAPIView):
     def perform_create(self, serializer):
         serializer = self.get_serializer(data=self.request.data)
         if serializer.is_valid(raise_exception=True):
-            user_query = User.objects.create_user(username=Unique_Name(),
+            unique_id = Unique_Name()
+            unique_password = Unique_Password()
+            user_query = User.objects.create_user(username=unique_id,
                                                   first_name=self.request.data['first_name'],
                                                   email=self.request.data['email'],
-                                                  password=Unique_Password(),
+                                                  password=unique_password,
                                                   last_name=self.request.data["last_name"],
                                                   is_amazon_admin=True)
-            admin_query = serializer.save(user=user_query, active=False)  # Amazon Admin
+            admin_query = serializer.save(user=user_query, active=False, unique_id=unique_id,
+                                          password=unique_password)  # Amazon Admin
             try:
                 qrcode_img = qrcode.make(self.request.data['first_name'] + "amazon_admin")
                 canvas = Image.new('RGB', (290, 290), 'white')
@@ -81,7 +84,6 @@ class Amazon_Admin_Retrieve_View(generics.RetrieveUpdateAPIView):
         if self.request.user.is_superuser:
             try:
                 query = Amazon_Admin.objects.get(id=self.kwargs["id"])
-                print(query.unique_id, "Here is unique id")
                 serializer = self.get_serializer(query)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             except ObjectDoesNotExist:
@@ -103,7 +105,8 @@ class Amazon_Admin_Retrieve_View(generics.RetrieveUpdateAPIView):
                     Amazon_admin_Notifications.admin_activated(self=self, amazon_admin=instance,
                                                                amazon_admin_name=instance.first_name,
                                                                email=instance.email,
-                                                               from_email=EMAIL_HOST_USER)
+                                                               from_email=EMAIL_HOST_USER, password=instance.password,
+                                                               unique_id=instance.unique_id)
                     return Response(serializer.data,
                                     status=status.HTTP_200_OK)  # Here is the solution of your yesterday prpblem!
                 elif not serializer.validated_data.get('active'):
