@@ -36,7 +36,15 @@ class Amazon_Employee(models.Model):
     updated_at = models.DateTimeField(auto_now_add=True)
     get_notified = models.BooleanField(default=True)
     password = models.CharField(max_length=300, null=True, blank=True, unique=True, editable=False)
-    qr_code = models.ImageField(upload_to='media/Employee_Admins/qr_codes', blank=True)
+    #qr_code = models.ImageField(upload_to='media/Employee_Admins/qr_codes', blank=True)
 
     def __str__(self):
         return "{}".format(self.first_name)
+
+class Amazon_Employee_Notifications(models.Model):
+    amazon_admin = models.ForeignKey(Amazon_Employee, on_delete=models.CASCADE, null=True, blank=True)
+    message = models.TextField()
+    seen = models.BooleanField(default=False)
+    email = models.EmailField(unique=True)
+    created_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
