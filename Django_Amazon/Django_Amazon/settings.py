@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'user',
     'amazon_admin',
     'customer',
+    'amazon_employee',
 ]
 
 MIDDLEWARE = [
