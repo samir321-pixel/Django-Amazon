@@ -7,8 +7,8 @@ from user.models import User
 from .utils import Unique_Name, Unique_Password
 from django.core.exceptions import ObjectDoesNotExist
 
+
 # Create your views here.
-#from ..user.models import User
 
 
 class Amazon_Employee_Signup_View(generics.CreateAPIView):
@@ -23,6 +23,7 @@ class Amazon_Employee_Signup_View(generics.CreateAPIView):
         else:
             return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
 
+
 class Amazon_Employee_Notification_View(generics.ListAPIView):
     queryset = Amazon_Employee_Notifications.objects.all()
     serializer_class = Amazon_Employee_Notificartions_Serializer
@@ -35,8 +36,3 @@ class Amazon_Employee_Notification_View(generics.ListAPIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
-
-
-
-
-

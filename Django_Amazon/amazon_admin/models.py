@@ -58,13 +58,13 @@ class Amazon_admin_Notifications(models.Model):
 
     def admin_activated(self, amazon_admin, amazon_admin_name, email, from_email):
         subject = "Activated Successful"
-        message = "Hi {}, your account is successfully activated.".format(
+        message = "Hi {}, your account is successfully activated here is your unique id {} and password {}".format(
             amazon_admin)
         Amazon_admin_Notifications.objects.create(amazon_admin=amazon_admin, message=message)
         try:
             send_mail(subject, message, from_email, [email])
-        except:
-            pass
+        except Exception as e:
+            print(e)
 
     def admin_deactivated(self, amazon_admin, amazon_admin_name, email, from_email):
         subject = "Accound Deactivated"

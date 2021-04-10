@@ -19,7 +19,6 @@ class Amazon_Admin_Signup_View(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         serializer = self.get_serializer(data=self.request.data)
-
         if serializer.is_valid(raise_exception=True):
             user_query = User.objects.create_user(username=Unique_Name(),
                                                   first_name=self.request.data['first_name'],
@@ -82,6 +81,7 @@ class Amazon_Admin_Retrieve_View(generics.RetrieveUpdateAPIView):
         if self.request.user.is_superuser:
             try:
                 query = Amazon_Admin.objects.get(id=self.kwargs["id"])
+                print(query.unique_id, "Here is unique id")
                 serializer = self.get_serializer(query)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             except ObjectDoesNotExist:
@@ -99,11 +99,13 @@ class Amazon_Admin_Retrieve_View(generics.RetrieveUpdateAPIView):
             if serializer.is_valid(raise_exception=True):
                 if serializer.validated_data.get('active'):
                     serializer.save(updated_at=datetime.datetime.now(), active=True)
+                    # unique id unique password
                     Amazon_admin_Notifications.admin_activated(self=self, amazon_admin=instance,
                                                                amazon_admin_name=instance.first_name,
                                                                email=instance.email,
                                                                from_email=EMAIL_HOST_USER)
-                    return Response(serializer.data, status=status.HTTP_200_OK)  #Here is the solution of your yesterday prpblem!
+                    return Response(serializer.data,
+                                    status=status.HTTP_200_OK)  # Here is the solution of your yesterday prpblem!
                 elif not serializer.validated_data.get('active'):
                     serializer.save(updated_at=datetime.datetime.now(), active=False)
                     Amazon_admin_Notifications.admin_deactivated(self=self, amazon_admin=instance,
