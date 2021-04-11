@@ -65,7 +65,7 @@ class Amazon_Admin_Notification_View(generics.ListAPIView):
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
 
-class Amazon_Admin_ListView(generics.ListAPIView):
+class Manage_Amazon_Admin_ListView(generics.ListAPIView):
     queryset = Amazon_Admin.objects.all()
     serializer_class = Amazon_Admin_List_Serializer
 
@@ -77,7 +77,7 @@ class Amazon_Admin_ListView(generics.ListAPIView):
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
 
-class Amazon_Admin_Retrieve_View(generics.RetrieveUpdateAPIView):
+class Manage_Amazon_Admin_Retrieve_View(generics.RetrieveUpdateAPIView):
     queryset = Amazon_Admin.objects.all()
     serializer_class = Amazon_Admin_Update_Serializer
 
@@ -135,13 +135,18 @@ class Amazon_Admin_Profile_View(generics.RetrieveAPIView):
 
     def retrieve(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
-            print("Log in user id is", self.request.user.id)
+            # print("Log in user id is", self.request.user.id)
             user_query = User.objects.get(id=self.request.user.id)
-            print(user_query, "this is user query")
+            # print(user_query, "this is user query")
             admin_query = Amazon_Admin.objects.get(user=user_query)
-            
-            print(admin_query, "Admin")
-            serializer = self.get_serializer(admin_query)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            print(admin_query.active, "This says active")
+            # print(admin_query, "Admin")
+            if admin_query.active:
+                serializer = self.get_serializer(admin_query)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+
+
