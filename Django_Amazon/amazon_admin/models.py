@@ -52,10 +52,16 @@ class Amazon_admin_Notifications(models.Model):
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
-    def admin_registered(self, amazon_admin, admin_name):
-        message = "Congratulations {} you are now member of Amazon Service".format(admin_name)
+    def admin_registered(self, amazon_admin, admin_name, from_email, email):
+        subject = "Register Successful"
+        message = "Congratulations {} you are now member of Amazon Service. Your account will be activate soon".format(
+            admin_name)
         Amazon_admin_Notifications.objects.create(amazon_admin=amazon_admin,
                                                   message=message)
+        try:
+            send_mail(subject, message, from_email, [email])
+        except Exception as e:
+            print(e)
 
     def admin_activated(self, amazon_admin, amazon_admin_name, email, from_email, unique_id, password):
         subject = "Activated Successful"

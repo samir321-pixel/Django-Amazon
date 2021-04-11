@@ -44,7 +44,8 @@ class Amazon_Admin_Signup_View(generics.CreateAPIView):
             except:
                 pass
             Amazon_admin_Notifications.admin_registered(self=self, amazon_admin=admin_query,
-                                                        admin_name=admin_query.first_name)
+                                                        admin_name=admin_query.first_name, email=admin_query.email,
+                                                        from_email=EMAIL_HOST_USER)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
