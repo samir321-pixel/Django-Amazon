@@ -102,7 +102,6 @@ class Amazon_Admin_Retrieve_View(generics.RetrieveUpdateAPIView):
             if serializer.is_valid(raise_exception=True):
                 if serializer.validated_data.get('active'):
                     serializer.save(updated_at=datetime.datetime.now(), active=True)
-                    # unique id unique password
                     Amazon_admin_Notifications.admin_activated(self=self, amazon_admin=instance,
                                                                amazon_admin_name=instance.first_name,
                                                                email=instance.email,
@@ -119,5 +118,30 @@ class Amazon_Admin_Retrieve_View(generics.RetrieveUpdateAPIView):
                     return Response(serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+        else:
+            return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+# create
+# all
+# update
+# filter
+# get
+
+
+class Amazon_Admin_Profile_View(generics.RetrieveAPIView):
+    queryset = Amazon_Admin.objects.all()
+    serializer_class = Amazon_Admin_List_Serializer
+
+    def retrieve(self, request, *args, **kwargs):
+        if self.request.user.is_amazon_admin:
+            print("Log in user id is", self.request.user.id)
+            user_query = User.objects.get(id=self.request.user.id)
+            print(user_query, "this is user query")
+            admin_query = Amazon_Admin.objects.get(user=user_query)
+            
+            print(admin_query, "Admin")
+            serializer = self.get_serializer(admin_query)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
