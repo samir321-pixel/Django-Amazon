@@ -66,3 +66,8 @@ class Amazon_Employee_Notifications(models.Model):
             send_mail(subject, message, from_email, [email])
         except Exception as e:
             print("Error capture here", e)
+
+
+    #employee activate
+    #employee deactivate >> Send email >>
+

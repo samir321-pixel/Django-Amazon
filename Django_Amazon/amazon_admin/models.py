@@ -76,7 +76,7 @@ class Amazon_admin_Notifications(models.Model):
     def admin_deactivated(self, amazon_admin, amazon_admin_name, email, from_email):
         subject = "Accound Deactivated"
         message = "Hi {}, your account is deactivated. Thank you for your service".format(
-            amazon_admin)
+            amazon_admin_name)
         Amazon_admin_Notifications.objects.create(amazon_admin=amazon_admin, message=message)
         try:
             send_mail(subject, message, from_email, [email])
