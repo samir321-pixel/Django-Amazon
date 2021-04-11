@@ -2,7 +2,6 @@ from django.db import models
 from phone_field import PhoneField
 from localflavor.in_.models import INStateField
 from djmoney.models.fields import MoneyField
-
 gender_choices = (
     ("Male", "Male"),
     ("Female", "Female"),
@@ -50,7 +49,7 @@ class Amazon_Employee(models.Model):
 
 
 class Amazon_Employee_Notifications(models.Model):
-    amazon_admin = models.ForeignKey(Amazon_Employee, on_delete=models.CASCADE, null=True, blank=True)
+    amazon_employee = models.ForeignKey(Amazon_Employee, on_delete=models.CASCADE, null=True, blank=True)
     message = models.TextField()
     seen = models.BooleanField(default=False)
     email = models.EmailField(unique=True)
@@ -58,6 +57,6 @@ class Amazon_Employee_Notifications(models.Model):
     updated_at = models.DateTimeField(auto_now_add=True)
 
     def employee_registered(self, amazon_employee, employee_name):
-        message = "Congratulations {} you are now member of Amazon Service".format(employee_name)
+        message = "Welcome {} Now, you are employee of Amazon Service".format(employee_name)
         Amazon_Employee_Notifications.objects.create(amazon_employee=amazon_employee,
                                                   message=message)
