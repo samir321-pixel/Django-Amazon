@@ -5,8 +5,7 @@ from .models import *
 class Amazon_Employee_Signup_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Amazon_Employee
-        fields = ["first_name", "middle_name", "last_name", "DOB", "gender", "phone", "alt_phone", "email",
-                  "profile_photo", "Address", "state", "pincode", "id_proof", "id_proof_file", "city", "password"]
+        exclude = ["user", "unique_id", "id_proof_file", "qr_code", "get_notified", "active"]
 
 
 class Amazon_Employee_Notificartions_Serializer(serializers.ModelSerializer):

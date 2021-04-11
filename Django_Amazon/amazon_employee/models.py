@@ -40,7 +40,11 @@ class Amazon_Employee(models.Model):
     get_notified = models.BooleanField(default=True)
     password = models.CharField(max_length=300, null=False, blank=False)
     qr_code = models.ImageField(upload_to='media/Amazon_Employee/qr_codes', blank=True)
-
+    sallery = MoneyField(default=0, default_currency='INR', max_digits=11, null=True, blank=True)
+    salary_due_date = models.DateField(blank=True, null=True)
+    releasing_date = models.DateField(null=True, blank=True)
+    Resume = models.FileField(upload_to="media/Amazon_Employee/resume_file")
+    Past_Experince = models.IntegerField(default=False)
     def __str__(self):
         return "{}".format(self.first_name)
 
@@ -52,3 +56,8 @@ class Amazon_Employee_Notifications(models.Model):
     email = models.EmailField(unique=True)
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
+
+    def employee_registered(self, amazon_employee, employee_name):
+        message = "Congratulations {} you are now member of Amazon Service".format(employee_name)
+        Amazon_Employee_Notifications.objects.create(amazon_employee=amazon_employee,
+                                                  message=message)
