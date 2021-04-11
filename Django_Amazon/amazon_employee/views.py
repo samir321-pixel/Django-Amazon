@@ -24,13 +24,13 @@ class Amazon_Employee_Signup_View(generics.CreateAPIView):
             unique_id = Unique_Name()
             unique_password = Unique_Password()
             admin_query = User.objects.create_user(username=unique_id,
-                                                  first_name=self.request.data['first_name'],
-                                                  email=self.request.data['email'],
-                                                  password=unique_password,
-                                                  last_name=self.request.data["last_name"],
-                                                  is_amazon_employee=True)
+                                                   first_name=self.request.data['first_name'],
+                                                   email=self.request.data['email'],
+                                                   password=unique_password,
+                                                   last_name=self.request.data["last_name"],
+                                                   is_amazon_employee=True)
             employee_query = serializer.save(user=admin_query, active=False, unique_id=unique_id,
-                                          password=unique_password)
+                                          password =unique_password)
             try:
                 qrcode_img = qrcode.make(self.request.data['first_name'] + "amazon_employee")
                 canvas = Image.new('RGB', (290, 290), 'white')
@@ -50,7 +50,7 @@ class Amazon_Employee_Signup_View(generics.CreateAPIView):
         else:
             return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
 
-class Amazon_Employee_Notification_View(generics.ListAPIView):
+class Amazon_Employee_Notifications_View(generics.ListAPIView):
     queryset = Amazon_Employee_Notifications.objects.all()
     serializer_class = Amazon_Employee_Notificartions_Serializer
 
