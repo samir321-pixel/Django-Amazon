@@ -10,6 +10,7 @@ import qrcode
 from PIL import Image, ImageDraw
 from io import BytesIO
 from django.core.files import File
+from Django_Amazon.settings import EMAIL_HOST_USER
 
 
 # Create your views here.
@@ -45,7 +46,8 @@ class Amazon_Employee_Signup_View(generics.CreateAPIView):
             except:
                 pass
             Amazon_Employee_Notifications.employee_registered(self=self, amazon_employee=employee_query,
-                                                              employee_name=employee_query.first_name)
+                                                              employee_name=employee_query.first_name,
+                                                              email=employee_query.email, from_email=EMAIL_HOST_USER)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)

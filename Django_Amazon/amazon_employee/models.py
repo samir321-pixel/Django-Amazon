@@ -56,7 +56,13 @@ class Amazon_Employee_Notifications(models.Model):
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
-    def employee_registered(self, amazon_employee, employee_name):
-        message = "Welcome {} Now, you are employee of Amazon Service".format(employee_name)
+    def employee_registered(self, amazon_employee, employee_name, from_email, email):
+        subject = "Register Successful"
+        message = "Welcome {} Now, you are employee of Amazon Service. Your account will be activated soon.".format(
+            employee_name)
         Amazon_Employee_Notifications.objects.create(amazon_employee=amazon_employee,
                                                      message=message)
+        try:
+            send_mail(subject, message, from_email, [email])
+        except Exception as e:
+            print("Error capture here", e)
