@@ -13,6 +13,8 @@ id_proof = (
     ("Aadhar Card", "Aadhar Card"),
     ("Pan Card", "Pan Card"),
 )
+
+
 # Create your models here.
 
 class Amazon_Delivery_Service(models.Model):
@@ -42,9 +44,9 @@ class Amazon_Delivery_Service(models.Model):
     order_detail_id = models.IntegerField(default=0)
     product_quantity = models.IntegerField(default=0)
     product_id = models.IntegerField(default=0)
-    supplier_id= models.IntegerField(default=0)
-    delivery_id=models.IntegerField(default=0)
-    delivery_date=models.DateField()
+    supplier_id = models.IntegerField(default=0)
+    delivery_id = models.IntegerField(default=0)
+    delivery_date = models.DateField()
 
     def __str__(self):
         return "{}".format(self.first_name)
