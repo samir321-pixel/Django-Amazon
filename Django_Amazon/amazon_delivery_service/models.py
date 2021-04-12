@@ -50,3 +50,10 @@ class Amazon_Delivery_Service(models.Model):
 
     def __str__(self):
         return "{}".format(self.first_name)
+
+class Amazon_Delivery_Service_Notifications(models.Model):
+    amazon_employee = models.ForeignKey(Amazon_Delivery_Service, on_delete=models.CASCADE, null=True, blank=True)
+    message = models.TextField()
+    seen = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
