@@ -58,9 +58,12 @@ class Amazon_Admin_Notification_View(generics.ListAPIView):
     def list(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
             admin_query = Amazon_Admin.objects.get(user=self.request.user)
-            query = Amazon_admin_Notifications.objects.get(amazon_admin=admin_query)
-            serializer = self.get_serializer(query, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            if admin_query.active:
+                query = Amazon_admin_Notifications.objects.get(amazon_admin=admin_query)
+                serializer = self.get_serializer(query, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 

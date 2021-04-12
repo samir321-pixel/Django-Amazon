@@ -35,7 +35,7 @@ class Amazon_Delivery_Service(models.Model):
     updated_at = models.DateTimeField(auto_now_add=True)
     get_notified = models.BooleanField(default=True)
     password = models.CharField(max_length=300, null=False, blank=False)
-    qr_code = models.ImageField(upload_to='media/Amazon_Employee/qr_codes', blank=True)
+    qr_code = models.ImageField(upload_to='media/Amazon_Delivery_Service/qr_codes', blank=True)
 
     def __str__(self):
         return "{}".format(self.service_name)
