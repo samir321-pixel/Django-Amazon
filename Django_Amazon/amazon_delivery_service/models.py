@@ -21,7 +21,6 @@ class Amazon_Delivery_Service(models.Model):
     unique_id = models.CharField(max_length=200, unique=True, editable=False, null=True, blank=True)
     service_name = models.CharField(max_length=200, unique=True)
     establish_date = models.DateField()
-    gender = models.CharField(max_length=10, choices=gender_choices)
     phone = PhoneField(blank=False, unique=True)
     alt_phone = PhoneField(blank=False)
     email = models.EmailField(unique=True)
@@ -59,4 +58,26 @@ class Amazon_Delivery_Service_Notifications(models.Model):
         try:
             send_mail(subject, message, from_email, [email])
         except Exception as e:
-            print(e)
+            print("Failed to send Mail", e)
+
+    def account_activated(self, amazon_delivery_service, service_name, email, from_email, unique_id, password):
+        subject = "Activated Successful"
+        message = "Hi {}, your account is successfully activated here is your unique id {} and password {}".format(
+            service_name, unique_id, password)
+        Amazon_Delivery_Service_Notifications.objects.create(amazon_delivery_service=amazon_delivery_service,
+                                                             message=message)
+        try:
+            send_mail(subject, message, from_email, [email])
+        except Exception as e:
+            print("Failed to send Mail", e)
+
+    def account_deactivated(self, amazon_delivery_service, service_name, email, from_email):
+        subject = "Accound Deactivated"
+        message = "Hi {}, your account is deactivated. Thank you for your service".format(
+            service_name)
+        Amazon_Delivery_Service_Notifications.objects.create(amazon_delivery_service=amazon_delivery_service,
+                                                             message=message)
+        try:
+            send_mail(subject, message, from_email, [email])
+        except Exception as e:
+            print("Failed to send Mail", e)

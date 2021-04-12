@@ -61,7 +61,7 @@ class Amazon_admin_Notifications(models.Model):
         try:
             send_mail(subject, message, from_email, [email])
         except Exception as e:
-            print(e)
+            print("Failed to send Mail", e)
 
     def admin_activated(self, amazon_admin, amazon_admin_name, email, from_email, unique_id, password):
         subject = "Activated Successful"
@@ -71,7 +71,7 @@ class Amazon_admin_Notifications(models.Model):
         try:
             send_mail(subject, message, from_email, [email])
         except Exception as e:
-            print(e)
+            print("Failed to send Mail", e)
 
     def admin_deactivated(self, amazon_admin, amazon_admin_name, email, from_email):
         subject = "Accound Deactivated"
@@ -81,4 +81,4 @@ class Amazon_admin_Notifications(models.Model):
         try:
             send_mail(subject, message, from_email, [email])
         except:
-            pass
+            print("Failed to send Mail", e)
