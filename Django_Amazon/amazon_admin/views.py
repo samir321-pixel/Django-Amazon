@@ -129,9 +129,9 @@ class Manage_Amazon_Admin_Retrieve_View(generics.RetrieveUpdateAPIView):
 # get
 
 
-class Amazon_Admin_Profile_View(generics.RetrieveAPIView):
+class Amazon_Admin_Profile_View(generics.RetrieveUpdateAPIView):
     queryset = Amazon_Admin.objects.all()
-    serializer_class = Amazon_Admin_List_Serializer
+    serializer_class = Amazon_Admin_Profile_Update_Serializer
 
     def retrieve(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
@@ -149,4 +149,17 @@ class Amazon_Admin_Profile_View(generics.RetrieveAPIView):
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
-
+    def update(self, request, *args, **kwargs):
+        if self.request.user.is_amazon_admin:
+            try:
+                instance = Amazon_Admin.objects.get(id=self.kwargs["id"])
+            except ObjectDoesNotExist:
+                return Response({"DOES_NOT_EXIST": "Does not exist"}, status=status.HTTP_404_NOT_FOUND)
+            serializer = self.get_serializer(instance, data=self.request.data, partial=True)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save(updated_at=datetime.datetime.now(), active=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+        else:
+            return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)

@@ -13,3 +13,13 @@ class Amazon_Employee_Notificartions_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Amazon_Employee_Notifications
         fields = '__all__'
+
+class Amazon_Employee_List_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Amazon_Employee
+        fields = "__all__"
+
+class Amazon_Employee_Update_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Amazon_Employee
+        exclude = ["id_proof", "profile_photo", "id_proof_file", "qr_code"]

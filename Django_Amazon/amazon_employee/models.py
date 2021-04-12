@@ -67,6 +67,26 @@ class Amazon_Employee_Notifications(models.Model):
         except Exception as e:
             print("Error capture here", e)
 
+    def employee_activated(self, amazon_employee, amazon_employee_name, email, from_email, unique_id, password):
+        subject = "Activated Successful"
+        message = "Hi {}, your account is successfully activated here is your unique id {} and password {}".format(
+            amazon_employee_name, unique_id, password)
+        Amazon_Employee_Notifications.objects.create(amazon_employee=amazon_employee, message=message)
+        try:
+            send_mail(subject, message, from_email, [email])
+        except Exception as e:
+            print(e)
+
+    def employee_deactivated(self, amazon_employee, amazon_employee_name, email, from_email):
+        subject = "Accound Deactivated"
+        message = "Hi {}, your account is deactivated. Thank you for your service".format(
+            amazon_employee_name)
+        Amazon_Employee_Notifications.objects.create(amazon_employee=amazon_employee, message=message)
+        try:
+            send_mail(subject, message, from_email, [email])
+        except:
+            pass
+
 
     #employee activate
     #employee deactivate >> Send email >>
