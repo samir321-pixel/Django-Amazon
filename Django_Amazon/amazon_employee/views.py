@@ -121,3 +121,24 @@ class Amazon_Employee_Retrieve_View(generics.RetrieveUpdateAPIView):
                 return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+
+class Amazon_Employee_Profile_View(generics.RetrieveAPIView):
+    queryset = Amazon_Employee.objects.all()
+    serializer_class = Amazon_Employee_List_Serializer
+
+    def retrieve(self, request, *args, **kwargs):
+        if self.request.user.is_amazon_employee:
+             #print("Log in user id is", self.request.user.id)
+            user_query = User.objects.get(id=self.request.user.id)
+            # print(user_query, "this is user query")
+            employee_query = Amazon_Employee.objects.get(user=user_query)
+            print(employee_query.active, "This says active")
+            # print(employee_query, "Admin")
+            if employee_query.active:
+                serializer = self.get_serializer(employee_query)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+

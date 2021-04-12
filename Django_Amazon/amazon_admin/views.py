@@ -135,7 +135,7 @@ class Amazon_Admin_Profile_View(generics.RetrieveAPIView):
 
     def retrieve(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
-            # print("Log in user id is", self.request.user.id)
+             #print("Log in user id is", self.request.user.id)
             user_query = User.objects.get(id=self.request.user.id)
             # print(user_query, "this is user query")
             admin_query = Amazon_Admin.objects.get(user=user_query)
