@@ -4,8 +4,9 @@ from .serializers import *
 from rest_framework import generics, viewsets, status
 from rest_framework.response import Response
 from user.models import User
-from .utils import Unique_Name
+from .utils import Unique_Name, Unique_Password
 from Django_Amazon.settings import EMAIL_HOST_USER
+
 
 # Create your views here.
 class Amazon_Delivery_Service_Signup_View(generics.CreateAPIView):
@@ -16,20 +17,23 @@ class Amazon_Delivery_Service_Signup_View(generics.CreateAPIView):
         serializer = self.get_serializer(data=self.request.data)
         if serializer.is_valid(raise_exception=True):
             unique_id = Unique_Name()
+            password = Unique_Password()
             user_query = User.objects.create_user(username=unique_id,
-                                                  first_name=self.request.data['first_name'],
+                                                  first_name=self.request.data['service_name'],
                                                   email=self.request.data['email'],
-                                                  password=self.request.data['password'],
-                                                  last_name=self.request.data["last_name"],
-                                                  is_amazon_employee=True)
+                                                  password=password,
+                                                  is_amazon_delivery_service=True)
             delivery_service_query = serializer.save(user=user_query, active=False, unique_id=unique_id,
-                                             password=self.request.data['password'])
-            Amazon_Delivery_Service_Notifications.Delivery_Service(self=self, amazon_Delivery_Service=delivery_service_query,
-                                                              employee_name=delivery_service_query.first_name,
-                                                              email=delivery_service_query.email, from_email=EMAIL_HOST_USER)
+                                                     password=password)
+            Amazon_Delivery_Service_Notifications.register_delivery_service(self=self,
+                                                                            amazon_delivery_service=delivery_service_query,
+                                                                            service_name=delivery_service_query.service_name,
+                                                                            email=delivery_service_query.email,
+                                                                            from_email=EMAIL_HOST_USER)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+
 
 class Amazon_Delivery_Service_Notifications_View(generics.ListAPIView):
     queryset = Amazon_Delivery_Service_Notifications.objects.all()

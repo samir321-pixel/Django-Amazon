@@ -38,7 +38,7 @@ class Amazon_Delivery_Service(models.Model):
     qr_code = models.ImageField(upload_to='media/Amazon_Employee/qr_codes', blank=True)
 
     def __str__(self):
-        return "{}".format(self.first_name)
+        return "{}".format(self.service_name)
 
 
 class Amazon_Delivery_Service_Notifications(models.Model):
@@ -48,3 +48,6 @@ class Amazon_Delivery_Service_Notifications(models.Model):
     seen = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
+
+    def register_delivery_service(self, amazon_delivery_service, service_name, email, from_email):
+        pass
