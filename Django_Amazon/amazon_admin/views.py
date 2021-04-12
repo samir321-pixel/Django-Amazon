@@ -131,7 +131,7 @@ class Manage_Amazon_Admin_Retrieve_View(generics.RetrieveUpdateAPIView):
 
 class Amazon_Admin_Profile_View(generics.RetrieveUpdateAPIView):
     queryset = Amazon_Admin.objects.all()
-    serializer_class = Amazon_Admin_List_Serializer
+    serializer_class = Amazon_Admin_Profile_Update_Serializer
 
     def retrieve(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
@@ -150,7 +150,7 @@ class Amazon_Admin_Profile_View(generics.RetrieveUpdateAPIView):
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
     def update(self, request, *args, **kwargs):
-        if self.request.user.is_amazon_superuser:
+        if self.request.user.is_amazon_admin:
             try:
                 instance = Amazon_Admin.objects.get(id=self.kwargs["id"])
             except ObjectDoesNotExist:
