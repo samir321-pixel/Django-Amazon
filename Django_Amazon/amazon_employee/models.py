@@ -15,6 +15,8 @@ id_proof = (
 )
 
 
+
+
 class Amazon_Employee(models.Model):
     user = models.OneToOneField("user.User", on_delete=models.CASCADE, null=True, blank=True)
     unique_id = models.CharField(max_length=200, unique=True, editable=False, null=True, blank=True)

@@ -16,6 +16,14 @@ id_proof = (
 )
 
 
+# Create Amazon_Delivery_Boy model >> delivery boy will be under Amazon_Delivery_Service >>
+# Create delivery boy notifications
+# Create delivery service sign up >> for sign up create unique id of 5 digit and password of 5 digit
+# Create manage Amazon_Delivery_Service
+# Amazon_Delivery_Service will be under amazon admin
+# create Manage Amazon_Delivery_Boy API
+# Amazon_Delivery_Boy will be under Amazon_Delivery_Service
+
 class Amazon_Delivery_Service(models.Model):
     user = models.OneToOneField("user.User", on_delete=models.CASCADE, null=True, blank=True)
     unique_id = models.CharField(max_length=200, unique=True, editable=False, null=True, blank=True)
