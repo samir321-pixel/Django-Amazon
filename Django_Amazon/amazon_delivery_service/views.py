@@ -59,8 +59,12 @@ class Amazon_Delivery_Service_Notifications_View(generics.ListAPIView):
     def list(self, request, *args, **kwargs):
         if self.request.user.is_amazon_delivery_service:
             delivery_service_query = Amazon_Delivery_Service.objects.get(user=self.request.user)
-            query = Amazon_Delivery_Service_Notifications.objects.get(amazon_delivery_service=delivery_service_query)
-            serializer = self.get_serializer(query, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            if delivery_service_query.active:
+                query = Amazon_Delivery_Service_Notifications.objects.get(
+                    amazon_delivery_service=delivery_service_query)
+                serializer = self.get_serializer(query, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)

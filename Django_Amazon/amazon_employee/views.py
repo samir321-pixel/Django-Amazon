@@ -61,9 +61,12 @@ class Amazon_Employee_Notifications_View(generics.ListAPIView):
     def list(self, request, *args, **kwargs):
         if self.request.user.is_amazon_employee:
             employee_query = Amazon_Employee.objects.get(user=self.request.user)
-            query = Amazon_Employee_Notifications.objects.get(amazon_employee=employee_query)
-            serializer = self.get_serializer(query, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            if employee_query.active:
+                query = Amazon_Employee_Notifications.objects.get(amazon_employee=employee_query)
+                serializer = self.get_serializer(query, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
