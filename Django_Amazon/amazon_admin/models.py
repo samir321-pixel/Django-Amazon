@@ -54,7 +54,7 @@ class Amazon_admin_Notifications(models.Model):
 
     def admin_registered(self, amazon_admin, admin_name, from_email, email):
         subject = "Register Successful"
-        message = "Congratulations {} you are now member of Amazon Service. Your account will be activate soon".format(
+        message = "Hi {} Thanks for registering. Your account is under reviewed we will get back to you soon!".format(
             admin_name)
         Amazon_admin_Notifications.objects.create(amazon_admin=amazon_admin,
                                                   message=message)

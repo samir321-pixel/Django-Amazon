@@ -3,6 +3,7 @@ from django.db import models
 from phone_field import PhoneField
 from localflavor.in_.models import INStateField
 from djmoney.models.fields import MoneyField
+from django.core.mail import send_mail
 
 gender_choices = (
     ("Male", "Male"),
@@ -50,4 +51,12 @@ class Amazon_Delivery_Service_Notifications(models.Model):
     updated_at = models.DateTimeField(auto_now_add=True)
 
     def register_delivery_service(self, amazon_delivery_service, service_name, email, from_email):
-        pass
+        subject = "Register Successful"
+        message = "Hi {} Thanks for registering. Your account is under reviewed we will get back to you soon!".format(
+            service_name)
+        Amazon_Delivery_Service_Notifications.objects.create(amazon_delivery_service=amazon_delivery_service,
+                                                             message=message)
+        try:
+            send_mail(subject, message, from_email, [email])
+        except Exception as e:
+            print(e)
