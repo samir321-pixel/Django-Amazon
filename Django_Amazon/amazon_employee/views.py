@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from user.models import User
 from .utils import Unique_Name
 from django.core.exceptions import ObjectDoesNotExist
+import datetime
 import qrcode
 from PIL import Image, ImageDraw
 from io import BytesIO
@@ -74,5 +75,49 @@ class Amazon_Employee_ListView(generics.ListAPIView):
         if self.request.user.is_amazon_admin:
             serializer = self.get_serializer(self.get_queryset(), many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+
+class Amazon_Employee_Retrieve_View(generics.RetrieveUpdateAPIView):
+    queryset = Amazon_Employee.objects.all()
+    serializer_class = Amazon_Employee_Update_Serializer
+
+    def retrieve(self, request, *args, **kwargs):
+        if self.request.user.is_amazon_admin:
+            try:
+                query = Amazon_Employee.objects.get(id=self.kwargs["id"])
+                serializer = self.get_serializer(query)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            except ObjectDoesNotExist:
+                return Response({"DOES_NOT_EXIST": "Does not exist"}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+
+    def update(self, request, *args, **kwargs):
+        if self.request.user.is_amazon_admin:
+            try:
+                instance = Amazon_Employee.objects.get(id=self.kwargs["id"])
+            except ObjectDoesNotExist:
+                return Response({"DOES_NOT_EXIST": "Does not exist"}, status=status.HTTP_404_NOT_FOUND)
+            serializer = self.get_serializer(instance, data=self.request.data, partial=True)
+            if serializer.is_valid(raise_exception=True):
+                if serializer.validated_data.get('active'):
+                    serializer.save(updated_at=datetime.datetime.now(), active=True)
+                    Amazon_Employee_Notifications.employee_activated(self=self, amazon_employee=instance,
+                                                               amazon_employee_name=instance.first_name,
+                                                               email=instance.email,
+                                                               from_email=EMAIL_HOST_USER, password=instance.password,
+                                                               unique_id=instance.unique_id)
+                    return Response(serializer.data,
+                                    status=status.HTTP_200_OK)  # Here is the solution of your yesterday prpblem!
+                elif not serializer.validated_data.get('active'):
+                    serializer.save(updated_at=datetime.datetime.now(), active=False)
+                    Amazon_Employee_Notifications.employee_deactivated(self=self, amazon_employee=instance,
+                                                                 amazon_employee_name=instance.first_name,
+                                                                 email=instance.email,
+                                                                 from_email=EMAIL_HOST_USER)
+                    return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
