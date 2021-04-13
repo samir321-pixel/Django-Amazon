@@ -4,7 +4,7 @@ from .serializers import *
 from rest_framework import generics, status
 from rest_framework.response import Response
 from user.models import User
-from .utils import Unique_Name, Unique_Password
+from .utils import Unique_Name, Unique_Password, Delivery_Boy_Unique_Name, Delivery_Boy_Unique_Password
 from Django_Amazon.settings import EMAIL_HOST_USER
 import qrcode
 from io import BytesIO
@@ -78,8 +78,8 @@ class Amazon_Delivery_Boy_Signup_View(generics.CreateAPIView):
     def perform_create(self, serializer):
         serializer = self.get_serializer(data=self.request.data)
         if serializer.is_valid(raise_exception=True):
-            unique_id = Unique_Name()
-            password = Unique_Password()
+            unique_id = Delivery_Boy_Unique_Name()
+            password = Delivery_Boy_Unique_Password()
             user_query = User.objects.create_user(username=unique_id,
                                                   first_name=self.request.data['boy_name'],
                                                   email=self.request.data['email'],
