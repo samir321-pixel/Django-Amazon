@@ -18,9 +18,10 @@ id_proof = (
 
 # Create Amazon_Delivery_Boy model >> delivery boy will be under Amazon_Delivery_Service >>
 # Create delivery boy notifications
-# Create delivery service sign up >> for sign up create unique id of 5 digit and password of 5 digit
+# Create delivery service sign up >> for sign up create unique id of 5 digit and password of 5 digit already done
+# create a delivery boy service signup & 6 digit id+ 6 digit password
 # Create manage Amazon_Delivery_Service
-# Amazon_Delivery_Service will be under amazon admin
+# Amazon_Delivery_Service will be under amazon superuser
 # create Manage Amazon_Delivery_Boy API
 # Amazon_Delivery_Boy will be under Amazon_Delivery_Service
 
@@ -85,6 +86,52 @@ class Amazon_Delivery_Service_Notifications(models.Model):
             service_name)
         Amazon_Delivery_Service_Notifications.objects.create(amazon_delivery_service=amazon_delivery_service,
                                                              message=message)
+        try:
+            send_mail(subject, message, from_email, [email])
+        except Exception as e:
+            print("Failed to send Mail", e)
+
+
+class Amazon_Delivery_Boy(models.Model):
+    user = models.OneToOneField("user.User", on_delete=models.CASCADE, null=True, blank=True)
+    unique_id = models.CharField(max_length=200, unique=True, editable=False, null=True, blank=True)
+    delivery_boy_name = models.CharField(max_length=200, unique=True)
+    joining_date = models.DateField()
+    phone = PhoneField(blank=False, unique=True)
+    alt_phone = PhoneField(blank=False)
+    email = models.EmailField(unique=True)
+    profile_photo = models.ImageField(upload_to="media/Amazon_Delivery_Boy/profile")
+    active = models.BooleanField(default=False)
+    Address = models.CharField(max_length=200)
+    city = models.CharField(max_length=20)
+    state = INStateField(null=True, blank=True)
+    pincode = models.PositiveIntegerField(default=0)
+    id_proof = models.CharField(max_length=30, choices=id_proof)
+    id_proof_file = models.FileField(upload_to="media/Amazon_Delivery_Boy/id_proof_file")
+    created_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+    get_notified = models.BooleanField(default=True)
+    password = models.CharField(max_length=300, null=False, blank=False)
+    qr_code = models.ImageField(upload_to='media/Amazon_Delivery_Boy/qr_codes', blank=True)
+
+    def __str__(self):
+        return "{}".format(self.delivery_boy_name)
+
+
+class Amazon_Delivery_Boy_Notifications(models.Model):
+    amazon_delivery_boy = models.ForeignKey(Amazon_Delivery_Boy, on_delete=models.CASCADE, null=True,
+                                            blank=True)
+    message = models.TextField()
+    seen = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+
+    def register_delivery_boy(self, amazon_delivery_boy, service_name, email, from_email):
+        subject = "Register Successful"
+        message = "Hi {} Thanks for registering. Your account is under reviewed we will get back to you soon!".format(
+            service_name)
+        Amazon_Delivery_Boy_Notifications.objects.create(amazon_delivery_boy=amazon_delivery_boy,
+                                                         message=message)
         try:
             send_mail(subject, message, from_email, [email])
         except Exception as e:
