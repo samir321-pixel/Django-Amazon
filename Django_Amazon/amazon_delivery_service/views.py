@@ -85,7 +85,7 @@ class Amazon_Delivery_Boy_Signup_View(generics.CreateAPIView):
                                                   password=password,
                                                   is_amazon_delivery_boy=True)
             delivery_boy_query = serializer.save(user=user_query, active=False, unique_id=unique_id,
-                                                     password=password)
+                                                 password=password)
             try:
                 qrcode_img = qrcode.make(self.request.data['first_name'] + "amazon_delivery_boy")
                 canvas = Image.new('RGB', (290, 290), 'white')
@@ -99,12 +99,11 @@ class Amazon_Delivery_Boy_Signup_View(generics.CreateAPIView):
                 canvas.close()
             except:
                 pass
-
             Amazon_Delivery_Boy_Notifications.register_delivery_boy(self=self,
-                                                                        delivery_boy_query=delivery_boy_query,
-                                                                        boy_name=delivery_boy_query.boy_name,
-                                                                        email=delivery_boy_query.email,
-                                                                        from_email=EMAIL_HOST_USER)
+                                                                    amazon_delivery_boy=delivery_boy_query,
+                                                                    amazon_delivery_boy_name=delivery_boy_query.boy_name,
+                                                                    email=delivery_boy_query.email,
+                                                                    from_email=EMAIL_HOST_USER)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)

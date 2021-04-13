@@ -94,6 +94,7 @@ class Amazon_Delivery_Service_Notifications(models.Model):
 
 class Amazon_Delivery_Boy(models.Model):
     user = models.OneToOneField("user.User", on_delete=models.CASCADE, null=True, blank=True)
+    amazon_deliery_service = models.ForeignKey(Amazon_Delivery_Service, on_delete=models.CASCADE)
     unique_id = models.CharField(max_length=200, unique=True, editable=False, null=True, blank=True)
     first_name = models.CharField(max_length=200)
     middle_name = models.CharField(max_length=200, blank=True)
@@ -129,10 +130,10 @@ class Amazon_Delivery_Boy_Notifications(models.Model):
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
-    def register_delivery_boy(self, amazon_delivery_boy, service_name, email, from_email):
+    def register_delivery_boy(self, amazon_delivery_boy, amazon_delivery_boy_name, email, from_email):
         subject = "Register Successful"
         message = "Hi {} Thanks for registering. Your account is under reviewed we will get back to you soon!".format(
-            service_name)
+            amazon_delivery_boy_name)
         Amazon_Delivery_Boy_Notifications.objects.create(amazon_delivery_boy=amazon_delivery_boy,
                                                          message=message)
         try:
