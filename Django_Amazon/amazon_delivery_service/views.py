@@ -1,5 +1,4 @@
 from .models import *
-
 from .serializers import *
 from rest_framework import generics, status
 from rest_framework.response import Response
@@ -123,5 +122,17 @@ class Amazon_Delivery_Boy_Notifications_View(generics.ListAPIView):
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class Manage_Amazon_Delivery_Service_ListView(generics.ListAPIView):
+    queryset = Amazon_Delivery_Service.objects.all()
+    serializer_class = Amazon_Delivery_Service_List_Serializer
+
+    def list(self, request, *args, **kwargs):
+        if self.request.user.is_superuser:
+            serializer = self.get_serializer(self.get_queryset(), many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)

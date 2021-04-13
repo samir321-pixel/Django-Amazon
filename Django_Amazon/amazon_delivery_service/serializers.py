@@ -24,3 +24,9 @@ class Amazon_Delivery_Boy_Notifications_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Amazon_Delivery_Boy_Notifications
         fields = '__all__'
+
+
+class Amazon_Delivery_Service_List_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Amazon_Delivery_Service
+        exclude = [ "qr_code", "get_notified", "password"]
