@@ -91,6 +91,7 @@ class Amazon_Delivery_Service_Notifications(models.Model):
         except Exception as e:
             print("Failed to send Mail", e)
 
+
 class Amazon_Delivery_Boy(models.Model):
     user = models.OneToOneField("user.User", on_delete=models.CASCADE, null=True, blank=True)
     unique_id = models.CharField(max_length=200, unique=True, editable=False, null=True, blank=True)
@@ -117,3 +118,21 @@ class Amazon_Delivery_Boy(models.Model):
         return "{}".format(self.delivery_boy_name)
 
 
+class Amazon_Delivery_Boy_Notifications(models.Model):
+    amazon_delivery_boy = models.ForeignKey(Amazon_Delivery_Boy, on_delete=models.CASCADE, null=True,
+                                            blank=True)
+    message = models.TextField()
+    seen = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+
+    def register_delivery_boy(self, amazon_delivery_boy, service_name, email, from_email):
+        subject = "Register Successful"
+        message = "Hi {} Thanks for registering. Your account is under reviewed we will get back to you soon!".format(
+            service_name)
+        Amazon_Delivery_Boy_Notifications.objects.create(amazon_delivery_boy=amazon_delivery_boy,
+                                                         message=message)
+        try:
+            send_mail(subject, message, from_email, [email])
+        except Exception as e:
+            print("Failed to send Mail", e)
