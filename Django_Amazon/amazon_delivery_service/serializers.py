@@ -18,3 +18,5 @@ class Amazon_Delivery_Boy_Signup_Serializer(serializers.ModelSerializer):
         model = Amazon_Delivery_Boy
         exclude = ["user", "unique_id", "qr_code", "get_notified", "active"]
 
+
+

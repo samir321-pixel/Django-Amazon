@@ -86,6 +86,19 @@ class Amazon_Delivery_Boy_Signup_View(generics.CreateAPIView):
                                                   is_amazon_delivery_boy=True)
             delivery_boy_query = serializer.save(user=user_query, active=False, unique_id=unique_id,
                                                      password=password)
+            try:
+                qrcode_img = qrcode.make(self.request.data['first_name'] + "amazon_delivery_boy")
+                canvas = Image.new('RGB', (290, 290), 'white')
+                draw = ImageDraw.Draw(canvas)
+                canvas.paste(qrcode_img)
+                username = self.request.data['first_name']
+                fname = f'amazon_delivery_boy_code-{username}' + '.png'
+                buffer = BytesIO()
+                canvas.save(buffer, 'PNG')
+                delivery_boy_query.qr_code.save(fname, File(buffer), save=True)
+                canvas.close()
+            except:
+                pass
 
             Amazon_Delivery_Boy_Notifications.register_delivery_boy(self=self,
                                                                         delivery_boy_query=delivery_boy_query,
