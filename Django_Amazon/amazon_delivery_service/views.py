@@ -107,3 +107,21 @@ class Amazon_Delivery_Boy_Signup_View(generics.CreateAPIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+
+class Amazon_Delivery_Boy_Notifications_View(generics.ListAPIView):
+    queryset = Amazon_Delivery_Boy_Notifications.objects.all()
+    serializer_class = Amazon_Delivery_Boy_Notifications_Serializer
+
+    def list(self, request, *args, **kwargs):
+        if self.request.user.is_amazon_delivery_service:
+            delivery_service_boy_query = Amazon_Delivery_Boy.objects.get(user=self.request.user)
+            if delivery_service_boy_query.active:
+                query = Amazon_Delivery_Boy_Notifications.objects.get(
+                    amazon_delivery_boy=delivery_service_boy_query)
+                serializer = self.get_serializer(query, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
