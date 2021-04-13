@@ -29,4 +29,10 @@ class Amazon_Delivery_Boy_Notifications_Serializer(serializers.ModelSerializer):
 class Amazon_Delivery_Service_List_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Amazon_Delivery_Service
-        exclude = [ "qr_code", "get_notified", "password"]
+        exclude = ["qr_code", "get_notified", "password"]
+
+
+class Amazon_Delivery_Service_Update_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Amazon_Delivery_Service
+        exclude = ["qr_code", "get_notified", "password", "profile_photo", "certificate", "qr_code"]
