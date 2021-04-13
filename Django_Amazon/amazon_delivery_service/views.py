@@ -1,4 +1,5 @@
 from .models import *
+import datetime
 from .serializers import *
 from rest_framework import generics, status
 from rest_framework.response import Response
@@ -164,19 +165,21 @@ class Manage_Amazon_Delivery_Service_Retrieve_View(generics.RetrieveUpdateAPIVie
             if serializer.is_valid(raise_exception=True):
                 if serializer.validated_data.get('active'):
                     serializer.save(updated_at=datetime.datetime.now(), active=True)
-                    Amazon_admin_Notifications.admin_activated(self=self, amazon_admin=instance,
-                                                               amazon_admin_name=instance.first_name,
-                                                               email=instance.email,
-                                                               from_email=EMAIL_HOST_USER, password=instance.password,
-                                                               unique_id=instance.unique_id)
+                    Amazon_Delivery_Service_Notifications.account_activated(self=self, amazon_delivery_service=instance,
+                                                                            service_name=instance.service_name,
+                                                                            email=instance.email,
+                                                                            from_email=EMAIL_HOST_USER,
+                                                                            password=instance.password,
+                                                                            unique_id=instance.unique_id)
                     return Response(serializer.data,
                                     status=status.HTTP_200_OK)  # Here is the solution of your yesterday prpblem!
                 elif not serializer.validated_data.get('active'):
                     serializer.save(updated_at=datetime.datetime.now(), active=False)
-                    Amazon_admin_Notifications.admin_deactivated(self=self, amazon_admin=instance,
-                                                                 amazon_admin_name=instance.first_name,
-                                                                 email=instance.email,
-                                                                 from_email=EMAIL_HOST_USER)
+                    Amazon_Delivery_Service_Notifications.account_deactivated(self=self,
+                                                                              amazon_delivery_service=instance,
+                                                                              service_name=instance.first_name,
+                                                                              email=instance.email,
+                                                                              from_email=EMAIL_HOST_USER)
                     return Response(serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)

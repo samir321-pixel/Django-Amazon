@@ -7,4 +7,5 @@ urlpatterns = [
     path('amazon_delivery_boy_signup/', Amazon_Delivery_Boy_Signup_View.as_view()),
     path('amazon_delivery_boy_notification/', Amazon_Delivery_Boy_Notifications_View.as_view()),
     path('manage_amazon_delivery_service/', Manage_Amazon_Delivery_Service_ListView.as_view()),
+    path('manage_amazon_delivery_service/<int:id>/', Manage_Amazon_Delivery_Service_Retrieve_View.as_view()),
 ]
