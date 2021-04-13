@@ -6,6 +6,7 @@ colorama==0.4.4
 coreapi==2.3.3
 coreschema==0.0.4
 cowsay==3.0
+cryptography==3.4.7
 defusedxml==0.7.1
 Django==3.1.7
 django-allauth==0.44.0
@@ -24,6 +25,7 @@ MarkupSafe==1.1.1
 oauthlib==3.1.0
 packaging==20.9
 Pillow==8.1.2
+psycopg2==2.8.6
 py-moneyed==0.8.0
 pycparser==2.20
 pyfiglet==0.7
