@@ -13,8 +13,8 @@ gender_choices = (
 # Create your models here.
 class Amazon_Customer(models.Model):
     user = models.OneToOneField("user.User", on_delete=models.CASCADE, null=True, blank=True)
-    first_name = models.CharField(max_length=200, unique=True)
-    middle_name = models.CharField(max_length=200, blank=True)
+    first_name = models.CharField(max_length=200)
+    middle_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
     DOB = models.DateField()
     gender = models.CharField(max_length=10, choices=gender_choices)

@@ -95,7 +95,9 @@ class Amazon_Delivery_Service_Notifications(models.Model):
 class Amazon_Delivery_Boy(models.Model):
     user = models.OneToOneField("user.User", on_delete=models.CASCADE, null=True, blank=True)
     unique_id = models.CharField(max_length=200, unique=True, editable=False, null=True, blank=True)
-    delivery_boy_name = models.CharField(max_length=200, unique=True)
+    first_name = models.CharField(max_length=200)
+    middle_name = models.CharField(max_length=200, blank=True)
+    last_name = models.CharField(max_length=200)
     joining_date = models.DateField()
     phone = PhoneField(blank=False, unique=True)
     alt_phone = PhoneField(blank=False)
@@ -112,10 +114,11 @@ class Amazon_Delivery_Boy(models.Model):
     updated_at = models.DateTimeField(auto_now_add=True)
     get_notified = models.BooleanField(default=True)
     password = models.CharField(max_length=300, null=False, blank=False)
+    Resume = models.FileField(upload_to="media/Amazon_Delivery_Boy/resume_file")
     qr_code = models.ImageField(upload_to='media/Amazon_Delivery_Boy/qr_codes', blank=True)
 
     def __str__(self):
-        return "{}".format(self.delivery_boy_name)
+        return "{} {}".format("delivery boy-", self.first_name)
 
 
 class Amazon_Delivery_Boy_Notifications(models.Model):
