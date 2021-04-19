@@ -85,8 +85,7 @@ class Amazon_Delivery_Boy_Signup_View(generics.CreateAPIView):
             user_query = User.objects.create_user(username=unique_id,
                                                   first_name=self.request.data['first_name'],
                                                   email=self.request.data['email'],
-                                                  password=password)
-                                                 # amazon_delivery_boy=False)
+                                                  password=password, is_amazon_delivery_service_boy=True)
             delivery_boy_query = serializer.save(user=user_query, active=False, unique_id=unique_id,
                                                  password=password)
             try:
@@ -199,7 +198,7 @@ class Manage_Amazon_Delivery_Boy_List_View(generics.ListAPIView):
                 query = Amazon_Delivery_Boy.objects.filter(
                     amazon_deliery_service=Amazon_Delivery_Service.objects.get(user=self.request.user.id))
                 # query = Amazon_Delivery_Boy.objects.get(id=self.kwargs["id"]) #Amazon_Delivery_Boy //Amazon_Delivery_Service
-                #serializer = self.get_serializer(self.get_queryset(), many=True)
+                # serializer = self.get_serializer(self.get_queryset(), many=True)
                 serializer = self.get_serializer(query, many=True)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             except ObjectDoesNotExist:
