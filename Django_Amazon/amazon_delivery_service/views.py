@@ -85,8 +85,7 @@ class Amazon_Delivery_Boy_Signup_View(generics.CreateAPIView):
             user_query = User.objects.create_user(username=unique_id,
                                                   first_name=self.request.data['first_name'],
                                                   email=self.request.data['email'],
-                                                  password=password)
-                                                 # amazon_delivery_boy=False)
+                                                  password=password, is_amazon_delivery_service_boy=True)
             delivery_boy_query = serializer.save(user=user_query, active=False, unique_id=unique_id,
                                                  password=password)
             try:
@@ -191,16 +190,42 @@ class Manage_Amazon_Delivery_Service_Retrieve_View(generics.RetrieveUpdateAPIVie
 
 class Manage_Amazon_Delivery_Boy_List_View(generics.ListAPIView):
     queryset = Amazon_Delivery_Boy.objects.all()
-    serializer_class = Manage_Amazon_Delivery_Boy_List_View
+    serializer_class = Manage_Amazon_Delivery_Boy_List_View_Serializer
 
     def list(self, request, *args, **kwargs):
         if self.request.user.is_amazon_delivery_service:
+
+            # amazon_delivery_boy_query = Amazon_Delivery_Boy.objects.get(user=self.request.user.id)
+            # if amazon_delivery_boy_query.active:
+            #     # amazon_delivery_boy_query = Amazon_Delivery_Boy.objects.get(user=self.request.user.id)
+            #     serializer = self.get_serializer(Amazon_Delivery_Boy)
+            #     return Response(serializer.data, status=status.HTTP_200_OK)
+            # else:
+            #     return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+
+            # COndition add here to check it is active or not
             try:
                 query = Amazon_Delivery_Boy.objects.filter(
                     amazon_deliery_service=Amazon_Delivery_Service.objects.get(user=self.request.user.id))
-                # query = Amazon_Delivery_Boy.objects.get(id=self.kwargs["id"]) #Amazon_Delivery_Boy //Amazon_Delivery_Service
-                #serializer = self.get_serializer(self.get_queryset(), many=True)
                 serializer = self.get_serializer(query, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            except ObjectDoesNotExist:
+                return Response({"DOES_NOT_EXIST": "Does not exist"}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+
+# Create Manage_Amazon_Delivery_Boy Retrieve View
+# Create Manage_Amazon_Delivery_Boy Update >> Active>> Notification >>Inactive Inactive notification
+
+class Manage_Amazon_Delivery_Boy_Retrieve_View(generics.RetrieveAPIView):
+    queryset = Amazon_Delivery_Boy.objects.all()
+    serializer_class = Manage_Amazon_Delivery_Boy_Retrieve_View_Serializer
+
+    def retrieve(self, request, *args, **kwargs):
+        if self.request.user.is_amazon_delivery_service:
+            try:
+                query = Amazon_Delivery_Boy.objects.get(id=self.kwargs["id"])
+                serializer = self.get_serializer(query)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             except ObjectDoesNotExist:
                 return Response({"DOES_NOT_EXIST": "Does not exist"}, status=status.HTTP_404_NOT_FOUND)
