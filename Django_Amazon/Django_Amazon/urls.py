@@ -43,6 +43,6 @@ urlpatterns = [
     path('manage_amazon_admin/', include('amazon_admin.urls')),
     path('manage_amazon_customer/', include('customer.urls')),
     path('amazon_employee_signup/', include(('amazon_employee.urls'))),
-    path('amazon_delivery_service_signup/', include(('amazon_delivery_service.urls'))),
+    path('amazon_delivery_service/', include(('amazon_delivery_service.urls'))),
 
 ]
