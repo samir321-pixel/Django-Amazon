@@ -118,8 +118,11 @@ class Amazon_Delivery_Boy(models.Model):
     Resume = models.FileField(upload_to="media/Amazon_Delivery_Boy/resume_file")
     qr_code = models.ImageField(upload_to='media/Amazon_Delivery_Boy/qr_codes', blank=True)
 
+    # def __str__(self):
+    #     return "{} {}".format("delivery boy", self.first_name)
+
     def __str__(self):
-        return "{} {}".format("delivery boy-", self.first_name)
+        return "{}".format(self.first_name)
 
 
 class Amazon_Delivery_Boy_Notifications(models.Model):

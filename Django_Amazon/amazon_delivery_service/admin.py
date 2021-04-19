@@ -5,3 +5,4 @@ from .models import *
 admin.site.register(Amazon_Delivery_Service)
 admin.site.register(Amazon_Delivery_Service_Notifications)
 admin.site.register(Amazon_Delivery_Boy)
+admin.site.register(Amazon_Delivery_Boy_Notifications)

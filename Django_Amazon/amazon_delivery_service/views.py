@@ -13,6 +13,8 @@ from django.core.files import File
 from django.core.exceptions import ObjectDoesNotExist
 
 
+# from rest_framework.filters import SearchFilter
+
 # Create your views here.
 class Amazon_Delivery_Service_Signup_View(generics.CreateAPIView):
     queryset = Amazon_Delivery_Service.objects.all()
@@ -81,10 +83,10 @@ class Amazon_Delivery_Boy_Signup_View(generics.CreateAPIView):
             unique_id = Delivery_Boy_Unique_Name()
             password = Delivery_Boy_Unique_Password()
             user_query = User.objects.create_user(username=unique_id,
-                                                  first_name=self.request.data['boy_name'],
+                                                  first_name=self.request.data['first_name'],
                                                   email=self.request.data['email'],
-                                                  password=password,
-                                                  is_amazon_delivery_boy=True)
+                                                  password=password)
+                                                 # amazon_delivery_boy=False)
             delivery_boy_query = serializer.save(user=user_query, active=False, unique_id=unique_id,
                                                  password=password)
             try:
@@ -102,7 +104,7 @@ class Amazon_Delivery_Boy_Signup_View(generics.CreateAPIView):
                 pass
             Amazon_Delivery_Boy_Notifications.register_delivery_boy(self=self,
                                                                     amazon_delivery_boy=delivery_boy_query,
-                                                                    amazon_delivery_boy_name=delivery_boy_query.boy_name,
+                                                                    amazon_delivery_boy_name=delivery_boy_query,
                                                                     email=delivery_boy_query.email,
                                                                     from_email=EMAIL_HOST_USER)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -183,5 +185,24 @@ class Manage_Amazon_Delivery_Service_Retrieve_View(generics.RetrieveUpdateAPIVie
                     return Response(serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+        else:
+            return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class Manage_Amazon_Delivery_Boy_List_View(generics.ListAPIView):
+    queryset = Amazon_Delivery_Boy.objects.all()
+    serializer_class = Manage_Amazon_Delivery_Boy_List_View
+
+    def list(self, request, *args, **kwargs):
+        if self.request.user.is_amazon_delivery_service:
+            try:
+                query = Amazon_Delivery_Boy.objects.filter(
+                    amazon_deliery_service=Amazon_Delivery_Service.objects.get(user=self.request.user.id))
+                # query = Amazon_Delivery_Boy.objects.get(id=self.kwargs["id"]) #Amazon_Delivery_Boy //Amazon_Delivery_Service
+                #serializer = self.get_serializer(self.get_queryset(), many=True)
+                serializer = self.get_serializer(query, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            except ObjectDoesNotExist:
+                return Response({"DOES_NOT_EXIST": "Does not exist"}, status=status.HTTP_404_NOT_FOUND)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
