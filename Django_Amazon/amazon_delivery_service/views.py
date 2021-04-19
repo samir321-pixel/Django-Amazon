@@ -194,6 +194,7 @@ class Manage_Amazon_Delivery_Boy_List_View(generics.ListAPIView):
 
     def list(self, request, *args, **kwargs):
         if self.request.user.is_amazon_delivery_service:
+            # COndition add here to check it is active or not
             try:
                 query = Amazon_Delivery_Boy.objects.filter(
                     amazon_deliery_service=Amazon_Delivery_Service.objects.get(user=self.request.user.id))
@@ -207,4 +208,4 @@ class Manage_Amazon_Delivery_Boy_List_View(generics.ListAPIView):
 
 
 # Create Manage_Amazon_Delivery_Boy Retrieve View
-# Create Manage_Amazon_Delivery_Boy Update
+# Create Manage_Amazon_Delivery_Boy Update >> Active>> Notification >>Inactive Inactive notification
