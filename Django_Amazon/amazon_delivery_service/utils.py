@@ -15,11 +15,13 @@ def Unique_Password():
 
 def Delivery_Boy_Unique_Name():
     username = uuid.uuid4().hex[:6].upper()
+    username = "{}{}".format("ADB", username)
     print(username)
     return username
 
 
 def Delivery_Boy_Unique_Password():
     password = uuid.uuid4().hex[:6].upper()
+    password = "{}{}".format("ADB", password)
     print(password)
     return password
