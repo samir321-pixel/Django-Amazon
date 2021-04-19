@@ -197,11 +197,14 @@ class Manage_Amazon_Delivery_Boy_List_View(generics.ListAPIView):
             try:
                 query = Amazon_Delivery_Boy.objects.filter(
                     amazon_deliery_service=Amazon_Delivery_Service.objects.get(user=self.request.user.id))
-                # query = Amazon_Delivery_Boy.objects.get(id=self.kwargs["id"]) #Amazon_Delivery_Boy //Amazon_Delivery_Service
-                # serializer = self.get_serializer(self.get_queryset(), many=True)
                 serializer = self.get_serializer(query, many=True)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             except ObjectDoesNotExist:
                 return Response({"DOES_NOT_EXIST": "Does not exist"}, status=status.HTTP_404_NOT_FOUND)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+
+# Create Manage_Amazon_Delivery_Boy Retrieve View
+# Create Manage_Amazon_Delivery_Boy Update

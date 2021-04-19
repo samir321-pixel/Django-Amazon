@@ -5,7 +5,7 @@ from .models import *
 class Amazon_Delivery_Service_Signup_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Amazon_Delivery_Service
-        exclude = ["user", "unique_id", "qr_code", "get_notified", "active"]
+        exclude = ["user", "unique_id", "qr_code", "get_notified", "active", "password"]
 
 
 class Amazon_Delivery_Service_Notifications_Serializer(serializers.ModelSerializer):
