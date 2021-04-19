@@ -43,7 +43,7 @@ class Manage_Amazon_Delivery_Boy_List_View_Serializer(serializers.ModelSerialize
         model = Amazon_Delivery_Boy
         exclude = ["qr_code", "get_notified", "password", "profile_photo"]
 
-class Manage_Amazon_Delivery_Boy_Retrieve_View_Serializer(serializers.ModelSerializer):
+class Manage_Amazon_Delivery_Boy_Update_View_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Amazon_Delivery_Boy
         exclude = ["qr_code", "get_notified", "password", "profile_photo"]
