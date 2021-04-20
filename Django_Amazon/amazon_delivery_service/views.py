@@ -232,7 +232,20 @@ class Manage_Amazon_Delivery_Boy_Retrieve_View(generics.RetrieveUpdateAPIView):
             if amazon_delivery_service_query.active:
                 try:
                     query = Amazon_Delivery_Boy.objects.get(id=self.kwargs["id"])
-                    serializer = self.get_serializer(query)
+                    serializer = self.get_serializer(query, data=self.request.data, partial=True)
+                    if serializer.is_valid(raise_exception=True):
+                        if serializer.validated_data.get('active'):
+                            serializer.save(updated_at=datetime.datetime.now(), active=True)
+                            Amazon_Delivery_Boy_Notifications.account_activated(self=self,
+                                                                                    amazon_delivery_service=instance,
+                                                                                    service_name=instance.service_name,
+                                                                                    email=instance.email,
+                                                                                    from_email=EMAIL_HOST_USER,
+                                                                                    password=instance.password,
+                                                                                    unique_id=instance.unique_id)
+                            return Response(serializer.data,
+                                            status=status.HTTP_200_OK)
+
                     return Response({"DOES_NOT_EXIST": "Does not exist"}, status=status.HTTP_404_NOT_FOUND)
                 except ObjectDoesNotExist:
                     return Response(serializer.data, status=status.HTTP_200_OK)
