@@ -81,4 +81,4 @@ class Amazon_admin_Notifications(models.Model):
         try:
             send_mail(subject, message, from_email, [email])
         except:
-            print("Failed to send Mail", e)
+            print("Failed to send Mail")

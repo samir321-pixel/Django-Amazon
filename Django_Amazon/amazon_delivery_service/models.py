@@ -143,3 +143,23 @@ class Amazon_Delivery_Boy_Notifications(models.Model):
             send_mail(subject, message, from_email, [email])
         except Exception as e:
             print("Failed to send Mail", e)
+
+    def account_activated(self, amazon_delivery_boy, amazon_delivery_boy_name, email, from_email, unique_id, password):
+        subject = "Activated Successful"
+        message = "Hi {}, your account is successfully activated here is your unique id {} and password {}".format(
+            amazon_delivery_boy_name, unique_id, password)
+        Amazon_Delivery_Boy_Notifications.objects.create(amazon_delivery_boy=amazon_delivery_boy, message=message)
+        try:
+            send_mail(subject, message, from_email, [email])
+        except Exception as e:
+            print("Failed to send Mail", e)
+
+    def account_deactivated(self, amazon_delivery_boy, amazon_delivery_boy_name, email, from_email):
+        subject = "Accound Deactivated"
+        message = "Hi {}, your account is deactivated. Thank you for your service".format(
+            amazon_delivery_boy_name)
+        Amazon_Delivery_Boy_Notifications.objects.create(amazon_delivery_boy=amazon_delivery_boy, message=message)
+        try:
+            send_mail(subject, message, from_email, [email])
+        except:
+            print("Failed to send Mail")
