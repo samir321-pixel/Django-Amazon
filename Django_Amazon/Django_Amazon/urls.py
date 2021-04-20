@@ -45,4 +45,5 @@ urlpatterns = [
     path('amazon_employee_signup/', include(('amazon_employee.urls'))),
     path('amazon_delivery_service/', include(('amazon_delivery_service.urls'))),
 
+
 ]

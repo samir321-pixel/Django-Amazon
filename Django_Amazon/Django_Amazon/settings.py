@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'customer',
     'amazon_employee',
     'amazon_delivery_service',
+    'amazon_seller',
 ]
 
 MIDDLEWARE = [
