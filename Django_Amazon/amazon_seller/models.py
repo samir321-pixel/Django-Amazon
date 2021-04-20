@@ -27,3 +27,21 @@ class Amazon_Seller(models.Model):
 
     def __str__(self):
         return "{}".format(self.seller_name)
+
+
+class Amazon_Seller_Notifications(models.Model):
+    amazon_seller = models.ForeignKey(Amazon_Seller, on_delete=models.CASCADE, null=True, blank=True)
+    message = models.TextField()
+    seen = models.BooleanField(default=False)
+    email = models.EmailField(unique=True)
+    product_delivery = models.BooleanField()
+    delivery_date = models.DateField()
+    seller_product = models.CharField(max_length=100)
+    seller_offers = models.CharField(max_length=200, default=True)
+    created_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+
+    def seller_registered(self, amazon_seller, seller_name):
+        message = "Welcome {} being a part of Amazon Family".format(seller_name)
+        Amazon_Seller_Notifications.objects.create(amazon_seller=amazon_seller,
+                                                   message=message)
