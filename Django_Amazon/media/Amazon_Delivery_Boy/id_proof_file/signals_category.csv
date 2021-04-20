@@ -1,0 +1,125 @@
+id,name,handling,parent_id,slug,is_active,description,handling_message,category_level_name1,category_level_name2,category_level_name3,category_level_name4,city_id,country_id,filter_label
+219,Afval,REST,,grofvuil-bouw-en-sloopafval,t,,,Afval,Grofvuil,Bouw- En Sloopafval,,1,1,Grofvuil-Bouw- En Sloopafval
+220,Afval,REST,,grofvuil-naast-verzamelcontainer,t,,,Afval,Grofvuil,Naast Verzamelcontainer,,1,1,Grofvuil-Naast Verzamelcontainer
+221,Afval,REST,,grofvuil-op-openbare-weg,t,,,Afval,Grofvuil,Op Openbare Weg,,1,1,Grofvuil-Op Openbare Weg
+222,Afval,REST,,grofvuil-niet-opgehaald,t,,,Afval,Grofvuil,Niet Opgehaald,,1,1,Grofvuil-Niet Opgehaald
+223,Afval,REST,,zwerfvuil-op-openbare-weg,t,,,Afval,Zwerfvuil,Op Openbare Weg,,1,1,Zwerfvuil-Op Openbare Weg
+224,Afval,REST,,zwerfvuil-in-het-water,t,,,Afval,Zwerfvuil,In Het Water,,1,1,Zwerfvuil-In Het Water
+225,Afval,REST,,zwerfvuil-tussen-het-groen,t,,,Afval,Zwerfvuil,Tussen Het Groen,,1,1,Zwerfvuil-Tussen Het Groen
+226,Afval,REST,,vuilniszak-dozen-naast-verzamelcontainer,t,,,Afval,Vuilniszak-Dozen,Naast Verzamelcontainer,,1,1,Vuilniszak-Dozen-Naast Verzamelcontainer
+227,Afval,REST,,vuilniszak-dozen-op-openbare-weg,t,,,Afval,Vuilniszak-Dozen,Op Openbare Weg,,1,1,Vuilniszak-Dozen-Op Openbare Weg
+228,Afval,REST,,vuilniszak-dozen-niet-opgehaald,t,,,Afval,Vuilniszak-Dozen,Niet Opgehaald,,1,1,Vuilniszak-Dozen-Niet Opgehaald
+229,Afval,REST,,vervuiling-jaarwisseling-brandresten,t,,,Afval,Vervuiling Jaarwisseling,Brandresten,,1,1,Vervuiling Jaarwisseling-Brandresten
+230,Afval,REST,,vervuiling-jaarwisseling-vuurwerkresten,t,,,Afval,Vervuiling Jaarwisseling,Vuurwerkresten,,1,1,Vervuiling Jaarwisseling-Vuurwerkresten
+231,Afval,REST,,vervuiling-jaarwisseling-kerstbomen,t,,,Afval,Vervuiling Jaarwisseling,Kerstbomen,,1,1,Vervuiling Jaarwisseling-Kerstbomen
+232,Afval,REST,,chemisch-afval-verf-op-straat,t,,,Afval,Chemisch Afval,Verf Op Straat,,1,1,Chemisch Afval-Verf Op Straat
+233,Afval,REST,,chemisch-afval-klein-chemisch-afval,t,,,Afval,Chemisch Afval,Klein Chemisch Afval,,1,1,Chemisch Afval-Klein Chemisch Afval
+234,Afval,REST,,chemisch-afval-asbest,t,,,Afval,Chemisch Afval,Asbest,,1,1,Chemisch Afval-Asbest
+235,Afval,REST,,chemisch-afval-accu,t,,,Afval,Chemisch Afval,Accu,,1,1,Chemisch Afval-Accu
+236,Afval,REST,,plastic-vol,t,,,Afval,Afvalbakken,Plastic,Vol,1,1,Plastic-Vol
+237,Afval,REST,,plastic-afval-naast-afvalbak,t,,,Afval,Afvalbakken,Plastic,Afval Naast Afvalbak,1,1,Plastic-Afval Naast Afvalbak
+238,Afval,REST,,plastic-beschadigd,t,,,Afval,Afvalbakken,Plastic,Beschadigd,1,1,Plastic-Beschadigd
+239,Afval,REST,,plastic-aanplak-bekladding,t,,,Afval,Afvalbakken,Plastic,Aanplak-Bekladding,1,1,Plastic-Aanplak-Bekladding
+240,Afval,REST,,papier-vol,t,,,Afval,Afvalbakken,Papier,Vol,1,1,Papier-Vol
+241,Afval,REST,,papier-afval-naast-afvalbak,t,,,Afval,Afvalbakken,Papier,Afval Naast Afvalbak,1,1,Papier-Afval Naast Afvalbak
+242,Afval,REST,,papier-beschadigd,t,,,Afval,Afvalbakken,Papier,Beschadigd,1,1,Papier-Beschadigd
+243,Afval,REST,,papier-aanplak-bekladding,t,,,Afval,Afvalbakken,Papier,Aanplak-Bekladding,1,1,Papier-Aanplak-Bekladding
+244,Afval,REST,,glas-vol,t,,,Afval,Afvalbakken,Glas,Vol,1,1,Glas-Vol
+245,Afval,REST,,glas-afval-naast-afvalbak,t,,,Afval,Afvalbakken,Glas,Afval Naast Afvalbak,1,1,Glas-Afval Naast Afvalbak
+246,Afval,REST,,glas-beschadigd,t,,,Afval,Afvalbakken,Glas,Beschadigd,1,1,Glas-Beschadigd
+247,Afval,REST,,glas-aanplak-bekladding,t,,,Afval,Afvalbakken,Glas,Aanplak-Bekladding,1,1,Glas-Aanplak-Bekladding
+248,Afval,REST,,textiel-vol,t,,,Afval,Afvalbakken,Textiel,Vol,1,1,Textiel-Vol
+249,Afval,REST,,textiel-afval-naast-afvalbak,t,,,Afval,Afvalbakken,Textiel,Afval Naast Afvalbak,1,1,Textiel-Afval Naast Afvalbak
+250,Afval,REST,,textiel-beschadigd,t,,,Afval,Afvalbakken,Textiel,Beschadigd,1,1,Textiel-Beschadigd
+251,Afval,REST,,textiel-aanplak-bekladding,t,,,Afval,Afvalbakken,Textiel,Aanplak-Bekladding,1,1,Textiel-Aanplak-Bekladding
+252,Afval,REST,,restafval-vol,t,,,Afval,Afvalbakken,Restafval,Vol,1,1,Restafval-Vol
+253,Afval,REST,,restafval-afval-naast-afvalbak,t,,,Afval,Afvalbakken,Restafval,Afval Naast Afvalbak,1,1,Restafval-Afval Naast Afvalbak
+254,Afval,REST,,restafval-beschadigd,t,,,Afval,Afvalbakken,Restafval,Beschadigd,1,1,Restafval-Beschadigd
+255,Afval,REST,,restafval-aanplak-bekladding,t,,,Afval,Afvalbakken,Restafval,Aanplak-Bekladding,1,1,Restafval-Aanplak-Bekladding
+256,Afval,REST,,gft-vol,t,,,Afval,Afvalbakken,GFT,Vol,1,1,GFT-Vol
+257,Afval,REST,,gft-beschadigd,t,,,Afval,Afvalbakken,GFT,Beschadigd,1,1,GFT-Beschadigd
+258,Afval,REST,,gft-aanplak-bekladding,t,,,Afval,Afvalbakken,GFT,Aanplak-Bekladding,1,1,GFT-Aanplak-Bekladding
+259,Afval,REST,,afvalbak-vol,t,,,Afval,Afvalbakken,Afvalbak,Vol,1,1,Afvalbak-Vol
+260,Afval,REST,,afvalbak-afval-naast-afvalbak,t,,,Afval,Afvalbakken,Afvalbak,Afval Naast Afvalbak,1,1,Afvalbak-Afval Naast Afvalbak
+261,Afval,REST,,afvalbak-beschadigd,t,,,Afval,Afvalbakken,Afvalbak,Beschadigd,1,1,Afvalbak-Beschadigd
+262,Afval,REST,,afvalbak-aanplak-bekladding,t,,,Afval,Afvalbakken,Afvalbak,Aanplak-Bekladding,1,1,Afvalbak-Aanplak-Bekladding
+263,Afval,REST,,afvalbak-verzoek-tot-plaatsing,t,,,Afval,Afvalbakken,Afvalbak,Verzoek tot plaatsing,1,1,Afvalbak-Verzoek tot plaatsing
+264,Afval,REST,,hondenpoepafvalbak-vol,t,,,Afval,Afvalbakken,Hondenpoepafvalbak,Vol,1,1,Hondenpoepafvalbak-Vol
+265,Afval,REST,,hondenpoepafvalbak-afval-naast-afvalbak,t,,,Afval,Afvalbakken,Hondenpoepafvalbak,Afval Naast Afvalbak,1,1,Hondenpoepafvalbak-Afval Naast Afvalbak
+266,Afval,REST,,hondenpoepafvalbak-beschadigd,t,,,Afval,Afvalbakken,Hondenpoepafvalbak,Beschadigd,1,1,Hondenpoepafvalbak-Beschadigd
+267,Afval,REST,,hondenpoepafvalbak-aanplak-bekladding,t,,,Afval,Afvalbakken,Hondenpoepafvalbak,Aanplak-Bekladding,1,1,Hondenpoepafvalbak-Aanplak-Bekladding
+268,Afval,REST,,minicontainer-papier-niet-geleegd,t,,,Afval,Inzameling Huisvuil,Minicontainer Papier,Niet Geleegd,1,1,Minicontainer Papier-Niet Geleegd
+269,Afval,REST,,minicontainer-papier-niet-goed-aangeboden,t,,,Afval,Inzameling Huisvuil,Minicontainer Papier,Niet Goed Aangeboden,1,1,Minicontainer Papier-Niet Goed Aangeboden
+311,Afval,REST,,gft-brandschade,t,,,Afval,Afvalbakken,GFT,Brandschade,1,1,GFT-Brandschade
+270,Afval,REST,,minicontainer-plastic-niet-geleegd,t,,,Afval,Inzameling Huisvuil,Minicontainer Plastic,Niet Geleegd,1,1,Minicontainer Plastic-Niet Geleegd
+271,Afval,REST,,minicontainer-plastic-niet-goed-aangeboden,t,,,Afval,Inzameling Huisvuil,Minicontainer Plastic,Niet Goed Aangeboden,1,1,Minicontainer Plastic-Niet Goed Aangeboden
+272,Afval,REST,,minicontainer-gft-niet-geleegd,t,,,Afval,Inzameling Huisvuil,Minicontainer GFT,Niet Geleegd,1,1,Minicontainer GFT-Niet Geleegd
+273,Afval,REST,,minicontainer-gft-niet-goed-aangeboden,t,,,Afval,Inzameling Huisvuil,Minicontainer GFT,Niet Goed Aangeboden,1,1,Minicontainer GFT-Niet Goed Aangeboden
+274,Afval,REST,,minicontainer-restafval-niet-geleegd,t,,,Afval,Inzameling Huisvuil,Minicontainer Restafval,Niet Geleegd,1,1,Minicontainer Restafval-Niet Geleegd
+275,Afval,REST,,minicontainer-restafval-niet-goed-aangeboden,t,,,Afval,Inzameling Huisvuil,Minicontainer Restafval,Niet Goed Aangeboden,1,1,Minicontainer Restafval-Niet Goed Aangeboden
+276,Afval,REST,,oud-papier-niet-opgehaald,t,,,Afval,Inzameling Huisvuil,Oud Papier,Niet Opgehaald,1,1,Oud Papier-Niet Opgehaald
+277,Other,REST,,-2,t,,,Other,Other,Other,Other,1,1,Other
+278,Afval,REST,,afvalbak-vies-vervuild,t,,,Afval,Afvalbakken,Afvalbak,Vies-vervuild,1,1,Afvalbak-Vies-vervuild
+279,Afval,REST,,hondenpoepafvalbak-vies-vervuild,t,,,Afval,Afvalbakken,Hondenpoepafvalbak,Vies-vervuild,1,1,Hondenpoepafvalbak-Vies-vervuild
+280,Afval,REST,,grofvuil-niet-opgehaald-na-afspraak,t,,,Afval,Grofvuil,Niet opgehaald na afspraak,,1,1,Grofvuil-Niet opgehaald na afspraak
+281,Afval,REST,,op-openbare-weg-witgoed,t,,,Afval,Grofvuil,Op openbare weg,Witgoed,1,1,Op openbare weg-Witgoed
+282,Afval,REST,,laadkist-papier-beschadigd,t,,,Afval,Inzameling huisvuil,Laadkist Papier,Beschadigd,1,1,Laadkist Papier-Beschadigd
+283,Afval,REST,,laadkist-papier-locatie-vervuild-achtergelaten,t,,,Afval,Inzameling huisvuil,Laadkist Papier,Locatie vervuild achtergelaten,1,1,Laadkist Papier-Locatie vervuild achtergelaten
+284,Afval,REST,,laadkist-papier-niet-goed-aangeboden,t,,,Afval,Inzameling huisvuil,Laadkist Papier,Niet goed aangeboden,1,1,Laadkist Papier-Niet goed aangeboden
+285,Afval,REST,,laadkist-papier-niet-opgehaald,t,,,Afval,Inzameling huisvuil,Laadkist Papier,Niet opgehaald,1,1,Laadkist Papier-Niet opgehaald
+286,Afval,REST,,laadkist-papier-verzoek-tot-extra-lediging,t,,,Afval,Inzameling huisvuil,Laadkist Papier,Verzoek tot extra lediging,1,1,Laadkist Papier-Verzoek tot extra lediging
+287,Afval,REST,,laadkist-papier-vol,t,,,Afval,Inzameling huisvuil,Laadkist Papier,Vol,1,1,Laadkist Papier-Vol
+288,Afval,REST,,laadkist-plastic-beschadigd,t,,,Afval,Inzameling huisvuil,Laadkist Plastic,Beschadigd,1,1,Laadkist Plastic-Beschadigd
+289,Afval,REST,,laadkist-plastic-locatie-vervuild-achtergelaten,t,,,Afval,Inzameling huisvuil,Laadkist Plastic,Locatie vervuild achtergelaten,1,1,Laadkist Plastic-Locatie vervuild achtergelaten
+290,Afval,REST,,laadkist-plastic-niet-goed-aangeboden,t,,,Afval,Inzameling huisvuil,Laadkist Plastic,Niet goed aangeboden,1,1,Laadkist Plastic-Niet goed aangeboden
+291,Afval,REST,,laadkist-plastic-niet-opgehaald,t,,,Afval,Inzameling huisvuil,Laadkist Plastic,Niet opgehaald,1,1,Laadkist Plastic-Niet opgehaald
+292,Afval,REST,,laadkist-plastic-verzoek-tot-extra-lediging,t,,,Afval,Inzameling huisvuil,Laadkist Plastic,Verzoek tot extra lediging,1,1,Laadkist Plastic-Verzoek tot extra lediging
+293,Afval,REST,,laadkist-plastic-vol,t,,,Afval,Inzameling huisvuil,Laadkist Plastic,Vol,1,1,Laadkist Plastic-Vol
+294,Afval,REST,,laadkist-restafval-beschadigd,t,,,Afval,Inzameling huisvuil,Laadkist Restafval,Beschadigd,1,1,Laadkist Restafval-Beschadigd
+295,Afval,REST,,laadkist-restafval-locatie-vervuild-achtergelaten,t,,,Afval,Inzameling huisvuil,Laadkist Restafval,Locatie vervuild achtergelaten,1,1,Laadkist Restafval-Locatie vervuild achtergelaten
+296,Afval,REST,,laadkist-restafval-niet-goed-aangeboden,t,,,Afval,Inzameling huisvuil,Laadkist Restafval,Niet goed aangeboden,1,1,Laadkist Restafval-Niet goed aangeboden
+297,Afval,REST,,laadkist-restafval-niet-opgehaald,t,,,Afval,Inzameling huisvuil,Laadkist Restafval,Niet opgehaald,1,1,Laadkist Restafval-Niet opgehaald
+298,Afval,REST,,laadkist-restafval-verzoek-tot-extra-lediging,t,,,Afval,Inzameling huisvuil,Laadkist Restafval,Verzoek tot extra lediging,1,1,Laadkist Restafval-Verzoek tot extra lediging
+299,Afval,REST,,laadkist-restafval-vol,t,,,Afval,Inzameling huisvuil,Laadkist Restafval,Vol,1,1,Laadkist Restafval-Vol
+300,Afval,REST,,minicontainer-brood-niet-geleegd,t,,,Afval,Inzameling huisvuil,Minicontainer Brood,Niet geleegd,1,1,Minicontainer Brood-Niet geleegd
+301,Afval,REST,,minicontainer-brood-verzoek-tot-extra-lediging,t,,,Afval,Inzameling huisvuil,Minicontainer Brood,Verzoek tot extra lediging,1,1,Minicontainer Brood-Verzoek tot extra lediging
+302,Afval,REST,,minicontainer-gft-locatie-vervuild-achtergelaten,t,,,Afval,Inzameling huisvuil,Minicontainer GFT,Locatie vervuild achtergelaten,1,1,Minicontainer GFT-Locatie vervuild achtergelaten
+303,Afval,REST,,minicontainer-papier-locatie-vervuild-achtergelaten,t,,,Afval,Inzameling huisvuil,Minicontainer papier,Locatie vervuild achtergelaten,1,1,Minicontainer papier-Locatie vervuild achtergelaten
+304,Afval,REST,,minicontainer-plastic-locatie-vervuild-achtergelaten,t,,,Afval,Inzameling huisvuil,Minicontainer plastic,Locatie vervuild achtergelaten,1,1,Minicontainer plastic-Locatie vervuild achtergelaten
+305,Afval,REST,,minicontainer-restafval-locatie-vervuild-achtergelaten,t,,,Afval,Inzameling huisvuil,Minicontainer restafval,Locatie vervuild achtergelaten,1,1,Minicontainer restafval-Locatie vervuild achtergelaten
+306,Afval,REST,,grofvuil-locatie-vervuild-achtergelaten,t,,,Afval,Overig,Grofvuil,Locatie vervuild achtergelaten,1,1,Grofvuil-Locatie vervuild achtergelaten
+307,Afval,REST,,restafval-locatie-vervuild-achtergelaten,t,,,Afval,Overig,Restafval,Locatie vervuild achtergelaten,1,1,Restafval-Locatie vervuild achtergelaten
+308,Afval,REST,,snoeiafval-locatie-vervuild-achtergelaten,t,,,Afval,Overig,Snoeiafval,Locatie vervuild achtergelaten,1,1,Snoeiafval-Locatie vervuild achtergelaten
+309,Afval,REST,,afval-snoeiafval,t,,,Afval,Snoeiafval,,,1,1,Afval-Snoeiafval
+310,Afval,REST,,afgedankte-electronische-en-electrische-apparaten-vol,t,,,Afval,Afvalbakken,Afgedankte electronische en electrische apparaten,Vol,1,1,Afgedankte electronische en electrische apparaten-Vol
+312,Afval,REST,,gft-inzamelmiddel-niet-juist-teruggezet,t,,,Afval,Afvalbakken,GFT,Inzamelmiddel niet juist teruggezet,1,1,GFT-Inzamelmiddel niet juist teruggezet
+313,Afval,REST,,gft-locatie-vervuild-achtergelaten,t,,,Afval,Afvalbakken,GFT,Locatie vervuild achtergelaten,1,1,GFT-Locatie vervuild achtergelaten
+314,Afval,REST,,gft-stinkende-container,t,,,Afval,Afvalbakken,GFT,Stinkende container,1,1,GFT-Stinkende container
+315,Afval,REST,,gft-verzoek-tot-extra-lediging,t,,,Afval,Afvalbakken,GFT,Verzoek tot extra lediging,1,1,GFT-Verzoek tot extra lediging
+316,Afval,REST,,gft-vies-vervuild,t,,,Afval,Afvalbakken,GFT,Vies-vervuild,1,1,GFT-Vies-vervuild
+317,Afval,REST,,glas-brandschade,t,,,Afval,Afvalbakken,Glas,Brandschade,1,1,Glas-Brandschade
+318,Afval,REST,,glas-inzamelmiddel-niet-juist-teruggezet,t,,,Afval,Afvalbakken,Glas,Inzamelmiddel niet juist teruggezet,1,1,Glas-Inzamelmiddel niet juist teruggezet
+319,Afval,REST,,glas-stinkende-container,t,,,Afval,Afvalbakken,Glas,Stinkende container,1,1,Glas-Stinkende container
+320,Afval,REST,,glas-verzoek-tot-extra-lediging,t,,,Afval,Afvalbakken,Glas,Verzoek tot extra lediging,1,1,Glas-Verzoek tot extra lediging
+321,Afval,REST,,glas-vies-vervuild,t,,,Afval,Afvalbakken,Glas,Vies-vervuild,1,1,Glas-Vies-vervuild
+322,Afval,REST,,papier-brandschade,t,,,Afval,Afvalbakken,Papier,Brandschade,1,1,Papier-Brandschade
+323,Afval,REST,,papier-inzamelmiddel-niet-juist-teruggezet,t,,,Afval,Afvalbakken,Papier,Inzamelmiddel niet juist teruggezet,1,1,Papier-Inzamelmiddel niet juist teruggezet
+324,Afval,REST,,papier-locatie-vervuild-achtergelaten,t,,,Afval,Afvalbakken,Papier,Locatie vervuild achtergelaten,1,1,Papier-Locatie vervuild achtergelaten
+325,Afval,REST,,papier-stinkende-container,t,,,Afval,Afvalbakken,Papier,Stinkende container,1,1,Papier-Stinkende container
+326,Afval,REST,,papier-verzoek-tot-extra-lediging,t,,,Afval,Afvalbakken,Papier,Verzoek tot extra lediging,1,1,Papier-Verzoek tot extra lediging
+327,Afval,REST,,papier-vies-vervuild,t,,,Afval,Afvalbakken,Papier,Vies-vervuild,1,1,Papier-Vies-vervuild
+328,Afval,REST,,plastic-brandschade,t,,,Afval,Afvalbakken,Plastic,Brandschade,1,1,Plastic-Brandschade
+329,Afval,REST,,plastic-inzamelmiddel-niet-juist-teruggezet,t,,,Afval,Afvalbakken,Plastic,Inzamelmiddel niet juist teruggezet,1,1,Plastic-Inzamelmiddel niet juist teruggezet
+330,Afval,REST,,plastic-stinkende-container,t,,,Afval,Afvalbakken,Plastic,Stinkende container,1,1,Plastic-Stinkende container
+331,Afval,REST,,plastic-verzoek-tot-extra-lediging,t,,,Afval,Afvalbakken,Plastic,Verzoek tot extra lediging,1,1,Plastic-Verzoek tot extra lediging
+332,Afval,REST,,plastic-vies-vervuild,t,,,Afval,Afvalbakken,Plastic,Vies-vervuild,1,1,Plastic-Vies-vervuild
+333,Afval,REST,,restafval-brandschade,t,,,Afval,Afvalbakken,Restafval,Brandschade,1,1,Restafval-Brandschade
+334,Afval,REST,,restafval-inzamelmiddel-niet-juist-teruggezet,t,,,Afval,Afvalbakken,Restafval,Inzamelmiddel niet juist teruggezet,1,1,Restafval-Inzamelmiddel niet juist teruggezet
+335,Afval,REST,,restafval-stinkende-container,t,,,Afval,Afvalbakken,Restafval,Stinkende container,1,1,Restafval-Stinkende container
+336,Afval,REST,,restafval-verzoek-tot-extra-lediging,t,,,Afval,Afvalbakken,Restafval,Verzoek tot extra lediging,1,1,Restafval-Verzoek tot extra lediging
+337,Afval,REST,,restafval-vies-vervuild,t,,,Afval,Afvalbakken,Restafval,Vies-vervuild,1,1,Restafval-Vies-vervuild
+338,Afval,REST,,textiel-brandschade,t,,,Afval,Afvalbakken,Textiel,Brandschade,1,1,Textiel-Brandschade
+339,Afval,REST,,textiel-inzamelmiddel-niet-juist-teruggezet,t,,,Afval,Afvalbakken,Textiel,Inzamelmiddel niet juist teruggezet,1,1,Textiel-Inzamelmiddel niet juist teruggezet
+340,Afval,REST,,textiel-stinkende-container,t,,,Afval,Afvalbakken,Textiel,Stinkende container,1,1,Textiel-Stinkende container
+341,Afval,REST,,textiel-verzoek-tot-extra-lediging,t,,,Afval,Afvalbakken,Textiel,Verzoek tot extra lediging,1,1,Textiel-Verzoek tot extra lediging
+342,Afval,REST,,textiel-vies-vervuild,t,,,Afval,Afvalbakken,Textiel,Vies-vervuild,1,1,Textiel-Vies-vervuild
