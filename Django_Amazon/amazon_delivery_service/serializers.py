@@ -9,6 +9,7 @@ class Amazon_Delivery_Service_Signup_Serializer(serializers.ModelSerializer):
 
 
 
+
 class Amazon_Delivery_Service_Notifications_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Amazon_Delivery_Service_Notifications

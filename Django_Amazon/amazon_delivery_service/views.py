@@ -1,6 +1,10 @@
 from .models import *
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import datetime
+=======
+
+>>>>>>> Stashed changes
 =======
 
 >>>>>>> Stashed changes
@@ -9,7 +13,11 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from user.models import User
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 from .utils import Unique_Name, Unique_Password, Delivery_Boy_Unique_Name, Delivery_Boy_Unique_Password
+=======
+from .utils import Unique_Name, Unique_Password
+>>>>>>> Stashed changes
 =======
 from .utils import Unique_Name, Unique_Password
 >>>>>>> Stashed changes
@@ -19,10 +27,14 @@ from io import BytesIO
 from PIL import Image, ImageDraw
 from django.core.files import File
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 from django.core.exceptions import ObjectDoesNotExist
 
 
 # from rest_framework.filters import SearchFilter
+=======
+
+>>>>>>> Stashed changes
 =======
 
 >>>>>>> Stashed changes
@@ -81,6 +93,7 @@ class Amazon_Delivery_Service_Notifications_View(generics.ListAPIView):
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
@@ -222,6 +235,10 @@ class Manage_Amazon_Delivery_Boy_List_View(generics.ListAPIView):
 
 # Create Manage_Amazon_Delivery_Boy Retrieve View
 # Create Manage_Amazon_Delivery_Boy Update >> Active>> Notification >>Inactive Inactive notification
+=======
+        else:
+            return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+>>>>>>> Stashed changes
 =======
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)

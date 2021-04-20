@@ -11,6 +11,9 @@ class User(AbstractUser):
     is_amazon_delivery_service = models.BooleanField(default=False)
     is_amazon_delivery_service_boy = models.BooleanField(default=False)
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
