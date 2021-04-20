@@ -1,3 +1,38 @@
-from django.shortcuts import render
+from .models import *
+from .serializers import *
+from rest_framework import generics, status
+from rest_framework.response import Response
+from user.models import User
+from .utils import Unique_Name, Unique_Password
+from django.core.exceptions import ObjectDoesNotExist
+from Django_Amazon.settings import EMAIL_HOST_USER
+import datetime
+import qrcode
+from io import BytesIO
+from PIL import Image, ImageDraw
+from django.core.files import File
 
-# Create your views here.
+
+class Amazon_Seller_Signup_View(generics.CreateAPIView):
+    queryset = Amazon_Seller.objects.all()
+    serializer_class = Amazon_Seller_Signup_Serializer
+
+    def perform_create(self, serializer):
+        serializer = self.get_serializer(data=self.request.data)
+        if serializer.is_valid(raise_exception=True):
+            unique_id = Unique_Name()
+            unique_password = Unique_Password()
+            user_query = User.objects.create_user(username=unique_id,
+                                                  seller_name=self.request.data['seller_name'],
+                                                  email=self.request.data['email'],
+                                                  password=unique_password,
+                                                  last_name=self.request.data["last_name"],
+                                                  is_amazon_seller=True)
+            seller_query = serializer.save(user=user_query, active=False, unique_id=unique_id,
+                                          password=unique_password)
+            Amazon_Seller_Notifications.seller_registered(self=self, amazon_seller=seller_query,
+                                                        seller_name=seller_query.seller_name, email=seller_query.email,
+                                                        from_email=EMAIL_HOST_USER)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
