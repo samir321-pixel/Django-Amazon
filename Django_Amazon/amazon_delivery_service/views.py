@@ -189,58 +189,23 @@ class Manage_Amazon_Delivery_Service_Retrieve_View(generics.RetrieveUpdateAPIVie
 
 
 class Manage_Amazon_Delivery_Boy_List_View(generics.ListAPIView):
-    queryset = Amazon_Delivery_Service.objects.all()
-    serializer_class = Manage_Amazon_Delivery_Boy_List_View_Serializer
+    queryset = Amazon_Delivery_Boy.objects.all()
+    serializer_class = Manage_Amazon_Delivery_Boy_List_View
 
     def list(self, request, *args, **kwargs):
         if self.request.user.is_amazon_delivery_service:
-            amazon_delivery_service_query = Amazon_Delivery_Service.objects.get(user=self.request.user.id)
-            if amazon_delivery_service_query.active:
-                try:
-                    query = Amazon_Delivery_Boy.objects.filter(
-                        amazon_deliery_service=Amazon_Delivery_Service.objects.get(user=self.request.user.id))
-                    serializer = self.get_serializer(query, many=True)
-                    return Response(serializer.data, status=status.HTTP_200_OK)
-                except ObjectDoesNotExist:
-                    return Response({"DOES_NOT_EXIST": "Does not exist"}, status=status.HTTP_404_NOT_FOUND)
-            else:
-                return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+            # COndition add here to check it is active or not
+            try:
+                query = Amazon_Delivery_Boy.objects.filter(
+                    amazon_deliery_service=Amazon_Delivery_Service.objects.get(user=self.request.user.id))
+                serializer = self.get_serializer(query, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            except ObjectDoesNotExist:
+                return Response({"DOES_NOT_EXIST": "Does not exist"}, status=status.HTTP_404_NOT_FOUND)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+
+
 
 # Create Manage_Amazon_Delivery_Boy Retrieve View
 # Create Manage_Amazon_Delivery_Boy Update >> Active>> Notification >>Inactive Inactive notification
-
-class Manage_Amazon_Delivery_Boy_Retrieve_View(generics.RetrieveUpdateAPIView):
-    queryset = Amazon_Delivery_Service.objects.all()
-    serializer_class = Manage_Amazon_Delivery_Boy_Update_View_Serializer
-
-    def retrieve(self, request, *args, **kwargs):
-        if self.request.user.is_amazon_delivery_service:
-            amazon_delivery_service_query = Amazon_Delivery_Service.objects.get(user=self.request.user.id)
-            if amazon_delivery_service_query.active:
-                try:
-                    query = Amazon_Delivery_Boy.objects.get(id=self.kwargs["id"])
-                    serializer = self.get_serializer(query)
-                    return Response(serializer.data, status=status.HTTP_200_OK)
-                except ObjectDoesNotExist:
-                    return Response({"DOES_NOT_EXIST": "Does not exist"}, status=status.HTTP_404_NOT_FOUND)
-            else:
-                return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
-        else:
-            return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
-
-    def update(self, request, *args, **kwargs):
-        if self.request.user.is_amazon_delivery_service:
-            amazon_delivery_service_query = Amazon_Delivery_Service.objects.get(user=self.request.user.id)
-            if amazon_delivery_service_query.active:
-                try:
-                    query = Amazon_Delivery_Boy.objects.get(id=self.kwargs["id"])
-                    serializer = self.get_serializer(query)
-                    return Response({"DOES_NOT_EXIST": "Does not exist"}, status=status.HTTP_404_NOT_FOUND)
-                except ObjectDoesNotExist:
-                    return Response(serializer.data, status=status.HTTP_200_OK)
-            else:
-                return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
-        else:
-            return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
