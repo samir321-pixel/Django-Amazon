@@ -30,6 +30,19 @@ class Amazon_Seller_Signup_View(generics.CreateAPIView):
                                                   is_amazon_seller=True)
             seller_query = serializer.save(user=user_query, active=False, unique_id=unique_id,
                                           password=unique_password)
+            try:
+                qrcode_img = qrcode.make(self.request.data['seller_name'] + "amazon_seller")
+                canvas = Image.new('RGB', (290, 290), 'white')
+                draw = ImageDraw.Draw(canvas)
+                canvas.paste(qrcode_img)
+                username = self.request.data['seller_name']
+                fname = f'amazon_code-{username}' + '.png'
+                buffer = BytesIO()
+                canvas.save(buffer, 'PNG')
+                seller_query.qr_code.save(fname, File(buffer), save=True)
+                canvas.close()
+            except:
+                pass
             Amazon_Seller_Notifications.seller_registered(self=self, amazon_seller=seller_query,
                                                         seller_name=seller_query.seller_name, email=seller_query.email,
                                                         from_email=EMAIL_HOST_USER)
