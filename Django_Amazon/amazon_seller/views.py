@@ -23,19 +23,19 @@ class Amazon_Seller_Signup_View(generics.CreateAPIView):
             unique_id = Unique_Name()
             unique_password = Unique_Password()
             user_query = User.objects.create_user(username=unique_id,
-                                                  seller_name=self.request.data['seller_name'],
+                                                  first_name=self.request.data['first_name'],
                                                   email=self.request.data['email'],
                                                   password=unique_password,
                                                   last_name=self.request.data["last_name"],
                                                   is_amazon_seller=True)
-            seller_query = serializer.save(user=user_query, active=False, unique_id=unique_id,
-                                          password=unique_password)
+            seller_query = serializer.save(user=user_query, unique_id=unique_id,
+                                           password=unique_password) #active=False,
             try:
-                qrcode_img = qrcode.make(self.request.data['seller_name'] + "amazon_seller")
+                qrcode_img = qrcode.make(self.request.data['first_name'] + "amazon_seller")
                 canvas = Image.new('RGB', (290, 290), 'white')
                 draw = ImageDraw.Draw(canvas)
                 canvas.paste(qrcode_img)
-                username = self.request.data['seller_name']
+                username = self.request.data['first_name']
                 fname = f'amazon_code-{username}' + '.png'
                 buffer = BytesIO()
                 canvas.save(buffer, 'PNG')
@@ -44,8 +44,25 @@ class Amazon_Seller_Signup_View(generics.CreateAPIView):
             except:
                 pass
             Amazon_Seller_Notifications.seller_registered(self=self, amazon_seller=seller_query,
-                                                        seller_name=seller_query.seller_name, email=seller_query.email,
-                                                        from_email=EMAIL_HOST_USER)
+                                                          first_name=seller_query.first_name,
+                                                          email=seller_query.email,
+                                                          from_email=EMAIL_HOST_USER)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+class Amazon_Seller_Notification_View(generics.ListAPIView):
+    queryset = Amazon_Seller_Notifications.objects.all()
+    serializer_class = Amazon_Seller_Notificartions_Serializer
+
+    def list(self, request, *args, **kwargs):
+        if self.request.user.is_amazon_admin:
+            seller_query = Amazon_Seller.objects.get(user=self.request.user)
+            #if admin_query.active:
+            query = Amazon_Seller_Notifications.objects.get(amazon_seller=seller_query)
+            serializer = self.get_serializer(query, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+        #else:
+            #return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)

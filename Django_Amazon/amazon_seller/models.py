@@ -2,12 +2,13 @@ from django.db import models
 from phone_field import PhoneField
 from localflavor.in_.models import INStateField
 from djmoney.models.fields import MoneyField
-
+from django.core.mail import send_mail
 
 # Create your models here.
 class Amazon_Seller(models.Model):
     user = models.OneToOneField("user.User", on_delete=models.CASCADE, null=True, blank=True)
-    seller_name = models.CharField(max_length=200)
+    unique_id = models.CharField(max_length=200, unique=True, editable=False, null=True, blank=True)
+    first_name = models.CharField(max_length=200)
     middle_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
     DOB = models.DateField()
@@ -26,7 +27,7 @@ class Amazon_Seller(models.Model):
     password = models.CharField(max_length=300, null=True, blank=True, editable=False)
 
     def __str__(self):
-        return "{}".format(self.seller_name)
+        return "{}".format(self.first_name)
 
 
 class Amazon_Seller_Notifications(models.Model):
@@ -34,14 +35,19 @@ class Amazon_Seller_Notifications(models.Model):
     message = models.TextField()
     seen = models.BooleanField(default=False)
     email = models.EmailField(unique=True)
-    product_delivery = models.BooleanField()
-    delivery_date = models.DateField()
+    product_delivery = models.BooleanField(default=False)
+    delivery_date = models.DateField(auto_now=True)
     seller_product = models.CharField(max_length=100)
     seller_offers = models.CharField(max_length=200, default=True)
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
-    def seller_registered(self, amazon_seller, seller_name):
-        message = "Welcome {} being a part of Amazon Family".format(seller_name)
+    def seller_registered(self, amazon_seller, first_name, from_email, email):
+        subject = "Register Successful"
+        message = "Welcome {} being a part of Amazon Family".format(first_name)
         Amazon_Seller_Notifications.objects.create(amazon_seller=amazon_seller,
                                                    message=message)
+        try:
+            send_mail(subject, message, from_email, [email])
+        except Exception as e:
+            print("Failed to send Mail", e)
