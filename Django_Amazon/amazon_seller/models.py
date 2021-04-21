@@ -19,6 +19,8 @@ class Amazon_Seller(models.Model):
     city = models.CharField(max_length=20)
     state = INStateField(null=True, blank=True)
     pincode = models.PositiveIntegerField(default=0)
+    seller_product=
+
     seller_code = models.IntegerField(default=0)
     seller_product_id = models.CharField(max_length=30, null=True, blank=True)
     created_at = models.DateTimeField(auto_now=True)

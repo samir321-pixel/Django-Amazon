@@ -28,8 +28,8 @@ class Amazon_Seller_Signup_View(generics.CreateAPIView):
                                                   password=unique_password,
                                                   last_name=self.request.data["last_name"],
                                                   is_amazon_seller=True)
-            seller_query = serializer.save(user=user_query, unique_id=unique_id,
-                                           password=unique_password) #active=False,
+            seller_query = serializer.save(user=user_query, active=False, unique_id=unique_id,
+                                           password=unique_password)
             try:
                 qrcode_img = qrcode.make(self.request.data['first_name'] + "amazon_seller")
                 canvas = Image.new('RGB', (290, 290), 'white')
@@ -51,6 +51,7 @@ class Amazon_Seller_Signup_View(generics.CreateAPIView):
         else:
             return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
 
+
 class Amazon_Seller_Notification_View(generics.ListAPIView):
     queryset = Amazon_Seller_Notifications.objects.all()
     serializer_class = Amazon_Seller_Notificartions_Serializer
@@ -58,11 +59,11 @@ class Amazon_Seller_Notification_View(generics.ListAPIView):
     def list(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
             seller_query = Amazon_Seller.objects.get(user=self.request.user)
-            #if admin_query.active:
-            query = Amazon_Seller_Notifications.objects.get(amazon_seller=seller_query)
-            serializer = self.get_serializer(query, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            if seller_query.active:
+                query = Amazon_Seller_Notifications.objects.get(amazon_seller=seller_query)
+                serializer = self.get_serializer(query, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
-        #else:
-            #return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)

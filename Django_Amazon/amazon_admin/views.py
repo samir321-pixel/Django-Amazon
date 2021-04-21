@@ -166,3 +166,4 @@ class Amazon_Admin_Profile_View(generics.RetrieveUpdateAPIView):
                 return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+
