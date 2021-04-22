@@ -173,7 +173,7 @@ class Manage_Amazon_Delivery_Service_Retrieve_View(generics.RetrieveUpdateAPIVie
                                                                             password=instance.password,
                                                                             unique_id=instance.unique_id)
                     return Response(serializer.data,
-                                    status=status.HTTP_200_OK)  # Here is the solution of your yesterday prpblem!
+                                    status=status.HTTP_200_OK)  
                 elif not serializer.validated_data.get('active'):
                     serializer.save(updated_at=datetime.datetime.now(), active=False)
                     Amazon_Delivery_Service_Notifications.account_deactivated(self=self,

@@ -21,7 +21,7 @@ class Amazon_Seller_List_View_Serializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class Amazon_Seller_Retrieve_View_Serializer(serializers.ModelSerializer):
+class Amazon_Seller_Retrieve_Update_View_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Amazon_Seller
         exclude = ["get_notified", "id_proof_file", "qr_code"]
