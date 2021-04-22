@@ -1,6 +1,7 @@
 from django.db import models
 from phone_field import PhoneField
 from localflavor.in_.models import INStateField
+from django.core.mail import send_mail
 
 id_proof = (
     ("Aadhar Card", "Aadhar Card"),
@@ -34,6 +35,7 @@ class Amazon_Proprietor(models.Model):
     def __str__(self):
         return "{}".format(self.first_name)
 
+
 class Amazon_Proprietor_Notifications(models.Model):
     amazon_proprietor = models.ForeignKey(Amazon_Proprietor, on_delete=models.CASCADE, null=True, blank=True)
     message = models.TextField()
@@ -42,3 +44,35 @@ class Amazon_Proprietor_Notifications(models.Model):
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
+    def proprietor_registered(self, proprietor, proprietor_name, from_email, email):
+        subject = "Register Successful"
+        message = "Welcome {} being a part of Amazon Family. we will soon investigate your account and activate it".format(
+            proprietor_name)
+        Amazon_Proprietor_Notifications.objects.create(proprietor=proprietor,
+                                                       message=message)
+        try:
+            send_mail(subject, message, from_email, [email])
+        except Exception as e:
+            print("Failed to send Mail", e)
+
+    def proprietor_activated(self, proprietor, proprietor_name, email, from_email, unique_id, password):
+        subject = "Activated Successful"
+        message = "Hi {}, your account is successfully activated here is your unique id {} and password {}".format(
+            proprietor_name, unique_id, password)
+        Amazon_Proprietor_Notifications.objects.create(proprietor=proprietor,
+                                                       message=message)
+        try:
+            send_mail(subject, message, from_email, [email])
+        except Exception as e:
+            print("Failed to send Mail", e)
+
+    def proprietor_deactivated(self, proprietor, proprietor_name, email, from_email):
+        subject = "Account Deactivated"
+        message = "Hi {}, your account is deactivated. Thank you for your service".format(
+            proprietor_name)
+        Amazon_Proprietor_Notifications.objects.create(proprietor=proprietor,
+                                                       message=message)
+        try:
+            send_mail(subject, message, from_email, [email])
+        except Exception as e:
+            print("Failed to send Mail", e)
