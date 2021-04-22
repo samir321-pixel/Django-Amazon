@@ -79,3 +79,49 @@ class Manage_Amazon_Proprietor_List_View(generics.ListAPIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class Manage_Amazon_Proprietor_Retrieve_Update_View(generics.RetrieveUpdateAPIView):
+    queryset = Amazon_Proprietor.objects.all()
+    serializer_class = Amazon_Proprietor_Retrieve_Update_View_Serializer
+
+    def retrieve(self, request, *args, **kwargs):
+        if self.request.user.is_amazon_admin:
+            try:
+                query = Amazon_Proprietor.objects.get(id=self.kwargs["id"])
+                serializer = self.get_serializer(query)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            except ObjectDoesNotExist:
+                return Response({"DOES_NOT_EXIST": "Does not exist"}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+
+    def update(self, request, *args, **kwargs):
+        if self.request.user.is_amazon_admin:
+            try:
+                instance = Amazon_Proprietor.objects.get(id=self.kwargs["id"])
+            except ObjectDoesNotExist:
+                return Response({"DOES_NOT_EXIST": "Does not exist"}, status=status.HTTP_404_NOT_FOUND)
+            serializer = self.get_serializer(instance, data=self.request.data, partial=True)
+            if serializer.is_valid(raise_exception=True):
+                if serializer.validated_data.get('active'):
+                    serializer.save(updated_at=datetime.datetime.now(), active=True)
+                    Amazon_Proprietor_Notifications.account_activated(self=self, amazon_proprietor=instance,
+                                                                      first_name=instance.first_name,
+                                                                      email=instance.email,
+                                                                      from_email=EMAIL_HOST_USER,
+                                                                      password=instance.password,
+                                                                      unique_id=instance.unique_id)
+                    return Response(serializer.data,
+                                    status=status.HTTP_200_OK)
+                elif not serializer.validated_data.get('active'):
+                    serializer.save(updated_at=datetime.datetime.now(), active=False)
+                    Amazon_Proprietor_Notifications.account_deactivated(self=self, amazon_proprietor=instance,
+                                                                        first_name=instance.first_name,
+                                                                        email=instance.email,
+                                                                        from_email=EMAIL_HOST_USER)
+                    return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+        else:
+            return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)

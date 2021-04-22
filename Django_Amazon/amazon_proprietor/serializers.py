@@ -18,3 +18,9 @@ class Amazon_Proprietor_List_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Amazon_Proprietor
         exclude = ["qr_code", "get_notified", "password"]
+
+
+class Amazon_Proprietor_Retrieve_Update_View_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Amazon_Proprietor
+        exclude = ["get_notified", "id_proof_file", "qr_code"]
