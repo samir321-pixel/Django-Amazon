@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'amazon_employee',
     'amazon_delivery_service',
     'amazon_seller',
+    'amazon_proprietor',
 ]
 
 
