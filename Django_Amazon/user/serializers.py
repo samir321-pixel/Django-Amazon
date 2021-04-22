@@ -11,7 +11,7 @@ class CoreRegisterSerializer(RegisterSerializer):
     is_amazon_customer = serializers.BooleanField(default=False)
     is_amazon_employee = serializers.BooleanField(default=False)
     is_amazon_delivery_service = serializers.BooleanField(default=False)
-    is_amazon_proprietor =serializers.BooleanField(default=False)
+    is_amazon_proprietor = serializers.BooleanField(default=False)
 
     class Meta:
         model = models.User
@@ -54,7 +54,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.User
         fields = ('email', 'username', 'password', 'is_amazon_admin', 'is_amazon_customer', 'is_amazon_employee',
-                  'is_amazon_delivery_service','is_amazon_proprietor', 'first_name')
+                  'is_amazon_delivery_service', 'is_amazon_proprietor', 'first_name')
 
 
 class ChangePasswordSerializer(serializers.Serializer):
@@ -80,7 +80,6 @@ class TokenSerializer(serializers.ModelSerializer):
         is_amazon_seller = serializer_data.get('is_amazon_seller')
         is_amazon_delivery_service = serializer_data.get('is_amazon_delivery_service')
         is_amazon_proprietor = serializer_data.get('is_amazon_proprietor')
-
 
         return {
             'is_amazon_admin': is_amazon_admin,

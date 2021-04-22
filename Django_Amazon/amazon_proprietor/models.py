@@ -34,3 +34,11 @@ class Amazon_Proprietor(models.Model):
     def __str__(self):
         return "{}".format(self.first_name)
 
+class Amazon_Proprietor_Notifications(models.Model):
+    amazon_proprietor = models.ForeignKey(Amazon_Proprietor, on_delete=models.CASCADE, null=True, blank=True)
+    message = models.TextField()
+    seen = models.BooleanField(default=False)
+    email = models.EmailField(unique=True)
+    created_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+
