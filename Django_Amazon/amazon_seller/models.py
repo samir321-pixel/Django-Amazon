@@ -54,7 +54,8 @@ class Amazon_Seller_Notifications(models.Model):
 
     def seller_registered(self, amazon_seller, first_name, from_email, email):
         subject = "Register Successful"
-        message = "Welcome {} being a part of Amazon Family".format(first_name)
+        message = "Welcome {} being a part of Amazon Family. we will investigate your account and activate it".format(
+            first_name)
         Amazon_Seller_Notifications.objects.create(amazon_seller=amazon_seller,
                                                    message=message)
         try:
@@ -67,18 +68,18 @@ class Amazon_Seller_Notifications(models.Model):
         message = "Hi {}, your account is successfully activated here is your unique id {} and password {}".format(
             first_name, unique_id, password)
         Amazon_Seller_Notifications.objects.create(amazon_seller=amazon_seller,
-                                                             message=message)
+                                                   message=message)
         try:
             send_mail(subject, message, from_email, [email])
         except Exception as e:
             print("Failed to send Mail", e)
 
     def account_deactivated(self, amazon_seller, first_name, email, from_email):
-        subject = "Accound Deactivated"
+        subject = "Account Deactivated"
         message = "Hi {}, your account is deactivated. Thank you for your service".format(
             first_name)
         Amazon_Seller_Notifications.objects.create(amazon_seller=amazon_seller,
-                                                             message=message)
+                                                   message=message)
         try:
             send_mail(subject, message, from_email, [email])
         except Exception as e:
