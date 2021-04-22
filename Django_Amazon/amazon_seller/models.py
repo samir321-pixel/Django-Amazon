@@ -4,6 +4,7 @@ from localflavor.in_.models import INStateField
 from djmoney.models.fields import MoneyField
 from django.core.mail import send_mail
 
+
 # Create your models here.
 class Amazon_Seller(models.Model):
     user = models.OneToOneField("user.User", on_delete=models.CASCADE, null=True, blank=True)
@@ -19,8 +20,7 @@ class Amazon_Seller(models.Model):
     city = models.CharField(max_length=20)
     state = INStateField(null=True, blank=True)
     pincode = models.PositiveIntegerField(default=0)
-    seller_product=
-
+    seller_product = models.CharField(max_length=200)
     seller_code = models.IntegerField(default=0)
     seller_product_id = models.CharField(max_length=30, null=True, blank=True)
     created_at = models.DateTimeField(auto_now=True)
@@ -38,7 +38,7 @@ class Amazon_Seller_Notifications(models.Model):
     seen = models.BooleanField(default=False)
     email = models.EmailField(unique=True)
     product_delivery = models.BooleanField(default=False)
-    delivery_date = models.DateField(auto_now=True)
+    delivery_date = models.DateTimeField(auto_now=True)
     seller_product = models.CharField(max_length=100)
     seller_offers = models.CharField(max_length=200, default=True)
     created_at = models.DateTimeField(auto_now=True)

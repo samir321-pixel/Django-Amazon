@@ -12,3 +12,8 @@ class Amazon_Seller_Notificartions_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Amazon_Seller_Notifications
         fields = '__all__'
+
+class Amazon_Seller_List_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Amazon_Seller
+        fields = "__all__"

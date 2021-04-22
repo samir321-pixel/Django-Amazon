@@ -10,13 +10,13 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('amazon_admin', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+        ('amazon_seller', '0001_initial'),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='amazon_admin',
+            model_name='amazon_seller',
             name='user',
             field=models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
         ),
