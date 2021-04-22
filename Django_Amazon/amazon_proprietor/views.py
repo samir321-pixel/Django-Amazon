@@ -3,7 +3,7 @@ from .serializers import *
 from rest_framework import generics, status
 from rest_framework.response import Response
 from user.models import User
-from .utils import Unique_Name, Unique_Password, Delivery_Boy_Unique_Name, Delivery_Boy_Unique_Password
+from .utils import Unique_Name, Unique_Password
 from Django_Amazon.settings import EMAIL_HOST_USER
 import qrcode
 from io import BytesIO
@@ -26,9 +26,26 @@ class Amazon_Proprietor_Signup_View(generics.CreateAPIView):
                                                   email=self.request.data['email'],
                                                   password=password,
                                                   is_amazon_proprietor=True)
-            amazon_proprietor_query = serializer.save(user=user_query, active=False, unique_id=unique_id,
-                                                      password=password)
-
+            amazon_proprietor_query = serializer.save(user=user_query,  unique_id=unique_id,
+                                                      password=password) #active=False,
+            try:
+                qrcode_img = qrcode.make(self.request.data['first_name'] + "amazon_proprietor")
+                canvas = Image.new('RGB', (290, 290), 'white')
+                draw = ImageDraw.Draw(canvas)
+                canvas.paste(qrcode_img)
+                username = self.request.data['first_name']
+                fname = f'amazon_proprietor_code-{username}' + '.png'
+                buffer = BytesIO()
+                canvas.save(buffer, 'PNG')
+                amazon_proprietor_query.qr_code.save(fname, File(buffer), save=True)
+                canvas.close()
+            except:
+                pass
+            Amazon_Proprietor_Notifications.register_amazon_proprietor(self=self,
+                                                                       amazon_proprietor=amazon_proprietor_query,
+                                                                       first_name=amazon_proprietor_query.first_name,
+                                                                       email=amazon_proprietor_query.email,
+                                                                       from_email=EMAIL_HOST_USER)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
-

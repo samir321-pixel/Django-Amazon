@@ -1,7 +1,7 @@
 from django.db import models
 from phone_field import PhoneField
 from localflavor.in_.models import INStateField
-
+from django.core.mail import send_mail
 id_proof = (
     ("Aadhar Card", "Aadhar Card"),
     ("Pan Card", "Pan Card"),
@@ -41,4 +41,15 @@ class Amazon_Proprietor_Notifications(models.Model):
     email = models.EmailField(unique=True)
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
+
+    def register_amazon_proprietor(self, amazon_proprietor, first_name, email, from_email):
+        subject = "Register Successful"
+        message = "Hi {} Thanks for registering. Your account is under reviewed we will get back to you soon!".format(
+            first_name)
+        Amazon_Proprietor_Notifications.objects.create(amazon_proprietor=amazon_proprietor,
+                                                             message=message)
+        try:
+            send_mail(subject, message, from_email, [email])
+        except Exception as e:
+            print("Failed to send Mail", e)
 
