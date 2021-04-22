@@ -68,13 +68,30 @@ class Amazon_Seller_Notification_View(generics.ListAPIView):
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
-class Manage_Amazon_Seller_ListView(generics.ListAPIView):
+
+class Manage_Amazon_Seller_List_View(generics.ListAPIView):
     queryset = Amazon_Seller.objects.all()
-    serializer_class = Amazon_Seller_List_Serializer
+    serializer_class = Amazon_Seller_List_View_Serializer
 
     def list(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
             serializer = self.get_serializer(self.get_queryset(), many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class Manage_Amazon_Seller_Retrieve_View(generics.RetrieveAPIView):
+    queryset = Amazon_Seller.objects.all()
+    serializer_class = Amazon_Seller_Retrieve_View_Serializer
+
+    def retrieve(self, request, *args, **kwargs):
+        if self.request.user.is_superuser:
+            try:
+                query = Amazon_Seller.objects.get(id=self.kwargs["id"])
+                serializer = self.get_serializer(query)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            except ObjectDoesNotExist:
+                return Response({"DOES_NOT_EXIST": "Does not exist"}, status=status.HTTP_404_NOT_FOUND)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)

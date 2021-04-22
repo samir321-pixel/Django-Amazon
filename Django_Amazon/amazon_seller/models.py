@@ -4,6 +4,11 @@ from localflavor.in_.models import INStateField
 from djmoney.models.fields import MoneyField
 from django.core.mail import send_mail
 
+id_proof = (
+    ("Aadhar Card", "Aadhar Card"),
+    ("Pan Card", "Pan Card"),
+)
+
 
 # Create your models here.
 class Amazon_Seller(models.Model):
@@ -20,6 +25,8 @@ class Amazon_Seller(models.Model):
     city = models.CharField(max_length=20)
     state = INStateField(null=True, blank=True)
     pincode = models.PositiveIntegerField(default=0)
+    id_proof = models.CharField(max_length=30, choices=id_proof)
+    id_proof_file = models.FileField(upload_to="media/Amazon_Sellers/id_proof_file")
     seller_product = models.CharField(max_length=200)
     seller_code = models.IntegerField(default=0)
     seller_product_id = models.CharField(max_length=30, null=True, blank=True)
@@ -27,6 +34,7 @@ class Amazon_Seller(models.Model):
     updated_at = models.DateTimeField(auto_now_add=True)
     get_notified = models.BooleanField(default=True)
     password = models.CharField(max_length=300, null=True, blank=True, editable=False)
+    qr_code = models.ImageField(upload_to='media/Amazon_Sellers/qr_codes', blank=True)
 
     def __str__(self):
         return "{}".format(self.first_name)
