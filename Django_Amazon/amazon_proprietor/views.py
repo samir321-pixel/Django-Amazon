@@ -26,8 +26,8 @@ class Amazon_Proprietor_Signup_View(generics.CreateAPIView):
                                                   email=self.request.data['email'],
                                                   password=password,
                                                   is_amazon_proprietor=True)
-            amazon_proprietor_query = serializer.save(user=user_query,  unique_id=unique_id,
-                                                      password=password) #active=False,
+            amazon_proprietor_query = serializer.save(user=user_query, unique_id=unique_id,
+                                                      password=password)  # active=False,
             try:
                 qrcode_img = qrcode.make(self.request.data['first_name'] + "amazon_proprietor")
                 canvas = Image.new('RGB', (290, 290), 'white')
@@ -50,6 +50,7 @@ class Amazon_Proprietor_Signup_View(generics.CreateAPIView):
         else:
             return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
 
+
 class Amazon_Proprietor_Notifications_View(generics.ListAPIView):
     queryset = Amazon_Proprietor_Notifications.objects.all()
     serializer_class = Amazon_Proprietor_Notifications_Serializer
@@ -64,5 +65,17 @@ class Amazon_Proprietor_Notifications_View(generics.ListAPIView):
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class Manage_Amazon_Proprietor_List_View(generics.ListAPIView):
+    queryset = Amazon_Proprietor.objects.all()
+    serializer_class = Amazon_Proprietor_List_Serializer
+
+    def list(self, request, *args, **kwargs):
+        if self.request.user.is_amazon_admin:
+            serializer = self.get_serializer(self.get_queryset(), many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)

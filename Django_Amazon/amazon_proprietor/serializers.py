@@ -12,3 +12,9 @@ class Amazon_Proprietor_Notifications_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Amazon_Proprietor_Notifications
         fields = '__all__'
+
+
+class Amazon_Proprietor_List_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Amazon_Proprietor
+        exclude = ["qr_code", "get_notified", "password"]
