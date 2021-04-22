@@ -90,6 +90,4 @@ class Amazon_Employee_Notifications(models.Model):
             pass
 
 
-    #employee activate
-    #employee deactivate >> Send email >>
 

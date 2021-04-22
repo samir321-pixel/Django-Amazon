@@ -50,5 +50,4 @@ class Amazon_customers_Notifications(models.Model):
     def customer_registered(self, amazon_customer, customer_name):
         message = "Congratulations {} being a part of Amazon Family".format(customer_name)
         Amazon_customers_Notifications.objects.create(amazon_customer=amazon_customer,
-                                                  message=message,
-                                                      )
+                                                      message=message)

@@ -173,7 +173,7 @@ class Manage_Amazon_Delivery_Service_Retrieve_View(generics.RetrieveUpdateAPIVie
                                                                             password=instance.password,
                                                                             unique_id=instance.unique_id)
                     return Response(serializer.data,
-                                    status=status.HTTP_200_OK)  # Here is the solution of your yesterday prpblem!
+                                    status=status.HTTP_200_OK)
                 elif not serializer.validated_data.get('active'):
                     serializer.save(updated_at=datetime.datetime.now(), active=False)
                     Amazon_Delivery_Service_Notifications.account_deactivated(self=self,
@@ -237,16 +237,23 @@ class Manage_Amazon_Delivery_Boy_Retrieve_View(generics.RetrieveUpdateAPIView):
                         if serializer.validated_data.get('active'):
                             serializer.save(updated_at=datetime.datetime.now(), active=True)
                             Amazon_Delivery_Boy_Notifications.account_activated(self=self,
-                                                                                    amazon_delivery_service=instance,
-                                                                                    service_name=instance.service_name,
-                                                                                    email=instance.email,
-                                                                                    from_email=EMAIL_HOST_USER,
-                                                                                    password=instance.password,
-                                                                                    unique_id=instance.unique_id)
-                            return Response(serializer.data,
-                                            status=status.HTTP_200_OK)
-
-                    return Response({"DOES_NOT_EXIST": "Does not exist"}, status=status.HTTP_404_NOT_FOUND)
+                                                                                amazon_delivery_boy=query,
+                                                                                amazon_delivery_boy_name=query.amazon_delivery_boy_name,
+                                                                                email=query.email,
+                                                                                from_email=EMAIL_HOST_USER,
+                                                                                password=query.password,
+                                                                                unique_id=query.unique_id)
+                            return Response(serializer.data, status=status.HTTP_200_OK)
+                        elif not serializer.validated_data.get('active'):
+                            serializer.save(updated_at=datetime.datetime.now(), active=False)
+                            Amazon_Delivery_Boy_Notifications.account_deactivated(self=self,
+                                                                                  amazon_delivery_boy=query,
+                                                                                  amazon_delivery_boy_name=query.amazon_delivery_boy_name,
+                                                                                  email=query.email,
+                                                                                  from_email=EMAIL_HOST_USER)
+                            return Response(serializer.data, status=status.HTTP_200_OK)
+                    else:
+                        return Response({"DOES_NOT_EXIST": "Does not exist"}, status=status.HTTP_404_NOT_FOUND)
                 except ObjectDoesNotExist:
                     return Response(serializer.data, status=status.HTTP_200_OK)
             else:
