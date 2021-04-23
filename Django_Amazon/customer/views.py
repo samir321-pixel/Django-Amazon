@@ -3,13 +3,14 @@ from .serializers import *
 from rest_framework import generics, status
 from rest_framework.response import Response
 from user.models import User
-
+from django.views.decorators.clickjacking import xframe_options_exempt, xframe_options_sameorigin
 
 
 class Amazon_Customers_Signup_View(generics.CreateAPIView):
     queryset = Amazon_Customer.objects.all()
     serializer_class = Amazon_Customer_Signup_Serializer
 
+    @xframe_options_sameorigin
     def perform_create(self, serializer):
         serializer = self.get_serializer(data=self.request.data)
         if serializer.is_valid(raise_exception=True):

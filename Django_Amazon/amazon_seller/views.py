@@ -11,12 +11,13 @@ import qrcode
 from io import BytesIO
 from PIL import Image, ImageDraw
 from django.core.files import File
-
+from django.views.decorators.clickjacking import xframe_options_exempt, xframe_options_sameorigin
 
 class Amazon_Seller_Signup_View(generics.CreateAPIView):
     queryset = Amazon_Seller.objects.all()
     serializer_class = Amazon_Seller_Signup_Serializer
 
+    @xframe_options_sameorigin
     def perform_create(self, serializer):
         serializer = self.get_serializer(data=self.request.data)
         if serializer.is_valid(raise_exception=True):

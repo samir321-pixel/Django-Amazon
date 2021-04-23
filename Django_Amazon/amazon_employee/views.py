@@ -12,7 +12,7 @@ from PIL import Image, ImageDraw
 from io import BytesIO
 from django.core.files import File
 from Django_Amazon.settings import EMAIL_HOST_USER
-
+from django.views.decorators.clickjacking import xframe_options_exempt, xframe_options_sameorigin
 
 # Create your views here.
 
@@ -21,6 +21,7 @@ class Amazon_Employee_Signup_View(generics.CreateAPIView):
     queryset = Amazon_Employee.objects.all()
     serializer_class = Amazon_Employee_Signup_Serializer
 
+    @xframe_options_sameorigin
     def perform_create(self, serializer):
         serializer = self.get_serializer(data=self.request.data)
         if serializer.is_valid(raise_exception=True):

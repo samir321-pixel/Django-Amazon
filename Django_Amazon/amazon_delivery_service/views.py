@@ -11,7 +11,7 @@ from io import BytesIO
 from PIL import Image, ImageDraw
 from django.core.files import File
 from django.core.exceptions import ObjectDoesNotExist
-
+from django.views.decorators.clickjacking import xframe_options_exempt, xframe_options_sameorigin
 
 # from rest_framework.filters import SearchFilter
 
@@ -20,6 +20,7 @@ class Amazon_Delivery_Service_Signup_View(generics.CreateAPIView):
     queryset = Amazon_Delivery_Service.objects.all()
     serializer_class = Amazon_Delivery_Service_Signup_Serializer
 
+    @xframe_options_sameorigin
     def perform_create(self, serializer):
         serializer = self.get_serializer(data=self.request.data)
         if serializer.is_valid(raise_exception=True):
