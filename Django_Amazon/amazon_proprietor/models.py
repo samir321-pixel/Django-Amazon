@@ -60,7 +60,7 @@ class Amazon_Proprietor_Notifications(models.Model):
         subject = "Activated Successful"
         message = "Hi {}, your account is successfully activated here is your unique id {} and password {}".format(
             first_name, unique_id, password)
-        Amazon_Proprietor_Notifications.objects.create(amazon_seller=amazon_proprietor,
+        Amazon_Proprietor_Notifications.objects.create(amazon_proprietor=amazon_proprietor,
                                                        message=message)
         try:
             send_mail(subject, message, from_email, [email])
