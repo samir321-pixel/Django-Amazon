@@ -10,12 +10,14 @@ from io import BytesIO
 from PIL import Image, ImageDraw
 from django.core.files import File
 from django.core.exceptions import ObjectDoesNotExist
+from django.views.decorators.clickjacking import xframe_options_exempt, xframe_options_sameorigin
 
 
 class Amazon_Proprietor_Signup_View(generics.CreateAPIView):
     queryset = Amazon_Proprietor.objects.all()
     serializer_class = Amazon_Proprietor_Signup_Serializer
 
+    @xframe_options_sameorigin
     def perform_create(self, serializer):
         serializer = self.get_serializer(data=self.request.data)
         if serializer.is_valid(raise_exception=True):
@@ -26,7 +28,7 @@ class Amazon_Proprietor_Signup_View(generics.CreateAPIView):
                                                   email=self.request.data['email'],
                                                   password=password,
                                                   is_amazon_proprietor=True)
-            amazon_proprietor_query = serializer.save(user=user_query, unique_id=unique_id,
+            amazon_proprietor_query = serializer.save(user=user_query, active=False, unique_id=unique_id,
                                                       password=password)  # active=False,
             try:
                 qrcode_img = qrcode.make(self.request.data['first_name'] + "amazon_proprietor")
@@ -125,4 +127,3 @@ class Manage_Amazon_Proprietor_Retrieve_Update_View(generics.RetrieveUpdateAPIVi
                 return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
-
