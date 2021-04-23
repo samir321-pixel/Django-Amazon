@@ -125,3 +125,4 @@ class Manage_Amazon_Proprietor_Retrieve_Update_View(generics.RetrieveUpdateAPIVi
                 return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+
