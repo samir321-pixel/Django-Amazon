@@ -29,6 +29,7 @@ class Amazon_Proprietor(models.Model):
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     get_notified = models.BooleanField(default=True)
+    active = models.BooleanField(default=False)
     password = models.CharField(max_length=300, null=True, blank=True, editable=False)
     qr_code = models.ImageField(upload_to='media/Amazon_Proprietor/qr_codes', blank=True)
 
