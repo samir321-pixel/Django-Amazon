@@ -71,7 +71,7 @@ class Amazon_Proprietor_Notifications(models.Model):
         subject = "Account Deactivated"
         message = "Hi {}, your account is deactivated. Thank you for your service".format(
             first_name)
-        Amazon_Proprietor_Notifications.objects.create(amazon_seller=amazon_proprietor,
+        Amazon_Proprietor_Notifications.objects.create(amazon_proprietor=amazon_proprietor,
                                                        message=message)
         try:
             send_mail(subject, message, from_email, [email])
