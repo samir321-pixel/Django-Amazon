@@ -32,6 +32,7 @@ class Amazon_Proprietor(models.Model):
     active = models.BooleanField(default=False)
     password = models.CharField(max_length=300, null=True, blank=True, editable=False)
     qr_code = models.ImageField(upload_to='media/Amazon_Proprietor/qr_codes', blank=True)
+    profile = models.ImageField(upload_to='media/Amazon_Proprietor/profile', blank=True)
 
     def __str__(self):
         return "{}".format(self.first_name)
@@ -41,7 +42,6 @@ class Amazon_Proprietor_Notifications(models.Model):
     amazon_proprietor = models.ForeignKey(Amazon_Proprietor, on_delete=models.CASCADE, null=True, blank=True)
     message = models.TextField()
     seen = models.BooleanField(default=False)
-    email = models.EmailField(unique=True)
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
