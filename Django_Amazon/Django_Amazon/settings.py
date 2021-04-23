@@ -65,7 +65,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
 ROOT_URLCONF = 'Django_Amazon.urls'
 AUTH_USER_MODEL = 'user.User'
 ACCOUNT_UNIQUE_EMAIL = True

@@ -44,33 +44,33 @@ class Amazon_Proprietor_Notifications(models.Model):
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
-    def proprietor_registered(self, proprietor, proprietor_name, from_email, email):
+    def register_amazon_proprietor(self, amazon_proprietor, first_name, email, from_email):
         subject = "Register Successful"
-        message = "Welcome {} being a part of Amazon Family. we will soon investigate your account and activate it".format(
-            proprietor_name)
-        Amazon_Proprietor_Notifications.objects.create(proprietor=proprietor,
+        message = "Hi {} Thanks for registering. Your account is under reviewed we will get back to you soon!".format(
+            first_name)
+        Amazon_Proprietor_Notifications.objects.create(amazon_proprietor=amazon_proprietor,
                                                        message=message)
         try:
             send_mail(subject, message, from_email, [email])
         except Exception as e:
             print("Failed to send Mail", e)
 
-    def proprietor_activated(self, proprietor, proprietor_name, email, from_email, unique_id, password):
+    def account_activated(self, amazon_proprietor, first_name, email, from_email, unique_id, password):
         subject = "Activated Successful"
         message = "Hi {}, your account is successfully activated here is your unique id {} and password {}".format(
-            proprietor_name, unique_id, password)
-        Amazon_Proprietor_Notifications.objects.create(proprietor=proprietor,
+            first_name, unique_id, password)
+        Amazon_Proprietor_Notifications.objects.create(amazon_seller=amazon_proprietor,
                                                        message=message)
         try:
             send_mail(subject, message, from_email, [email])
         except Exception as e:
             print("Failed to send Mail", e)
 
-    def proprietor_deactivated(self, proprietor, proprietor_name, email, from_email):
+    def account_deactivated(self, amazon_proprietor, first_name, email, from_email):
         subject = "Account Deactivated"
         message = "Hi {}, your account is deactivated. Thank you for your service".format(
-            proprietor_name)
-        Amazon_Proprietor_Notifications.objects.create(proprietor=proprietor,
+            first_name)
+        Amazon_Proprietor_Notifications.objects.create(amazon_seller=amazon_proprietor,
                                                        message=message)
         try:
             send_mail(subject, message, from_email, [email])
