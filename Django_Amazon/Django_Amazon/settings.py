@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     'amazon_seller',
     'amazon_proprietor',
 ]
-
+CORS_ORIGIN_ALLOW_ALL = True
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
