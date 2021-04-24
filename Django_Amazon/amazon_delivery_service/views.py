@@ -4,6 +4,7 @@ from .serializers import *
 from rest_framework import generics, status
 from rest_framework.response import Response
 from user.models import User
+from amazon_superuser.models import Amazon_Superuser
 from .utils import Unique_Name, Unique_Password, Delivery_Boy_Unique_Name, Delivery_Boy_Unique_Password
 from Django_Amazon.settings import EMAIL_HOST_USER
 import qrcode
@@ -131,16 +132,19 @@ class Amazon_Delivery_Boy_Notifications_View(generics.ListAPIView):
 
 
 class Manage_Amazon_Delivery_Service_ListView(generics.ListAPIView):
-    queryset = Amazon_Delivery_Service.objects.all()
+    queryset = Amazon_Delivery_Service.objects.all().order_by("-created_at")
     serializer_class = Amazon_Delivery_Service_List_Serializer
 
     def list(self, request, *args, **kwargs):
         if self.request.user.is_superuser:
-            serializer = self.get_serializer(self.get_queryset(), many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            amazon_superuser_query = Amazon_Superuser.objects.get(user=self.request.user.id)
+            if amazon_superuser_query.active:
+                serializer = self.get_serializer(self.get_queryset(), many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
-
 
 class Manage_Amazon_Delivery_Service_Retrieve_View(generics.RetrieveUpdateAPIView):
     queryset = Amazon_Delivery_Service.objects.all()
