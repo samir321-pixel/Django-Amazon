@@ -3,7 +3,7 @@ from .serializers import *
 from rest_framework import generics, status
 from rest_framework.response import Response
 from user.models import User
-from amazon_superuser.models import Amazon_Superuser
+#from amazon_superuser.models import Amazon_Superuser
 from .utils import Unique_Name, Unique_Password
 from django.core.exceptions import ObjectDoesNotExist
 from Django_Amazon.settings import EMAIL_HOST_USER

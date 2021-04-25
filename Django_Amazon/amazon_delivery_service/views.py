@@ -4,7 +4,7 @@ from .serializers import *
 from rest_framework import generics, status
 from rest_framework.response import Response
 from user.models import User
-from amazon_superuser.models import Amazon_Superuser
+#from amazon_superuser.models import Amazon_Superuser
 from .utils import Unique_Name, Unique_Password, Delivery_Boy_Unique_Name, Delivery_Boy_Unique_Password
 from Django_Amazon.settings import EMAIL_HOST_USER
 import qrcode
