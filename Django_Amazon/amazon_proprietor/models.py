@@ -37,6 +37,16 @@ class Amazon_Proprietor(models.Model):
     def __str__(self):
         return "{}".format(self.first_name)
 
+    # def get_latest_version(path=None):
+    #     version_numbers = [int(folder.split('_')[1].split(' ')[0]) for folder in listdir(path)]
+    #     try:
+    #         latest_version = 'version_' + str(max(version_numbers))
+    #         return latest_version
+    #     except:
+    #         latest_version=""
+    #         return latest_version
+
+
 
 class Amazon_Proprietor_Notifications(models.Model):
     amazon_proprietor = models.ForeignKey(Amazon_Proprietor, on_delete=models.CASCADE, null=True, blank=True)
