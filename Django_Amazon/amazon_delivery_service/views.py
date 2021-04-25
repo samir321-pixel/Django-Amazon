@@ -263,7 +263,7 @@ class Manage_Amazon_Delivery_Boy_Retrieve_View(generics.RetrieveUpdateAPIView):
                             serializer.save(updated_at=datetime.datetime.now(), active=True)
                             Amazon_Delivery_Boy_Notifications.account_activated(self=self,
                                                                                 amazon_delivery_boy=query,
-                                                                                amazon_delivery_boy_name=query.amazon_delivery_boy_name,
+                                                                                amazon_delivery_boy_name=query.first_name,
                                                                                 email=query.email,
                                                                                 from_email=EMAIL_HOST_USER,
                                                                                 password=query.password,
@@ -273,7 +273,7 @@ class Manage_Amazon_Delivery_Boy_Retrieve_View(generics.RetrieveUpdateAPIView):
                             serializer.save(updated_at=datetime.datetime.now(), active=False)
                             Amazon_Delivery_Boy_Notifications.account_deactivated(self=self,
                                                                                   amazon_delivery_boy=query,
-                                                                                  amazon_delivery_boy_name=query.amazon_delivery_boy_name,
+                                                                                  amazon_delivery_boy_name=query.first_name,
                                                                                   email=query.email,
                                                                                   from_email=EMAIL_HOST_USER)
                             return Response(serializer.data, status=status.HTTP_200_OK)
