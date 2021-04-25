@@ -3,7 +3,7 @@ from .serializers import *
 from rest_framework import generics, status
 from rest_framework.response import Response
 from user.models import User
-#from amazon_superuser.models import Amazon_Superuser
+# from amazon_superuser.models import Amazon_Superuser
 from .utils import Unique_Name, Unique_Password
 from django.core.exceptions import ObjectDoesNotExist
 from Django_Amazon.settings import EMAIL_HOST_USER
@@ -77,12 +77,8 @@ class Manage_Amazon_Admin_ListView(generics.ListAPIView):
 
     def list(self, request, *args, **kwargs):
         if self.request.user.is_superuser:
-            amazon_superuser_query = Amazon_Superuser.objects.get(user=self.request.user.id)
-            if amazon_superuser_query.active:
-                serializer = self.get_serializer(self.get_queryset(), many=True)
-                return Response(serializer.data, status=status.HTTP_200_OK)
-            else:
-                return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+            serializer = self.get_serializer(self.get_queryset(), many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
@@ -173,4 +169,3 @@ class Amazon_Admin_Profile_View(generics.RetrieveUpdateAPIView):
                 return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
-

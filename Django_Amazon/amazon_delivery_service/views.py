@@ -4,7 +4,7 @@ from .serializers import *
 from rest_framework import generics, status
 from rest_framework.response import Response
 from user.models import User
-#from amazon_superuser.models import Amazon_Superuser
+# from amazon_superuser.models import Amazon_Superuser
 from .utils import Unique_Name, Unique_Password, Delivery_Boy_Unique_Name, Delivery_Boy_Unique_Password
 from Django_Amazon.settings import EMAIL_HOST_USER
 import qrcode
@@ -13,6 +13,7 @@ from PIL import Image, ImageDraw
 from django.core.files import File
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.clickjacking import xframe_options_exempt, xframe_options_sameorigin
+
 
 # from rest_framework.filters import SearchFilter
 
@@ -146,6 +147,7 @@ class Manage_Amazon_Delivery_Service_ListView(generics.ListAPIView):
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
+
 class Manage_Amazon_Delivery_Service_Retrieve_View(generics.RetrieveUpdateAPIView):
     queryset = Amazon_Delivery_Service.objects.all()
     serializer_class = Amazon_Delivery_Service_Update_Serializer
@@ -204,6 +206,24 @@ class Manage_Amazon_Delivery_Boy_List_View(generics.ListAPIView):
                 query = Amazon_Delivery_Boy.objects.filter(
                     amazon_deliery_service=Amazon_Delivery_Service.objects.get(user=self.request.user.id))
                 serializer = self.get_serializer(query, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class Manage_Amazon_Delivery_Boy_Active_List_View(generics.ListAPIView):
+    queryset = Amazon_Delivery_Boy.objects.filter(active=True)
+    serializer_class = Manage_Amazon_Delivery_Boy_List_View_Serializer
+
+    def list(self, request, *args, **kwargs):
+        if self.request.user.is_amazon_delivery_service:
+            amazon_delivery_service_query = Amazon_Delivery_Service.objects.get(user=self.request.user)
+            if amazon_delivery_service_query.active:
+                amazon_delivery_boy_query = Amazon_Delivery_Boy.objects.filter(active=True,
+                                                                               amazon_deliery_service=amazon_delivery_service_query)
+                serializer = self.get_serializer(amazon_delivery_boy_query, many=True)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
