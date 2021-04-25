@@ -194,13 +194,12 @@ class Manage_Amazon_Delivery_Service_Retrieve_View(generics.RetrieveUpdateAPIVie
 
 
 class Manage_Amazon_Delivery_Boy_List_View(generics.ListAPIView):
-    queryset = Amazon_Delivery_Boy.objects.all()
+    queryset = Amazon_Delivery_Boy.objects.all().order_by("-created_at")
     serializer_class = Manage_Amazon_Delivery_Boy_List_View_Serializer
 
     def list(self, request, *args, **kwargs):
         if self.request.user.is_amazon_delivery_service:
             amazon_delivery_service_query = Amazon_Delivery_Service.objects.get(user=self.request.user)
-            print(amazon_delivery_service_query, "This is working")
             if amazon_delivery_service_query.active:
                 query = Amazon_Delivery_Boy.objects.filter(
                     amazon_deliery_service=Amazon_Delivery_Service.objects.get(user=self.request.user.id))

@@ -24,7 +24,7 @@ SECRET_KEY = '3-j4hfm8*v^)+s-y&iyy$!swyn!fhf4#8v+4jzbvommgop3y-r'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['127.0.0.1']
 
 # Application definition
 SITE_ID = 1
@@ -54,7 +54,10 @@ INSTALLED_APPS = [
     'amazon_proprietor',
 ]
 CORS_ORIGIN_ALLOW_ALL = True
-
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:3000' # Here was the problem indeed and it has to be http://localhost:3000, not http://localhost:3000/
+)
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
