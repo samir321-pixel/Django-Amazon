@@ -154,7 +154,7 @@ class Manage_Amazon_Delivery_Service_Retrieve_View(generics.RetrieveUpdateAPIVie
     serializer_class = Amazon_Delivery_Service_Update_Serializer
 
     def retrieve(self, request, *args, **kwargs):
-        if self.request.user.is_superuser:
+        if self.request.user.is_amazon_admin:
             try:
                 query = Amazon_Delivery_Service.objects.get(id=self.kwargs["id"])
                 serializer = self.get_serializer(query)
@@ -165,7 +165,7 @@ class Manage_Amazon_Delivery_Service_Retrieve_View(generics.RetrieveUpdateAPIVie
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
     def update(self, request, *args, **kwargs):
-        if self.request.user.is_superuser:
+        if self.request.user.is_amazon_admin:
             try:
                 instance = Amazon_Delivery_Service.objects.get(id=self.kwargs["id"])
             except ObjectDoesNotExist:
