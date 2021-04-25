@@ -63,6 +63,7 @@ class Amazon_Delivery_Service_Notifications_View(generics.ListAPIView):
     queryset = Amazon_Delivery_Service_Notifications.objects.all()
     serializer_class = Amazon_Delivery_Service_Notifications_Serializer
 
+    @xframe_options_sameorigin
     def list(self, request, *args, **kwargs):
         if self.request.user.is_amazon_delivery_service:
             delivery_service_query = Amazon_Delivery_Service.objects.get(user=self.request.user)
@@ -81,6 +82,7 @@ class Amazon_Delivery_Boy_Signup_View(generics.CreateAPIView):
     queryset = Amazon_Delivery_Boy.objects.all()
     serializer_class = Amazon_Delivery_Boy_Signup_Serializer
 
+    @xframe_options_sameorigin
     def perform_create(self, serializer):
         serializer = self.get_serializer(data=self.request.data)
         if serializer.is_valid(raise_exception=True):
@@ -119,6 +121,7 @@ class Amazon_Delivery_Boy_Notifications_View(generics.ListAPIView):
     queryset = Amazon_Delivery_Boy_Notifications.objects.all()
     serializer_class = Amazon_Delivery_Boy_Notifications_Serializer
 
+    @xframe_options_sameorigin
     def list(self, request, *args, **kwargs):
         if self.request.user.is_amazon_delivery_service:
             delivery_service_boy_query = Amazon_Delivery_Boy.objects.get(user=self.request.user)
@@ -137,6 +140,7 @@ class Manage_Amazon_Delivery_Service_ListView(generics.ListAPIView):
     queryset = Amazon_Delivery_Service.objects.all().order_by("-created_at")
     serializer_class = Amazon_Delivery_Service_List_Serializer
 
+    @xframe_options_sameorigin
     def list(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
             amazon_admin_query = Amazon_Admin.objects.get(user=self.request.user.id)
