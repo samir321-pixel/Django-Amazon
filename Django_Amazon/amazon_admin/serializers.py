@@ -18,7 +18,7 @@ class Amazon_Admin_Notificartions_Serializer(serializers.ModelSerializer):
 class Amazon_Admin_List_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Amazon_Admin
-        fields = "__all__"
+        exclude=["unique_id", "password"]
 
 
 class Amazon_Admin_Update_Serializer(serializers.ModelSerializer):

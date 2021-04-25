@@ -4,6 +4,7 @@ from .serializers import *
 from rest_framework import generics, status
 from rest_framework.response import Response
 from user.models import User
+from amazon_admin.models import Amazon_Admin
 # from amazon_superuser.models import Amazon_Superuser
 from .utils import Unique_Name, Unique_Password, Delivery_Boy_Unique_Name, Delivery_Boy_Unique_Password
 from Django_Amazon.settings import EMAIL_HOST_USER
@@ -137,9 +138,9 @@ class Manage_Amazon_Delivery_Service_ListView(generics.ListAPIView):
     serializer_class = Amazon_Delivery_Service_List_Serializer
 
     def list(self, request, *args, **kwargs):
-        if self.request.user.is_superuser:
-            amazon_superuser_query = Amazon_Superuser.objects.get(user=self.request.user.id)
-            if amazon_superuser_query.active:
+        if self.request.user.is_amazon_admin:
+            amazon_admin_query = Amazon_Admin.objects.get(user=self.request.user.id)
+            if amazon_admin_query.active:
                 serializer = self.get_serializer(self.get_queryset(), many=True)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
