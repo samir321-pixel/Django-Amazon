@@ -94,6 +94,7 @@ class Manage_Amazon_Proprietor_Retrieve_Update_View(generics.RetrieveUpdateAPIVi
 
     def retrieve(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
+
             try:
                 query = Amazon_Proprietor.objects.get(id=self.kwargs["id"])
                 serializer = self.get_serializer(query)

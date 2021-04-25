@@ -3,6 +3,7 @@ from .serializers import *
 from rest_framework import generics, status
 from rest_framework.response import Response
 from user.models import User
+from amazon_admin.models import Amazon_Admin
 from .utils import Unique_Name, Unique_Password
 from django.core.exceptions import ObjectDoesNotExist
 from Django_Amazon.settings import EMAIL_HOST_USER
@@ -11,12 +12,13 @@ import qrcode
 from io import BytesIO
 from PIL import Image, ImageDraw
 from django.core.files import File
-
+from django.views.decorators.clickjacking import xframe_options_exempt, xframe_options_sameorigin
 
 class Amazon_Seller_Signup_View(generics.CreateAPIView):
     queryset = Amazon_Seller.objects.all()
     serializer_class = Amazon_Seller_Signup_Serializer
 
+    @xframe_options_sameorigin
     def perform_create(self, serializer):
         serializer = self.get_serializer(data=self.request.data)
         if serializer.is_valid(raise_exception=True):
@@ -70,13 +72,17 @@ class Amazon_Seller_Notification_View(generics.ListAPIView):
 
 
 class Manage_Amazon_Seller_List_View(generics.ListAPIView):
-    queryset = Amazon_Seller.objects.all()
+    queryset = Amazon_Seller.objects.all().order_by("-created_at")
     serializer_class = Amazon_Seller_List_View_Serializer
 
     def list(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
-            serializer = self.get_serializer(self.get_queryset(), many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            amazon_admin_query = Amazon_Admin.objects.get(user=self.request.user.id)
+            if amazon_admin_query.active:
+                serializer = self.get_serializer(self.get_queryset(), many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
