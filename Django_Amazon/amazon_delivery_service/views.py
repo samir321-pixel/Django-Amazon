@@ -189,9 +189,15 @@ class Manage_Amazon_Delivery_Service_Retrieve_View(generics.RetrieveUpdateAPIVie
                     serializer.save(updated_at=datetime.datetime.now(), active=False)
                     Amazon_Delivery_Service_Notifications.account_deactivated(self=self,
                                                                               amazon_delivery_service=instance,
-                                                                              service_name=instance.first_name,
+                                                                              service_name=instance.service_name,
                                                                               email=instance.email,
                                                                               from_email=EMAIL_HOST_USER)
+                    amazon_delivery_boy_query = Amazon_Delivery_Boy.objects.filter(active=True,
+                                                                                   amazon_deliery_service=instance.id)
+                    # print("Delivery", amazon_delivery_boy_query)
+                    for x in amazon_delivery_boy_query:
+                        print("boy is", x, "he is", )
+
                     return Response(serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
