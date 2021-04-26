@@ -145,7 +145,7 @@ class Amazon_Admin_Profile_View(generics.RetrieveUpdateAPIView):
 
     @xframe_options_sameorigin
     def retrieve(self, request, *args, **kwargs):
-        if self.request.user.is_amazon_admin:
+        if self.request.user.is_superuser:
             # print("Log in user id is", self.request.user.id)
             user_query = User.objects.get(id=self.request.user.id)
             # print(user_query, "this is user query")
@@ -162,7 +162,7 @@ class Amazon_Admin_Profile_View(generics.RetrieveUpdateAPIView):
 
     @xframe_options_sameorigin
     def update(self, request, *args, **kwargs):
-        if self.request.user.is_amazon_admin:
+        if self.request.user.is_superuser:
             try:
                 instance = Amazon_Admin.objects.get(id=self.kwargs["id"])
             except ObjectDoesNotExist:
