@@ -235,6 +235,25 @@ class Manage_Amazon_Delivery_Boy_Active_List_View(generics.ListAPIView):
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
+class Manage_Amazon_Delivery_Boy_Deactivate_List_View(generics.ListAPIView):
+    queryset = Amazon_Delivery_Boy.objects.filter(active=False)
+    serializer_class = Manage_Amazon_Delivery_Boy_List_View_Serializer
+
+    def list(self, request, *args, **kwargs):
+        if self.request.user.is_amazon_delivery_service:
+            amazon_delivery_service_query = Amazon_Delivery_Service.objects.get(user=self.request.user)
+            if amazon_delivery_service_query.active:
+                amazon_delivery_boy_query = Amazon_Delivery_Boy.objects.filter(active=False,
+                                                                               amazon_deliery_service=amazon_delivery_service_query)
+                serializer = self.get_serializer(amazon_delivery_boy_query, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+
 
 class Manage_Amazon_Delivery_Boy_Retrieve_View(generics.RetrieveUpdateAPIView):
     queryset = Amazon_Delivery_Service.objects.all()
