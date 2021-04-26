@@ -58,6 +58,7 @@ class Amazon_Seller_Notification_View(generics.ListAPIView):
     queryset = Amazon_Seller_Notifications.objects.all()
     serializer_class = Amazon_Seller_Notificartions_Serializer
 
+    @xframe_options_sameorigin
     def list(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
             seller_query = Amazon_Seller.objects.get(user=self.request.user)
@@ -75,6 +76,7 @@ class Manage_Amazon_Seller_List_View(generics.ListAPIView):
     queryset = Amazon_Seller.objects.all().order_by("-created_at")
     serializer_class = Amazon_Seller_List_View_Serializer
 
+    @xframe_options_sameorigin
     def list(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
             amazon_admin_query = Amazon_Admin.objects.get(user=self.request.user.id)
@@ -91,6 +93,7 @@ class Manage_Amazon_Seller_Retrieve_Update_View(generics.RetrieveUpdateAPIView):
     queryset = Amazon_Seller.objects.all()
     serializer_class = Amazon_Seller_Retrieve_Update_View_Serializer
 
+    @xframe_options_sameorigin
     def retrieve(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
             try:
@@ -102,6 +105,7 @@ class Manage_Amazon_Seller_Retrieve_Update_View(generics.RetrieveUpdateAPIView):
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
+    @xframe_options_sameorigin
     def update(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
             try:

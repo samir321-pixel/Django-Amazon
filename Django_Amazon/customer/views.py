@@ -30,6 +30,7 @@ class Amazon_Customer_Notification_View(generics.ListAPIView):
     queryset = Amazon_customers_Notifications.objects.all()
     serializer_class = Amazon_Customer_Notificartions_Serializer
 
+    @xframe_options_sameorigin
     def list(self, request, *args, **kwargs):
         if self.request.user.is_amazon_customer:
             customer_query = Amazon_Customer.objects.get(user=self.request.user)

@@ -58,6 +58,7 @@ class Amazon_Proprietor_Notifications_View(generics.ListAPIView):
     queryset = Amazon_Proprietor_Notifications.objects.all()
     serializer_class = Amazon_Proprietor_Notifications_Serializer
 
+    @xframe_options_sameorigin
     def list(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
             amazon_proprietor_query = Amazon_Proprietor.objects.get(user=self.request.user)
@@ -76,6 +77,7 @@ class Manage_Amazon_Proprietor_List_View(generics.ListAPIView):
     queryset = Amazon_Proprietor.objects.all().order_by("-created_at")
     serializer_class = Amazon_Proprietor_List_Serializer
 
+    @xframe_options_sameorigin
     def list(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
             amazon_admin_query = Amazon_Admin.objects.get(user=self.request.user.id)
@@ -92,6 +94,7 @@ class Manage_Amazon_Proprietor_Retrieve_Update_View(generics.RetrieveUpdateAPIVi
     queryset = Amazon_Proprietor.objects.all()
     serializer_class = Amazon_Proprietor_Retrieve_Update_View_Serializer
 
+    @xframe_options_sameorigin
     def retrieve(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
 
@@ -104,6 +107,7 @@ class Manage_Amazon_Proprietor_Retrieve_Update_View(generics.RetrieveUpdateAPIVi
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
+    @xframe_options_sameorigin
     def update(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
             try:
