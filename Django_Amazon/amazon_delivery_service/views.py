@@ -157,6 +157,7 @@ class Manage_Amazon_Delivery_Service_Retrieve_View(generics.RetrieveUpdateAPIVie
     queryset = Amazon_Delivery_Service.objects.all()
     serializer_class = Amazon_Delivery_Service_Update_Serializer
 
+    @xframe_options_sameorigin
     def retrieve(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
             try:
@@ -168,6 +169,7 @@ class Manage_Amazon_Delivery_Service_Retrieve_View(generics.RetrieveUpdateAPIVie
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
+    @xframe_options_sameorigin
     def update(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
             try:
@@ -204,6 +206,7 @@ class Manage_Amazon_Delivery_Boy_List_View(generics.ListAPIView):
     queryset = Amazon_Delivery_Boy.objects.all().order_by("-created_at")
     serializer_class = Manage_Amazon_Delivery_Boy_List_View_Serializer
 
+    @xframe_options_sameorigin
     def list(self, request, *args, **kwargs):
         if self.request.user.is_amazon_delivery_service:
             amazon_delivery_service_query = Amazon_Delivery_Service.objects.get(user=self.request.user)
@@ -222,6 +225,7 @@ class Manage_Amazon_Delivery_Boy_Active_List_View(generics.ListAPIView):
     queryset = Amazon_Delivery_Boy.objects.filter(active=True)
     serializer_class = Manage_Amazon_Delivery_Boy_List_View_Serializer
 
+    @xframe_options_sameorigin
     def list(self, request, *args, **kwargs):
         if self.request.user.is_amazon_delivery_service:
             amazon_delivery_service_query = Amazon_Delivery_Service.objects.get(user=self.request.user)
@@ -235,10 +239,11 @@ class Manage_Amazon_Delivery_Boy_Active_List_View(generics.ListAPIView):
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
-class Manage_Amazon_Delivery_Boy_Deactivate_List_View(generics.ListAPIView):
+class Manage_Amazon_Delivery_Boy_Deactive_List_View(generics.ListAPIView):
     queryset = Amazon_Delivery_Boy.objects.filter(active=False)
     serializer_class = Manage_Amazon_Delivery_Boy_List_View_Serializer
 
+    @xframe_options_sameorigin
     def list(self, request, *args, **kwargs):
         if self.request.user.is_amazon_delivery_service:
             amazon_delivery_service_query = Amazon_Delivery_Service.objects.get(user=self.request.user)
@@ -259,6 +264,7 @@ class Manage_Amazon_Delivery_Boy_Retrieve_View(generics.RetrieveUpdateAPIView):
     queryset = Amazon_Delivery_Service.objects.all()
     serializer_class = Manage_Amazon_Delivery_Boy_Update_View_Serializer
 
+    @xframe_options_sameorigin
     def retrieve(self, request, *args, **kwargs):
         if self.request.user.is_amazon_delivery_service:
             amazon_delivery_service_query = Amazon_Delivery_Service.objects.get(user=self.request.user.id)
@@ -274,6 +280,7 @@ class Manage_Amazon_Delivery_Boy_Retrieve_View(generics.RetrieveUpdateAPIView):
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
+    @xframe_options_sameorigin
     def update(self, request, *args, **kwargs):
         if self.request.user.is_amazon_delivery_service:
             amazon_delivery_service_query = Amazon_Delivery_Service.objects.get(user=self.request.user.id)

@@ -58,6 +58,7 @@ class Amazon_Admin_Notification_View(generics.ListAPIView):
     queryset = Amazon_admin_Notifications.objects.all()
     serializer_class = Amazon_Admin_Notificartions_Serializer
 
+    @xframe_options_sameorigin
     def list(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
             admin_query = Amazon_Admin.objects.get(user=self.request.user)
@@ -75,6 +76,7 @@ class Manage_Amazon_Admin_ListView(generics.ListAPIView):
     queryset = Amazon_Admin.objects.all().order_by("-created_at")
     serializer_class = Amazon_Admin_List_Serializer
 
+    @xframe_options_sameorigin
     def list(self, request, *args, **kwargs):
         if self.request.user.is_superuser:
             serializer = self.get_serializer(self.get_queryset(), many=True)
@@ -87,6 +89,7 @@ class Manage_Amazon_Admin_Retrieve_View(generics.RetrieveUpdateAPIView):
     queryset = Amazon_Admin.objects.all()
     serializer_class = Amazon_Admin_Update_Serializer
 
+    @xframe_options_sameorigin
     def retrieve(self, request, *args, **kwargs):
         if self.request.user.is_superuser:
             try:
@@ -98,6 +101,7 @@ class Manage_Amazon_Admin_Retrieve_View(generics.RetrieveUpdateAPIView):
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
+    @xframe_options_sameorigin
     def update(self, request, *args, **kwargs):
         if self.request.user.is_superuser:
             try:
@@ -139,6 +143,7 @@ class Amazon_Admin_Profile_View(generics.RetrieveUpdateAPIView):
     queryset = Amazon_Admin.objects.all()
     serializer_class = Amazon_Admin_Profile_Update_Serializer
 
+    @xframe_options_sameorigin
     def retrieve(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
             # print("Log in user id is", self.request.user.id)
@@ -155,6 +160,7 @@ class Amazon_Admin_Profile_View(generics.RetrieveUpdateAPIView):
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
+    @xframe_options_sameorigin
     def update(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
             try:
