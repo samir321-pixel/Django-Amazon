@@ -208,7 +208,7 @@ class Manage_Amazon_Delivery_Service_Retrieve_View(generics.RetrieveUpdateAPIVie
                     #     x.save()
                     for x in amazon_delivery_boy_query_1:
                         print("boy is", x, "he is", x.active, "name is", x.first_name)
-                        Amazon_Delivery_Boy_Notifications.account_deactivated(self=self, amazon_delivery_boy=x,
+                        Amazon_Delivery_Boy_Notifications.account_deactivated(self=self, amazon_delivery_boy=x.id,
                                                                               amazon_delivery_boy_name=x.first_name,
                                                                               email=x.email, from_email=EMAIL_HOST_USER)
                     return Response(serializer.data, status=status.HTTP_200_OK)
