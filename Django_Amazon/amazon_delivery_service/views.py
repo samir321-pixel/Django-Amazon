@@ -196,7 +196,9 @@ class Manage_Amazon_Delivery_Service_Retrieve_View(generics.RetrieveUpdateAPIVie
                                                                                    amazon_deliery_service=instance.id)
                     # print("Delivery", amazon_delivery_boy_query)
                     for x in amazon_delivery_boy_query:
-                        print("boy is", x, "he is", )
+                        print("boy is", x, "he is", x.active)
+                        x.active = False
+                        x.save()
 
                     return Response(serializer.data, status=status.HTTP_200_OK)
             else:
