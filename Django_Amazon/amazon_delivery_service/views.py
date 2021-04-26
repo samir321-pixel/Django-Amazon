@@ -5,7 +5,6 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from user.models import User
 from amazon_admin.models import Amazon_Admin
-# from amazon_superuser.models import Amazon_Superuser
 from .utils import Unique_Name, Unique_Password, Delivery_Boy_Unique_Name, Delivery_Boy_Unique_Password
 from Django_Amazon.settings import EMAIL_HOST_USER
 import qrcode
@@ -15,8 +14,6 @@ from django.core.files import File
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.clickjacking import xframe_options_exempt, xframe_options_sameorigin
 
-
-# from rest_framework.filters import SearchFilter
 
 # Create your views here.
 class Amazon_Delivery_Service_Signup_View(generics.CreateAPIView):
@@ -239,6 +236,7 @@ class Manage_Amazon_Delivery_Boy_Active_List_View(generics.ListAPIView):
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
+
 class Manage_Amazon_Delivery_Boy_Deactive_List_View(generics.ListAPIView):
     queryset = Amazon_Delivery_Boy.objects.filter(active=False)
     serializer_class = Manage_Amazon_Delivery_Boy_List_View_Serializer
@@ -256,8 +254,6 @@ class Manage_Amazon_Delivery_Boy_Deactive_List_View(generics.ListAPIView):
                 return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
-
-
 
 
 class Manage_Amazon_Delivery_Boy_Retrieve_View(generics.RetrieveUpdateAPIView):
@@ -308,9 +304,9 @@ class Manage_Amazon_Delivery_Boy_Retrieve_View(generics.RetrieveUpdateAPIView):
                                                                                   from_email=EMAIL_HOST_USER)
                             return Response(serializer.data, status=status.HTTP_200_OK)
                     else:
-                        return Response({"DOES_NOT_EXIST": "Does not exist"}, status=status.HTTP_404_NOT_FOUND)
+                        return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
                 except ObjectDoesNotExist:
-                    return Response(serializer.data, status=status.HTTP_200_OK)
+                    return Response({"DOES_NOT_EXIST": "Does not exist"}, status=status.HTTP_404_NOT_FOUND)
             else:
                 return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
         else:
