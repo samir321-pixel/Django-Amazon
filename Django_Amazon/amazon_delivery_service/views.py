@@ -192,26 +192,29 @@ class Manage_Amazon_Delivery_Service_Retrieve_View(generics.RetrieveUpdateAPIVie
                                                                               service_name=instance.service_name,
                                                                               email=instance.email,
                                                                               from_email=EMAIL_HOST_USER)
-                    amazon_delivery_boy_query_1 = Amazon_Delivery_Boy.objects.filter(active=True,
-                                                                                     amazon_deliery_service=instance.id)
+                    # amazon_delivery_boy_query = Amazon_Delivery_Boy.objects.filter(active=True,
+                    #                                                                amazon_deliery_service=instance.id)
+                    # print("Delivery", amazon_delivery_boy_query)
+
+                    # amazon_delivery_boy_query_1 = Amazon_Delivery_Boy.objects.filter(active=True,
+                    #                                                                  amazon_deliery_service=instance.id)
                     amazon_delivery_boy_query_2 = Amazon_Delivery_Boy.objects.filter(active=True,
-                                                                                     amazon_deliery_service=instance.id).update(
-                        active=False)
+                                                                                     amazon_deliery_service=instance.id).update(active=False)
 
                     # Delivery boy got deactivated
                     # amazon_delivery_boy_query = Amazon_Delivery_Boy.objects.filter(active=True,
                     #                                                                amazon_deliery_service=instance.id)
                     # print("Delivery", amazon_delivery_boy_query)
-                    # for x in amazon_delivery_boy_query:
-                    #     print("boy is", x, "he is", x.active)
-                    #     x.active = False
-                    #     x.save()
-                    for x in amazon_delivery_boy_query_1:
-                        print("boy is", x, "he is", x.active, "name is", x.first_name)
+                    for x in amazon_delivery_boy_query_2:
+                        print("boy is", x, "he is", x.active)
+                        x.active = True
+                        x.save()
+                    for x in amazon_delivery_boy_query_2:
+                        print("boy is", x, "he is", x.active, "name is", x.first_name, x.email, x.EMAIL_HOST_USER)
                         Amazon_Delivery_Boy_Notifications.account_deactivated(self=self, amazon_delivery_boy=x.id,
                                                                               amazon_delivery_boy_name=x.first_name,
                                                                               email=x.email, from_email=EMAIL_HOST_USER)
-                    return Response(serializer.data, status=status.HTTP_200_OK)
+                return Response(serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
         else:
