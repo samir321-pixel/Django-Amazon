@@ -27,7 +27,9 @@ class Amazon_Admin_Update_Serializer(serializers.ModelSerializer):
         exclude = ["id_proof", "profile_photo", "id_proof_file", "qr_code"]
 
 
-class Amazon_Admin_Profile_Update_Serializer(serializers.ModelSerializer):
-    class Meta:
-        model = Amazon_Admin
-        exclude = ["id_proof", "profile_photo", "id_proof_file", "qr_code"]
+# class Amazon_Admin_Profile_Retrieve_Update_Serializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Amazon_Admin
+#         # fields = ["first_name", "middle_name", "last_name", "DOB", "gender", "phone", "alt_phone", "email",
+#         #            "Address", "state", "pincode", "city", "password"]
+#         exclude = ["id_proof", "profile_photo", "id_proof_file", "qr_code"]

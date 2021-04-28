@@ -192,9 +192,7 @@ class Manage_Amazon_Delivery_Service_Retrieve_View(generics.RetrieveUpdateAPIVie
                                                                               service_name=instance.service_name,
                                                                               email=instance.email,
                                                                               from_email=EMAIL_HOST_USER)
-                    # amazon_delivery_boy_query = Amazon_Delivery_Boy.objects.filter(active=True,
-                    #                                                                amazon_deliery_service=instance.id)
-                    # print("Delivery", amazon_delivery_boy_query)
+
 
                     # amazon_delivery_boy_query_1 = Amazon_Delivery_Boy.objects.filter(active=True,
                     #                                                                  amazon_deliery_service=instance.id)
@@ -333,3 +331,37 @@ class Manage_Amazon_Delivery_Boy_Retrieve_View(generics.RetrieveUpdateAPIView):
                 return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+
+class Amazon_Delivery_Service_Profile_View(generics.RetrieveUpdateAPIView):
+    queryset = Amazon_Delivery_Service.objects.all()
+    serializer_class = Amazon_Delivery_Service_List_Serializer
+
+    @xframe_options_sameorigin
+    def retrieve(self, request, *args, **kwargs):
+        if self.request.user.is_amazon_delivery_service:
+            print("Log in user id is", self.request.user.id)
+            user_query = User.objects.get(id=self.request.user.id)
+            print(user_query, "this is user query")
+            amazon_delivery_service_query = Amazon_Delivery_Service.objects.get(user=user_query)
+            print(amazon_delivery_service_query, "Delivery_Service")
+            serializer = self.get_serializer(amazon_delivery_service_query)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+
+    @xframe_options_sameorigin
+    def update(self, request, *args, **kwargs):
+        if self.request.user.is_amazon_delivery_service:
+            try:
+                instance = Amazon_Delivery_Service.objects.get(id=self.kwargs["id"])
+            except ObjectDoesNotExist:
+                return Response({"DOES_NOT_EXIST": "Does not exist"}, status=status.HTTP_404_NOT_FOUND)
+            serializer = self.get_serializer(instance, data=self.request.data, partial=True)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save(updated_at=datetime.datetime.now(), active=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+        else:
+            return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+
