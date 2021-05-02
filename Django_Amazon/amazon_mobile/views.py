@@ -23,7 +23,8 @@ class Amazon_Mobile_Create_View(generics.CreateAPIView):
             if amazon_seller_query.active:
                 serializer = self.get_serializer(data=self.request.data)
                 if serializer.is_valid(raise_exception=True):
-                    amazon_mobile_query = serializer.save(amazon_seller=amazon_seller_query)
+                    serializer.create(validated_data=request.data)
+                    return Response(serializer.data, status=status.HTTP_201_CREATED)
                 else:
                     return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
             else:

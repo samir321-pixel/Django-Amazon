@@ -1,7 +1,6 @@
 from django.db import models
 from djmoney.models.fields import MoneyField
 
-
 sim_choices = (
     ("SIM1", "SIM1"),
     ("SIM2", "SIM2"),
@@ -26,6 +25,9 @@ class mobile_technology(models.Model):
 class Amazon_Mobile(models.Model):
     amazon_seller = models.ForeignKey('amazon_seller.Amazon_Seller', on_delete=models.CASCADE, null=True, blank=True)
     mobile_name = models.CharField(max_length=100)
+    mobile_technology = models.ForeignKey("amazon_mobile.mobile_technology", null=True, blank=True, on_delete=models.CASCADE)
+
+
     # network_technology = models.
     # launch_announced = models.DateTimeField
     # launch_status = models.CharField(max_length=200)
