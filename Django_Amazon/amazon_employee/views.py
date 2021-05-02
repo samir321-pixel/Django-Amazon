@@ -146,6 +146,7 @@ class Amazon_Employee_Profile_View(generics.RetrieveUpdateAPIView):
     @xframe_options_sameorigin
     def retrieve(self, request, *args, **kwargs):
         if self.request.user.is_amazon_employee:
+            # Check it is active or not
             # print("Log in user id is", self.request.user.id)
             user_query = User.objects.get(id=self.request.user.id)
             # print(user_query, "this is user query")
@@ -167,6 +168,7 @@ class Amazon_Employee_Profile_View(generics.RetrieveUpdateAPIView):
                 instance = Amazon_Employee.objects.get(id=self.kwargs["id"])
             except ObjectDoesNotExist:
                 return Response({"DOES_NOT_EXIST": "Does not exist"}, status=status.HTTP_404_NOT_FOUND)
+            # Check it is active or not
             serializer = self.get_serializer(instance, data=self.request.data, partial=True)
             if serializer.is_valid(raise_exception=True):
                 serializer.save(updated_at=datetime.datetime.now(), active=True)

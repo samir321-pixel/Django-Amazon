@@ -150,9 +150,11 @@ class Amazon_Admin_Profile_View(generics.RetrieveUpdateAPIView):
             user_query = User.objects.get(id=self.request.user.id)
             print(user_query, "this is user query")
             admin_query = Amazon_Admin.objects.get(user=user_query)
-            print(admin_query, "Admin")
-            serializer = self.get_serializer(admin_query)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            if admin_query.active:
+                serializer = self.get_serializer(admin_query)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
@@ -163,6 +165,7 @@ class Amazon_Admin_Profile_View(generics.RetrieveUpdateAPIView):
                 instance = Amazon_Admin.objects.get(id=self.kwargs["id"])
             except ObjectDoesNotExist:
                 return Response({"DOES_NOT_EXIST": "Does not exist"}, status=status.HTTP_404_NOT_FOUND)
+            # Check here active or Not
             serializer = self.get_serializer(instance, data=self.request.data, partial=True)
             if serializer.is_valid(raise_exception=True):
                 serializer.save(updated_at=datetime.datetime.now(), active=True)
