@@ -13,4 +13,5 @@ urlpatterns = [
     path('manage_amazon_deactive_delivery_boy/', Manage_Amazon_Delivery_Boy_Deactive_List_View.as_view()),
     path('manage_amazon_delivery_boy/<int:id>/', Manage_Amazon_Delivery_Boy_Retrieve_View.as_view()),
     path('amazon_delivery_service_profile/', Amazon_Delivery_Service_Profile_View.as_view()),
+    # Create delivery boy profile
 ]
