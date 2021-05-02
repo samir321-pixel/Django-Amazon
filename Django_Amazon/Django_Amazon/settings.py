@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'amazon_delivery_service',
     'amazon_seller',
     'amazon_proprietor',
+    'amazon_mobile',
 ]
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_CREDENTIALS = True
