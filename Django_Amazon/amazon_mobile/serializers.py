@@ -13,4 +13,4 @@ class Amazon_Mobile_Create_Serializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Amazon_Mobile
-        fields = '__all__'
+        exclude = ['amazon_seller']

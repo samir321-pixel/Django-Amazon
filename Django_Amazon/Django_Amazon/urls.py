@@ -46,5 +46,5 @@ urlpatterns = [
     path('amazon_delivery_service/', include('amazon_delivery_service.urls')),
     path('amazon_seller/', include('amazon_seller.urls')),
     path('amazon_proprietor/', include('amazon_proprietor.urls')),
-    #path('amazon_mobile/', include('amazon_mobile.urls')),
+    path('amazon_mobile/', include('amazon_mobile.urls')),
 ]
