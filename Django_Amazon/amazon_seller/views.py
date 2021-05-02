@@ -117,7 +117,7 @@ class Manage_Amazon_Seller_Retrieve_Update_View(generics.RetrieveUpdateAPIView):
                 if serializer.validated_data.get('active'):
                     serializer.save(updated_at=datetime.datetime.now(), active=True)
                     Amazon_Seller_Notifications.account_activated(self=self, amazon_seller=instance,
-                                                                  amazon_seller_name=instance.first_name,
+                                                                  first_name=instance.first_name,
                                                                   email=instance.email,
                                                                   from_email=EMAIL_HOST_USER,
                                                                   password=instance.password,
@@ -127,7 +127,7 @@ class Manage_Amazon_Seller_Retrieve_Update_View(generics.RetrieveUpdateAPIView):
                 elif not serializer.validated_data.get('active'):
                     serializer.save(updated_at=datetime.datetime.now(), active=False)
                     Amazon_Seller_Notifications.account_deactivated(self=self, amazon_seller=instance,
-                                                                    amazon_seller_name=instance.first_name,
+                                                                    first_name=instance.first_name,
                                                                     email=instance.email,
                                                                     from_email=EMAIL_HOST_USER)
                     return Response(serializer.data, status=status.HTTP_200_OK)
