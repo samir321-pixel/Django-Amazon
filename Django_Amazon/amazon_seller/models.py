@@ -24,6 +24,7 @@ class Amazon_Seller(models.Model):
     Address = models.CharField(max_length=200)
     city = models.CharField(max_length=20)
     state = INStateField(null=True, blank=True)
+    active=models.BooleanField(default=False)
     pincode = models.PositiveIntegerField(default=0)
     id_proof = models.CharField(max_length=30, choices=id_proof)
     id_proof_file = models.FileField(upload_to="media/Amazon_Sellers/id_proof_file")
