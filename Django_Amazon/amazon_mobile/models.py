@@ -17,7 +17,7 @@ colors_choices = (
 
 # Create your models here.
 class Amazon_Mobile(models.Model):
-    #amazon_seller = models.ForeignKey(Amazon_Seller, on_delete=models.CASCADE, null=True, blank=True)
+    # amazon_seller = models.ForeignKey(Amazon_Seller, on_delete=models.CASCADE, null=True, blank=True)
     mobile_name = models.CharField(max_length=100)
     network_technology = models.CharField(max_length=200)
     launch_announced = models.DateTimeField
@@ -58,20 +58,3 @@ class Amazon_Mobile(models.Model):
 
     def __str__(self):
         return "{}".format(self.mobile_name)
-
-class Amazon_Mobile_Notifications(models.Model):
-    amazon_mobile = models.ForeignKey(Amazon_Mobile, on_delete=models.CASCADE, null=True, blank=True)
-    message = models.TextField()
-    seen = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now=True)
-    updated_at = models.DateTimeField(auto_now_add=True)
-
-    def mobile_details_registered(self, amazon_mobile, mobile_name, from_email, email):
-        subject = "Mobile Details Register Successfully"
-        message = "Hi {} Thanks for Ordering. We have received your order ".format(mobile_name)
-        Amazon_Mobile_Notifications.objects.create(amazon_mobile=amazon_mobile,
-                                                  message=message)
-        try:
-            send_mail(subject, message, from_email, [email])
-        except Exception as e:
-            print("Failed to send Mail", e)

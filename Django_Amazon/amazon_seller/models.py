@@ -84,3 +84,13 @@ class Amazon_Seller_Notifications(models.Model):
             send_mail(subject, message, from_email, [email])
         except Exception as e:
             print("Failed to send Mail", e)
+
+    # def mobile_details_registered(self, amazon_mobile, mobile_name, from_email, email):
+    #     subject = "Mobile Details Register Successfully"
+    #     message = "Hi {} Thanks for Ordering. We have received your order ".format(mobile_name)
+    #     Amazon_Seller_Notifications.objects.create(amazon_mobile=amazon_mobile,
+    #                                                message=message)
+    #     try:
+    #         send_mail(subject, message, from_email, [email])
+    #     except Exception as e:
+    #         print("Failed to send Mail", e)
