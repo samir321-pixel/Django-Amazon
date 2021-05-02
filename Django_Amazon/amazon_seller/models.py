@@ -42,7 +42,6 @@ class Amazon_Seller_Notifications(models.Model):
     amazon_seller = models.ForeignKey(Amazon_Seller, on_delete=models.CASCADE, null=True, blank=True)
     message = models.TextField()
     seen = models.BooleanField(default=False)
-    email = models.EmailField(unique=True)
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
