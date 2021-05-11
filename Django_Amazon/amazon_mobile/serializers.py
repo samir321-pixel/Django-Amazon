@@ -8,7 +8,7 @@ class Technology_Serializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class Amazon_Mobile_Create_Serializer(serializers.HyperlinkedModelSerializer):
+class Amazon_Mobile_Create_Serializer(serializers.ModelSerializer):
 
     class Meta:
         model = Amazon_Mobile

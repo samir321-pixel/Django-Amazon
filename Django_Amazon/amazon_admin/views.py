@@ -78,12 +78,9 @@ class Manage_Amazon_Admin_ListView(generics.ListAPIView):
     @xframe_options_deny
     def list(self, request, *args, **kwargs):
         if self.request.user.is_superuser:
-            amazon_admin_query = Amazon_Admin.objects.get(user=self.request.user.id)
-            if amazon_admin_query.active:
-                serializer = self.get_serializer(self.get_queryset(), many=True)
-                return Response(serializer.data, status=status.HTTP_200_OK)
-            else:
-                return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+            print(self.request.user)
+            serializer = self.get_serializer(self.get_queryset(), many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
