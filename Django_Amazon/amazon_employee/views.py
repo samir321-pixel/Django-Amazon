@@ -5,7 +5,7 @@ from rest_framework import generics, viewsets, status
 from rest_framework.response import Response
 from user.models import User
 from amazon_admin.models import Amazon_Admin
-from .utils import Unique_Name
+from .utils import Unique_Name,  Unique_Password
 from django.core.exceptions import ObjectDoesNotExist
 import datetime
 import qrcode
@@ -27,14 +27,15 @@ class Amazon_Employee_Signup_View(generics.CreateAPIView):
         serializer = self.get_serializer(data=self.request.data)
         if serializer.is_valid(raise_exception=True):
             unique_id = Unique_Name()
+            unique_password = Unique_Password()
             user_query = User.objects.create_user(username=unique_id,
                                                   first_name=self.request.data['first_name'],
                                                   email=self.request.data['email'],
-                                                  password=self.request.data['password'],
+                                                 password=unique_password,
                                                   last_name=self.request.data["last_name"],
                                                   is_amazon_employee=True)
             employee_query = serializer.save(user=user_query, active=False, unique_id=unique_id,
-                                             password=self.request.data['password'])
+                                             password=unique_password)
             try:
                 qrcode_img = qrcode.make(self.request.data['first_name'] + "amazon_employee")
                 canvas = Image.new('RGB', (290, 290), 'white')

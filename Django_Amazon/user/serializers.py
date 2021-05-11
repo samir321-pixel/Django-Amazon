@@ -54,7 +54,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.User
         fields = ('email', 'username', 'password', 'is_amazon_admin', 'is_amazon_customer', 'is_amazon_employee',
-                  'is_amazon_delivery_service', 'is_amazon_proprietor', 'first_name')
+                  'is_amazon_delivery_service', 'is_amazon_proprietor', 'first_name', 'is_amazon_seller')
 
 
 class ChangePasswordSerializer(serializers.Serializer):

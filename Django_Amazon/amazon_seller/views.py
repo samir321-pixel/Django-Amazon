@@ -116,7 +116,7 @@ class Manage_Amazon_Seller_Retrieve_Update_View(generics.RetrieveUpdateAPIView):
             if serializer.is_valid(raise_exception=True):
                 if serializer.validated_data.get('active'):
                     serializer.save(updated_at=datetime.datetime.now(), active=True)
-                    Amazon_Seller_Notifications.account_activated(self=self, amazon_seller=instance,
+                    Amazon_Seller_Notifications.account_activated(self=self, amazon_seller=instance.amazon_seller,
                                                                   first_name=instance.first_name,
                                                                   email=instance.email,
                                                                   from_email=EMAIL_HOST_USER,
