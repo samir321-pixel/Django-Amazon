@@ -78,8 +78,12 @@ class Manage_Amazon_Admin_ListView(generics.ListAPIView):
     @xframe_options_sameorigin
     def list(self, request, *args, **kwargs):
         if self.request.user.is_superuser:
-            serializer = self.get_serializer(self.get_queryset(), many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            amazon_admin_query = Amazon_Admin.objects.get(user=self.request.user.id)
+            if amazon_admin_query.active:
+                serializer = self.get_serializer(self.get_queryset(), many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
@@ -165,11 +169,16 @@ class Amazon_Admin_Profile_View(generics.RetrieveUpdateAPIView):
             except ObjectDoesNotExist:
                 return Response({"DOES_NOT_EXIST": "Does not exist"}, status=status.HTTP_404_NOT_FOUND)
             # Check here active or Not
-            serializer = self.get_serializer(instance, data=self.request.data, partial=True)
+            #if instance.active:
+            serializer = self.get_serializer(instance)
+                # serializer = self.get_serializer(instance, data=self.request.data, partial=True)
+                # return Response(serializer.data, status=status.HTTP_200_OK)
             if serializer.is_valid(raise_exception=True):
                 serializer.save(updated_at=datetime.datetime.now(), active=True)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+            # else:
+            #     return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)

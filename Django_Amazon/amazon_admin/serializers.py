@@ -18,12 +18,10 @@ class Amazon_Admin_Notificartions_Serializer(serializers.ModelSerializer):
 class Amazon_Admin_List_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Amazon_Admin
-        exclude=["unique_id", "password"]
+        exclude = ["unique_id", "password"]
 
 
 class Amazon_Admin_Update_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Amazon_Admin
         exclude = ["id_proof", "profile_photo", "id_proof_file", "qr_code"]
-
-
