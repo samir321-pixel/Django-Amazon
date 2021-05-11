@@ -11,14 +11,14 @@ import qrcode
 from io import BytesIO
 from PIL import Image, ImageDraw
 from django.core.files import File
-from django.views.decorators.clickjacking import xframe_options_exempt, xframe_options_sameorigin
+from django.views.decorators.clickjacking import xframe_options_deny
 
 
 class Amazon_Admin_Signup_View(generics.CreateAPIView):
     queryset = Amazon_Admin.objects.all()
     serializer_class = Amazon_Admin_Signup_Serializer
 
-    @xframe_options_sameorigin
+    @xframe_options_deny
     def perform_create(self, serializer):
         serializer = self.get_serializer(data=self.request.data)
         if serializer.is_valid(raise_exception=True):
@@ -57,7 +57,7 @@ class Amazon_Admin_Notification_View(generics.ListAPIView):
     queryset = Amazon_admin_Notifications.objects.all()
     serializer_class = Amazon_Admin_Notificartions_Serializer
 
-    @xframe_options_sameorigin
+    @xframe_options_deny
     def list(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
             admin_query = Amazon_Admin.objects.get(user=self.request.user)
@@ -75,7 +75,7 @@ class Manage_Amazon_Admin_ListView(generics.ListAPIView):
     queryset = Amazon_Admin.objects.all().order_by("-created_at")
     serializer_class = Amazon_Admin_List_Serializer
 
-    @xframe_options_sameorigin
+    @xframe_options_deny
     def list(self, request, *args, **kwargs):
         if self.request.user.is_superuser:
             amazon_admin_query = Amazon_Admin.objects.get(user=self.request.user.id)
@@ -92,7 +92,7 @@ class Manage_Amazon_Admin_Retrieve_View(generics.RetrieveUpdateAPIView):
     queryset = Amazon_Admin.objects.all()
     serializer_class = Amazon_Admin_Update_Serializer
 
-    @xframe_options_sameorigin
+    @xframe_options_deny
     def retrieve(self, request, *args, **kwargs):
         if self.request.user.is_superuser:
             try:
@@ -104,7 +104,7 @@ class Manage_Amazon_Admin_Retrieve_View(generics.RetrieveUpdateAPIView):
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
-    @xframe_options_sameorigin
+    @xframe_options_deny
     def update(self, request, *args, **kwargs):
         if self.request.user.is_superuser:
             try:
@@ -135,18 +135,11 @@ class Manage_Amazon_Admin_Retrieve_View(generics.RetrieveUpdateAPIView):
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
 
-# create
-# all
-# update
-# filter
-# get
-
-
 class Amazon_Admin_Profile_View(generics.RetrieveUpdateAPIView):
     queryset = Amazon_Admin.objects.all()
     serializer_class = Amazon_Admin_List_Serializer
 
-    @xframe_options_sameorigin
+    @xframe_options_deny
     def retrieve(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
             print("Log in user id is", self.request.user.id)
@@ -161,7 +154,7 @@ class Amazon_Admin_Profile_View(generics.RetrieveUpdateAPIView):
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
-    @xframe_options_sameorigin
+    @xframe_options_deny
     def update(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
             try:
@@ -169,10 +162,10 @@ class Amazon_Admin_Profile_View(generics.RetrieveUpdateAPIView):
             except ObjectDoesNotExist:
                 return Response({"DOES_NOT_EXIST": "Does not exist"}, status=status.HTTP_404_NOT_FOUND)
             # Check here active or Not
-            #if instance.active:
+            # if instance.active:
             serializer = self.get_serializer(instance)
-                # serializer = self.get_serializer(instance, data=self.request.data, partial=True)
-                # return Response(serializer.data, status=status.HTTP_200_OK)
+            # serializer = self.get_serializer(instance, data=self.request.data, partial=True)
+            # return Response(serializer.data, status=status.HTTP_200_OK)
             if serializer.is_valid(raise_exception=True):
                 serializer.save(updated_at=datetime.datetime.now(), active=True)
                 return Response(serializer.data, status=status.HTTP_200_OK)
