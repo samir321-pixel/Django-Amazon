@@ -14,6 +14,7 @@ from PIL import Image, ImageDraw
 from django.core.files import File
 from django.views.decorators.clickjacking import xframe_options_exempt, xframe_options_sameorigin
 
+
 class Amazon_Seller_Signup_View(generics.CreateAPIView):
     queryset = Amazon_Seller.objects.all()
     serializer_class = Amazon_Seller_Signup_Serializer
@@ -116,7 +117,7 @@ class Manage_Amazon_Seller_Retrieve_Update_View(generics.RetrieveUpdateAPIView):
             if serializer.is_valid(raise_exception=True):
                 if serializer.validated_data.get('active'):
                     serializer.save(updated_at=datetime.datetime.now(), active=True)
-                    Amazon_Seller_Notifications.account_activated(self=self, amazon_seller=instance.amazon_seller,
+                    Amazon_Seller_Notifications.account_activated(self=self, amazon_seller=instance,
                                                                   first_name=instance.first_name,
                                                                   email=instance.email,
                                                                   from_email=EMAIL_HOST_USER,
@@ -135,6 +136,7 @@ class Manage_Amazon_Seller_Retrieve_Update_View(generics.RetrieveUpdateAPIView):
                 return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+
 
 class Amazon_Seller_Profile_View(generics.RetrieveUpdateAPIView):
     queryset = Amazon_Seller.objects.all()

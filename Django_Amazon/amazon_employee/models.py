@@ -41,7 +41,7 @@ class Amazon_Employee(models.Model):
     get_notified = models.BooleanField(default=True)
     password = models.CharField(max_length=300, null=True, blank=True, unique=True, editable=False)
     qr_code = models.ImageField(upload_to='media/Amazon_Employee/qr_codes', blank=True)
-    sallery = MoneyField(default=0, default_currency='INR', max_digits=11, null=True, blank=True)
+    sallery = MoneyField(default=0, default_currency='INR', max_digits=13, null=True, blank=True)
     salary_due_date = models.DateField(blank=True, null=True)
     releasing_date = models.DateField(null=True, blank=True)
     Resume = models.FileField(upload_to="media/Amazon_Employee/resume_file")

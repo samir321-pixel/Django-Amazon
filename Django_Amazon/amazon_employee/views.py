@@ -82,14 +82,14 @@ class Amazon_Employee_ListView(generics.ListAPIView):
     @xframe_options_sameorigin
     def list(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
-            amazon_admin_query = Amazon_Admin.objects.get(user=self.request.user.id)
-            if amazon_admin_query.active:
-                serializer = self.get_serializer(self.get_queryset(), many=True)
-                return Response(serializer.data, status=status.HTTP_200_OK)
-            else:
-                return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+            # amazon_admin_query = Amazon_Admin.objects.get(user=self.request.user.id)
+            # if amazon_admin_query.active:
+            serializer = self.get_serializer(self.get_queryset(), many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+        # else:
+        #     return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 class Amazon_Employee_Retrieve_View(generics.RetrieveUpdateAPIView):
