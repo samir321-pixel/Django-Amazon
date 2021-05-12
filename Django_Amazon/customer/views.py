@@ -5,14 +5,14 @@ from rest_framework.response import Response
 from user.models import User
 from django.core.exceptions import ObjectDoesNotExist
 import datetime
-from django.views.decorators.clickjacking import xframe_options_exempt, xframe_options_sameorigin
+from django.views.decorators.clickjacking import xframe_options_deny
 
 
 class Amazon_Customers_Signup_View(generics.CreateAPIView):
     queryset = Amazon_Customer.objects.all()
     serializer_class = Amazon_Customer_Signup_Serializer
 
-    @xframe_options_sameorigin
+    @xframe_options_deny
     def perform_create(self, serializer):
         serializer = self.get_serializer(data=self.request.data)
         if serializer.is_valid(raise_exception=True):
@@ -32,7 +32,7 @@ class Amazon_Customer_Notification_View(generics.ListAPIView):
     queryset = Amazon_customers_Notifications.objects.all()
     serializer_class = Amazon_Customer_Notificartions_Serializer
 
-    @xframe_options_sameorigin
+    @xframe_options_deny
     def list(self, request, *args, **kwargs):
         if self.request.user.is_amazon_customer:
             customer_query = Amazon_Customer.objects.get(user=self.request.user)
@@ -46,7 +46,7 @@ class Amazon_Customer_ListView(generics.ListAPIView):
     queryset = Amazon_Customer.objects.all().order_by("-created_at")
     serializer_class = Amazon_Customer_List_Serializer
 
-    @xframe_options_sameorigin
+    @xframe_options_deny
     def list(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
             serializer = self.get_serializer(self.get_queryset(), many=True)
@@ -58,7 +58,7 @@ class Amazon_Customer_Profile_View(generics.RetrieveUpdateAPIView):
     queryset = Amazon_Customer.objects.all()
     serializer_class = Amazon_Customer_List_Serializer
 
-    @xframe_options_sameorigin
+    @xframe_options_deny
     def retrieve(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
             print("Log in user id is", self.request.user.id)
@@ -71,7 +71,7 @@ class Amazon_Customer_Profile_View(generics.RetrieveUpdateAPIView):
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
-    @xframe_options_sameorigin
+    @xframe_options_deny
     def update(self, request, *args, **kwargs):
         if self.request.user.is_amazon_customer:
             try:

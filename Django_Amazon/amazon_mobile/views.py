@@ -7,13 +7,13 @@ from rest_framework.response import Response
 from rest_framework import generics, status
 from amazon_seller.models import Amazon_Seller
 from django.core.exceptions import ObjectDoesNotExist
-
+from django.views.decorators.clickjacking import xframe_options_deny
 
 class Amazon_Mobile_Create_View(generics.CreateAPIView):
     queryset = Amazon_Mobile.objects.all()
     serializer_class = Amazon_Mobile_Create_Serializer
 
-    @xframe_options_sameorigin
+    @xframe_options_deny
     def create(self, request, *args, **kwargs):
         if self.request.user.is_amazon_seller:
             try:
