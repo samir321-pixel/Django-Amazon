@@ -340,14 +340,16 @@ class Amazon_Delivery_Service_Profile_View(generics.RetrieveUpdateAPIView):
     @xframe_options_deny
     def retrieve(self, request, *args, **kwargs):
         if self.request.user.is_amazon_delivery_service:
-            # Check it is active or not
             print("Log in user id is", self.request.user.id)
             user_query = User.objects.get(id=self.request.user.id)
             print(user_query, "this is user query")
             amazon_delivery_service_query = Amazon_Delivery_Service.objects.get(user=user_query)
             print(amazon_delivery_service_query, "Delivery_Service")
-            serializer = self.get_serializer(amazon_delivery_service_query)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            if amazon_delivery_service_query.active:
+                serializer = self.get_serializer(amazon_delivery_service_query)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 

@@ -150,8 +150,11 @@ class Amazon_Proprietor_Profile_View(generics.RetrieveUpdateAPIView):
             print(user_query, "this is user query")
             amazon_proprietor_query = Amazon_Proprietor.objects.get(user=user_query)
             print(amazon_proprietor_query, "Amazon_Proprietor")
-            serializer = self.get_serializer(amazon_proprietor_query)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            if amazon_proprietor_query.active:
+                serializer = self.get_serializer(amazon_proprietor_query)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 

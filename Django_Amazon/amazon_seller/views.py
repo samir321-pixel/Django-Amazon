@@ -145,14 +145,16 @@ class Amazon_Seller_Profile_View(generics.RetrieveUpdateAPIView):
     @xframe_options_deny
     def retrieve(self, request, *args, **kwargs):
         if self.request.user.is_amazon_seller:
-            # Check it is active or not
             print("Log in user id is", self.request.user.id)
             user_query = User.objects.get(id=self.request.user.id)
             print(user_query, "this is user query")
             seller_query = Amazon_Seller.objects.get(user=user_query)
             print(seller_query, "Admin")
-            serializer = self.get_serializer(seller_query)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            if seller_query.active:
+                serializer = self.get_serializer(seller_query)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 

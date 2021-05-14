@@ -149,12 +149,12 @@ class Amazon_Employee_Profile_View(generics.RetrieveUpdateAPIView):
     def retrieve(self, request, *args, **kwargs):
         if self.request.user.is_amazon_employee:
             # Check it is active or not
-            # print("Log in user id is", self.request.user.id)
+            print("Log in user id is", self.request.user.id)
             user_query = User.objects.get(id=self.request.user.id)
-            # print(user_query, "this is user query")
+            print(user_query, "this is user query")
             employee_query = Amazon_Employee.objects.get(user=user_query)
             print(employee_query.active, "This says active")
-            # print(employee_query, "Employee")
+            print(employee_query, "Employee")
             if employee_query.active:
                 serializer = self.get_serializer(employee_query)
                 return Response(serializer.data, status=status.HTTP_200_OK)
