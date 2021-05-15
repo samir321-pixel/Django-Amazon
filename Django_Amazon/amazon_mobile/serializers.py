@@ -1,26 +1,23 @@
 from rest_framework import serializers
-from .models import *
+from .models import Amazon_Mobile, mobile_technology
 
 
 class Technology_Serializer(serializers.ModelSerializer):
     class Meta:
         model = mobile_technology
-        fields = '__all__'
+        fields = "__all__"
 
 
 class Amazon_Mobile_Create_Serializer(serializers.ModelSerializer):
+    technology = Technology_Serializer(many=True)
 
     class Meta:
         model = Amazon_Mobile
-        exclude = ['amazon_seller']
+        fields = ["technology", "mobile_name"]
 
-    def create(self, validated_data):
-        """
-        Overriding the default create method of the Model serializer.
-        :param validated_data: data containing all the details of student
-        :return: returns a successfully created student record
-        """
-        tech_data = validated_data.pop('mobile_technology')
-        tech = Technology_Serializer.create(Technology_Serializer(), validated_data=tech_data)
-        mobile, created = Amazon_Mobile.objects.update_or_create(mobile_technology=tech)
-        return mobile
+    # def create(self, validated_data):
+    #     print("Validated data : ", validated_data)
+    #     technology = validated_data.pop('technology')
+    #
+    #     Amazon_Mobile = Amazon_Mobile.actions.create_initial(validated_data,technology )
+    #     return Amazon_Mobile

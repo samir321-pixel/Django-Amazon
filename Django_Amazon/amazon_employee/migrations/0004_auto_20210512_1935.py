@@ -7,9 +7,7 @@ import djmoney.models.fields
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('amazon_employee', '0003_auto_20210507_0001'),
-    ]
+
 
     operations = [
         migrations.AlterField(

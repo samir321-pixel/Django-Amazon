@@ -27,6 +27,12 @@ class Amazon_Mobile(models.Model):
     mobile_name = models.CharField(max_length=100)
     mobile_technology = models.ForeignKey("amazon_mobile.mobile_technology", null=True, blank=True, on_delete=models.CASCADE)
 
+    class Meta:
+        unique_together = ['mobile_technology']
+
+    def __str__(self):
+        return '%d:' % (self.mobile_name)
+
 
     # network_technology = models.
     # launch_announced = models.DateTimeField
