@@ -42,7 +42,7 @@ urlpatterns = [
     path('rest-auth/registration/', include('rest_auth.registration.urls')),
     path('amazon_admin/', include('amazon_admin.urls')),
     path('amazon_customer/', include('customer.urls')),
-    path('amazon_employee_signup/', include('amazon_employee.urls')),
+    path('amazon_employee/', include('amazon_employee.urls')),
     path('amazon_delivery_service/', include('amazon_delivery_service.urls')),
     path('amazon_seller/', include('amazon_seller.urls')),
     path('amazon_proprietor/', include('amazon_proprietor.urls')),
