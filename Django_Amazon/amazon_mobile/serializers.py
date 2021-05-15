@@ -14,3 +14,11 @@ class Amazon_Mobile_Create_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Amazon_Mobile
         fields = ["mobile_technology", "mobile_name"]
+
+
+class Amazon_Mobile_List_Serializer(serializers.ModelSerializer):
+    #mobile_technology = Technology_Serializer(many=True)
+
+    class Meta:
+        model = Mobile_Technology
+        fields = "__all__"
