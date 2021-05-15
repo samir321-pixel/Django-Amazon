@@ -12,13 +12,14 @@ import qrcode
 from io import BytesIO
 from PIL import Image, ImageDraw
 from django.core.files import File
-from django.views.decorators.clickjacking import xframe_options_exempt, xframe_options_sameorigin
+from django.views.decorators.clickjacking import xframe_options_deny
+
 
 class Amazon_Seller_Signup_View(generics.CreateAPIView):
     queryset = Amazon_Seller.objects.all()
     serializer_class = Amazon_Seller_Signup_Serializer
 
-    @xframe_options_sameorigin
+    @xframe_options_deny
     def perform_create(self, serializer):
         serializer = self.get_serializer(data=self.request.data)
         if serializer.is_valid(raise_exception=True):
@@ -58,7 +59,7 @@ class Amazon_Seller_Notification_View(generics.ListAPIView):
     queryset = Amazon_Seller_Notifications.objects.all()
     serializer_class = Amazon_Seller_Notificartions_Serializer
 
-    @xframe_options_sameorigin
+    @xframe_options_deny
     def list(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
             seller_query = Amazon_Seller.objects.get(user=self.request.user)
@@ -76,7 +77,7 @@ class Manage_Amazon_Seller_List_View(generics.ListAPIView):
     queryset = Amazon_Seller.objects.all().order_by("-created_at")
     serializer_class = Amazon_Seller_List_View_Serializer
 
-    @xframe_options_sameorigin
+    @xframe_options_deny
     def list(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
             amazon_admin_query = Amazon_Admin.objects.get(user=self.request.user.id)
@@ -93,7 +94,7 @@ class Manage_Amazon_Seller_Retrieve_Update_View(generics.RetrieveUpdateAPIView):
     queryset = Amazon_Seller.objects.all()
     serializer_class = Amazon_Seller_Retrieve_Update_View_Serializer
 
-    @xframe_options_sameorigin
+    @xframe_options_deny
     def retrieve(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
             try:
@@ -105,7 +106,7 @@ class Manage_Amazon_Seller_Retrieve_Update_View(generics.RetrieveUpdateAPIView):
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
-    @xframe_options_sameorigin
+    @xframe_options_deny
     def update(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
             try:
@@ -116,7 +117,7 @@ class Manage_Amazon_Seller_Retrieve_Update_View(generics.RetrieveUpdateAPIView):
             if serializer.is_valid(raise_exception=True):
                 if serializer.validated_data.get('active'):
                     serializer.save(updated_at=datetime.datetime.now(), active=True)
-                    Amazon_Seller_Notifications.account_activated(self=self, amazon_seller=instance.amazon_seller,
+                    Amazon_Seller_Notifications.account_activated(self=self, amazon_seller=instance,
                                                                   first_name=instance.first_name,
                                                                   email=instance.email,
                                                                   from_email=EMAIL_HOST_USER,
@@ -136,25 +137,28 @@ class Manage_Amazon_Seller_Retrieve_Update_View(generics.RetrieveUpdateAPIView):
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
+
 class Amazon_Seller_Profile_View(generics.RetrieveUpdateAPIView):
     queryset = Amazon_Seller.objects.all()
     serializer_class = Amazon_Seller_List_View_Serializer
 
-    @xframe_options_sameorigin
+    @xframe_options_deny
     def retrieve(self, request, *args, **kwargs):
         if self.request.user.is_amazon_seller:
-            # Check it is active or not
             print("Log in user id is", self.request.user.id)
             user_query = User.objects.get(id=self.request.user.id)
             print(user_query, "this is user query")
             seller_query = Amazon_Seller.objects.get(user=user_query)
             print(seller_query, "Admin")
-            serializer = self.get_serializer(seller_query)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            if seller_query.active:
+                serializer = self.get_serializer(seller_query)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
-    @xframe_options_sameorigin
+    @xframe_options_deny
     def update(self, request, *args, **kwargs):
         if self.request.user.is_amazon_seller:
             try:

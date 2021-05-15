@@ -11,14 +11,14 @@ from io import BytesIO
 from PIL import Image, ImageDraw
 from django.core.files import File
 from django.core.exceptions import ObjectDoesNotExist
-from django.views.decorators.clickjacking import xframe_options_exempt, xframe_options_sameorigin
-
+# from django.views.decorators.clickjacking import xframe_options_exempt, xframe_options_sameorigin
+from django.views.decorators.clickjacking import xframe_options_deny
 
 class Amazon_Proprietor_Signup_View(generics.CreateAPIView):
     queryset = Amazon_Proprietor.objects.all()
     serializer_class = Amazon_Proprietor_Signup_Serializer
 
-    @xframe_options_sameorigin
+    @xframe_options_deny
     def perform_create(self, serializer):
         serializer = self.get_serializer(data=self.request.data)
         if serializer.is_valid(raise_exception=True):
@@ -58,7 +58,7 @@ class Amazon_Proprietor_Notifications_View(generics.ListAPIView):
     queryset = Amazon_Proprietor_Notifications.objects.all()
     serializer_class = Amazon_Proprietor_Notifications_Serializer
 
-    @xframe_options_sameorigin
+    @xframe_options_deny
     def list(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
             amazon_proprietor_query = Amazon_Proprietor.objects.get(user=self.request.user)
@@ -77,7 +77,7 @@ class Manage_Amazon_Proprietor_List_View(generics.ListAPIView):
     queryset = Amazon_Proprietor.objects.all().order_by("-created_at")
     serializer_class = Amazon_Proprietor_List_Serializer
 
-    @xframe_options_sameorigin
+    @xframe_options_deny
     def list(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
             amazon_admin_query = Amazon_Admin.objects.get(user=self.request.user.id)
@@ -94,7 +94,7 @@ class Manage_Amazon_Proprietor_Retrieve_Update_View(generics.RetrieveUpdateAPIVi
     queryset = Amazon_Proprietor.objects.all()
     serializer_class = Amazon_Proprietor_Retrieve_Update_View_Serializer
 
-    @xframe_options_sameorigin
+    @xframe_options_deny
     def retrieve(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
             try:
@@ -106,7 +106,7 @@ class Manage_Amazon_Proprietor_Retrieve_Update_View(generics.RetrieveUpdateAPIVi
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
-    @xframe_options_sameorigin
+    @xframe_options_deny
     def update(self, request, *args, **kwargs):
         if self.request.user.is_amazon_admin:
             try:
@@ -141,7 +141,7 @@ class Amazon_Proprietor_Profile_View(generics.RetrieveUpdateAPIView):
     queryset = Amazon_Admin.objects.all()
     serializer_class = Amazon_Proprietor_List_Serializer
 
-    @xframe_options_sameorigin
+    @xframe_options_deny
     def retrieve(self, request, *args, **kwargs):
         if self.request.user.is_amazon_proprietor:
             # Check it is active or not
@@ -150,12 +150,15 @@ class Amazon_Proprietor_Profile_View(generics.RetrieveUpdateAPIView):
             print(user_query, "this is user query")
             amazon_proprietor_query = Amazon_Proprietor.objects.get(user=user_query)
             print(amazon_proprietor_query, "Amazon_Proprietor")
-            serializer = self.get_serializer(amazon_proprietor_query)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            if amazon_proprietor_query.active:
+                serializer = self.get_serializer(amazon_proprietor_query)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
         else:
             return Response({"NO_ACCESS": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
-    @xframe_options_sameorigin
+    @xframe_options_deny
     def update(self, request, *args, **kwargs):
         if self.request.user.is_amazon_proprietor:
             try:
