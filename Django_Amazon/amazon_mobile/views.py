@@ -18,17 +18,23 @@ class Amazon_Mobile_Create_View(generics.CreateAPIView):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=self.request.data)
         if serializer.is_valid(raise_exception=True):
-            amazon_mobile = Amazon_Mobile.objects.create(**self.request.data)
-            print(amazon_mobile)
+            print(self.request.data)
             tech = self.request.data.pop('mobile_technology')
             for i in tech:
-                mobile_technology = Mobile_Technology.objects.create(amazon_mobile=amazon_mobile, **i)
+                mobile_technology = Mobile_Technology.objects.create(**i)
                 print(mobile_technology)
+            amazon_mobile = Amazon_Mobile.objects.create(**self.request.data, mobile_technology=mobile_technology)
+            # mobile_technology = Mobile_Technology.objects.create(**self.request.data)
+            # print(mobile_technology)
+            # tech = self.request.data.pop('mobile_technology')
+            # for i in tech:
+            #     mobile_technology = Mobile_Technology.objects.create(amazon_mobile=amazon_mobile, **i)
+            #     print(mobile_technology)
             # # print(album)
             # for techs in mobile_technology:
             #     print(techs)
             #     # mobile_technology.objects.create(**techs)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response("Ok")
         #
         #     return Response(serializer.data, status=status.HTTP_201_CREATED)
         # else:

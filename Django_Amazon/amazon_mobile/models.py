@@ -16,7 +16,6 @@ colors_choices = (
 
 class Mobile_Technology(models.Model):
     technology_name = models.CharField(max_length=200)
-    amazon_mobile=models.ForeignKey("amazon_mobile.Amazon_Mobile", null=True, blank=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return "{}".format(self.technology_name)
@@ -26,7 +25,7 @@ class Mobile_Technology(models.Model):
 class Amazon_Mobile(models.Model):
     amazon_seller = models.ForeignKey('amazon_seller.Amazon_Seller', on_delete=models.CASCADE, null=True, blank=True)
     mobile_name = models.CharField(max_length=100)
-
+    mobile_technology = models.ForeignKey("amazon_mobile.mobile_technology", null=True, blank=True, on_delete=models.CASCADE)
 
 
     # network_technology = models.
