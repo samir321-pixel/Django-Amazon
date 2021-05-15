@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from .models import Amazon_Mobile, mobile_technology
+from .models import Amazon_Mobile, Mobile_Technology
 
 
 class Technology_Serializer(serializers.ModelSerializer):
     class Meta:
-        model = mobile_technology
+        model = Mobile_Technology
         fields = ["technology_name"]
 
 

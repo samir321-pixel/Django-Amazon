@@ -14,7 +14,7 @@ colors_choices = (
 )
 
 
-class mobile_technology(models.Model):
+class Mobile_Technology(models.Model):
     technology_name = models.CharField(max_length=200)
 
     def __str__(self):
