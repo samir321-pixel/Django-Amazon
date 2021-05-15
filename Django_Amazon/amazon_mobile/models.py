@@ -15,10 +15,10 @@ colors_choices = (
 
 
 class mobile_technology(models.Model):
-    technolgy = models.CharField(max_length=200)
+    technology_name = models.CharField(max_length=200)
 
     def __str__(self):
-        return "{}".format(self.technolgy)
+        return "{}".format(self.technology_name)
 
 
 # Create your models here.
