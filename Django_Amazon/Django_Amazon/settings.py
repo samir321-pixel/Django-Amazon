@@ -105,7 +105,7 @@ TEMPLATES = [
         },
     },
 ]
-
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 WSGI_APPLICATION = 'Django_Amazon.wsgi.application'
 import socket
 print("this is host name",socket.gethostname())
