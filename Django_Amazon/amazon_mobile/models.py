@@ -26,7 +26,7 @@ class Mobile_Technology(models.Model):
 class Amazon_Mobile(models.Model):
     amazon_seller = models.ForeignKey('amazon_seller.Amazon_Seller', on_delete=models.CASCADE, null=True, blank=True)
     mobile_name = models.CharField(max_length=100)
-    mobile_technology = ArrayField(models.CharField(max_length=200), blank=True)
+    mobile_technology = ArrayField(models.TextField(blank=True), size=10, default=list, blank=True)
 
     # mobile_technology = models.ManyToManyField(Mobile_Technology, related_name="tech", null=True, blank=True)
 
