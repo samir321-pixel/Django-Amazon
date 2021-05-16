@@ -9,16 +9,16 @@ class Technology_Serializer(serializers.ModelSerializer):
 
 
 class Amazon_Mobile_Create_Serializer(serializers.ModelSerializer):
-    mobile_technology = Technology_Serializer(many=True)
+    # mobile_technology = Technology_Serializer(many=True)
 
     class Meta:
         model = Amazon_Mobile
-        fields = ["mobile_technology", "mobile_name"]
-
+        # fields = ["mobile_technology", "mobile_name"]
+        fields = '__all__'
 
 
 class Amazon_Mobile_List_Serializer(serializers.ModelSerializer):
-    #mobile_technology = Technology_Serializer(many=True)
+    # mobile_technology = Technology_Serializer(many=True)
 
     class Meta:
         model = Amazon_Mobile
