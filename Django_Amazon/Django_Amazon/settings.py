@@ -108,7 +108,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Django_Amazon.wsgi.application'
 import socket
-
+print("this is host name",socket.gethostname())
 if socket.gethostname() == "Samir":
     print("Yes this is Samir PC")
     # IF want to visit over https
