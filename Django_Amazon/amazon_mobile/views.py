@@ -15,7 +15,8 @@ class Amazon_Mobile_Create_View(generics.CreateAPIView):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=self.request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            amazon_seller=Amazon_Seller.objects.get(user=self.request.user)
+            serializer.save(amazon_seller=amazon_seller)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
