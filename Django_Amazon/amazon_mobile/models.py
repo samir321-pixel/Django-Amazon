@@ -15,20 +15,11 @@ colors_choices = (
 )
 
 
-class Mobile_Technology(models.Model):
-    technology_name = models.CharField(max_length=200)
-
-    def __str__(self):
-        return "{}".format(self.technology_name)
-
-
 # Create your models here.
 class Amazon_Mobile(models.Model):
     amazon_seller = models.ForeignKey('amazon_seller.Amazon_Seller', on_delete=models.CASCADE, null=True, blank=True)
     mobile_name = models.CharField(max_length=100)
     mobile_technology = ArrayField(models.TextField(blank=True), size=10, default=list, blank=True)
-
-    # mobile_technology = models.ManyToManyField(Mobile_Technology, related_name="tech", null=True, blank=True)
 
     # network_technology = models.
     # launch_announced = models.DateTimeField
