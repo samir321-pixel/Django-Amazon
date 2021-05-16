@@ -1,5 +1,6 @@
 from django.db import models
 from djmoney.models.fields import MoneyField
+from django.contrib.postgres.fields import ArrayField
 
 sim_choices = (
     ("SIM1", "SIM1"),
@@ -25,8 +26,9 @@ class Mobile_Technology(models.Model):
 class Amazon_Mobile(models.Model):
     amazon_seller = models.ForeignKey('amazon_seller.Amazon_Seller', on_delete=models.CASCADE, null=True, blank=True)
     mobile_name = models.CharField(max_length=100)
-    mobile_technology = models.ForeignKey("amazon_mobile.mobile_technology", null=True, blank=True, on_delete=models.CASCADE)
+    mobile_technology = ArrayField(models.TextField(blank=True), size=20,  blank=True)
 
+    # mobile_technology = models.ManyToManyField(Mobile_Technology, related_name="tech", null=True, blank=True)
 
     # network_technology = models.
     # launch_announced = models.DateTimeField
