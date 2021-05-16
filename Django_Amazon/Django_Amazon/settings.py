@@ -64,7 +64,7 @@ CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000'
-# Here was the problem indeed and it has to be http://localhost:3000, not http://localhost:3000/
+    # Here was the problem indeed and it has to be http://localhost:3000, not http://localhost:3000/
 )
 REFERRER_POLICY = 'strict-origin'
 MIDDLEWARE = [
@@ -79,7 +79,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 X_FRAME_OPTIONS = 'SAMEORIGIN'
-SECURE_BROWSER_XSS_FILTER = True
 ROOT_URLCONF = 'Django_Amazon.urls'
 AUTH_USER_MODEL = 'user.User'
 ACCOUNT_UNIQUE_EMAIL = True
@@ -108,6 +107,20 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Django_Amazon.wsgi.application'
+import socket
+
+if socket.gethostname() == "Samir":
+    print("Yes this is Samir PC")
+    # IF want to visit over https
+    SESSION_COOKIE_SECURE = False
+    SECURE_BROWSER_XSS_FILTER = False
+    CSRF_COOKIE_SECURE = False
+    SECURE_SSL_REDIRECT = False
+else:
+    SESSION_COOKIE_SECURE = True
+    SECURE_BROWSER_XSS_FILTER = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -171,3 +184,11 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'tecure.samir@gmail.com'
 EMAIL_HOST_PASSWORD = 'sam@123456'  # add password here
 EMAIL_USE_SSL = False
+CSP_DEFAULT_SRC = ['none']
+# When DEBUG is on we don't require HTTPS on our resources because in a local environment
+# we generally don't have access to HTTPS. However, when DEBUG is off, such as in our
+# production environment, we want all our resources to load over HTTPS
+CSP_UPGRADE_INSECURE_REQUESTS = not DEBUG
+# For roughly 60% of the requests to our django server we should include the report URI.
+# This helps keep down the number of CSP reports sent from client web browsers
+CSP_REPORT_PERCENTAGE = 0.6
