@@ -11,4 +11,6 @@ class User(AbstractUser):
     is_amazon_delivery_service = models.BooleanField(default=False)
     is_amazon_delivery_service_boy = models.BooleanField(default=False)
     is_amazon_proprietor = models.BooleanField(default=False)
+    azure_id = models.TextField(null=True, blank=True)
+
 

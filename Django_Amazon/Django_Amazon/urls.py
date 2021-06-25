@@ -21,6 +21,7 @@ from rest_framework import permissions
 from django.conf.urls.static import static
 from django.conf import settings
 from rest_auth import urls
+from .views import microsoft, adminfunction
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -35,9 +36,13 @@ schema_view = get_schema_view(
     permission_classes=(permissions.AllowAny,),
 )
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('custom/', microsoft),
+    path('admin/', adminfunction),
     path('', schema_view.with_ui('swagger',
                                  cache_timeout=0), name='schema-swagger-ui'),
+
+    path('user/', include('user.urls')),
+    path('microsoft_authentication/', include('microsoft_authentication.urls')),
     path('auth/', include('rest_auth.urls')),
     path('rest-auth/registration/', include('rest_auth.registration.urls')),
     path('amazon_admin/', include('amazon_admin.urls')),
