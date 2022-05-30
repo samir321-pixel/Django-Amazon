@@ -24,7 +24,7 @@ SECRET_KEY = '3-j4hfm8*v^)+s-y&iyy$!swyn!fhf4#8v+4jzbvommgop3y-r'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 SITE_ID = 1
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'drf_yasg',
+    'drf_yasg2',
     'localflavor',
     'rest_framework',
     'rest_framework.authtoken',
@@ -48,19 +49,37 @@ INSTALLED_APPS = [
     'user',
     'amazon_admin',
     'customer',
+    'amazon_employee',
+    'amazon_delivery_service',
+    'amazon_seller',
+    'amazon_proprietor',
+    'amazon_mobile',
 ]
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework.authentication.TokenAuthentication',
+#     ),
+# }
 
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:3000'
+    # Here was the problem indeed and it has to be http://localhost:3000, not http://localhost:3000/
+)
+REFERRER_POLICY = 'strict-origin'
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django_http_referrer_policy.middleware.ReferrerPolicyMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 ROOT_URLCONF = 'Django_Amazon.urls'
 AUTH_USER_MODEL = 'user.User'
 ACCOUNT_UNIQUE_EMAIL = True
@@ -87,18 +106,43 @@ TEMPLATES = [
         },
     },
 ]
-
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 WSGI_APPLICATION = 'Django_Amazon.wsgi.application'
+import socket
+
+print("this is host name", socket.gethostname())
+
+if socket.gethostname() == "Samir":
+    print("Yes this is Samir PC")
+    # IF want to visit over https
+    SESSION_COOKIE_SECURE = False
+    SECURE_BROWSER_XSS_FILTER = False
+    CSRF_COOKIE_SECURE = False
+    SECURE_SSL_REDIRECT = False
+else:
+    SESSION_COOKIE_SECURE = True
+    SECURE_BROWSER_XSS_FILTER = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'amazon',
+        'USER': 'postgres',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -140,6 +184,14 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''  # add password here
+EMAIL_HOST_USER = 'tecure.samir@gmail.com'
+EMAIL_HOST_PASSWORD = 'sam@123456'  # add password here
 EMAIL_USE_SSL = False
+CSP_DEFAULT_SRC = ['none']
+# When DEBUG is on we don't require HTTPS on our resources because in a local environment
+# we generally don't have access to HTTPS. However, when DEBUG is off, such as in our
+# production environment, we want all our resources to load over HTTPS
+CSP_UPGRADE_INSECURE_REQUESTS = not DEBUG
+# For roughly 60% of the requests to our django server we should include the report URI.
+# This helps keep down the number of CSP reports sent from client web browsers
+CSP_REPORT_PERCENTAGE = 0.6

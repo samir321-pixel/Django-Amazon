@@ -13,8 +13,8 @@ gender_choices = (
 # Create your models here.
 class Amazon_Customer(models.Model):
     user = models.OneToOneField("user.User", on_delete=models.CASCADE, null=True, blank=True)
-    first_name = models.CharField(max_length=200, unique=True)
-    middle_name = models.CharField(max_length=200, blank=True)
+    first_name = models.CharField(max_length=200)
+    middle_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
     DOB = models.DateField()
     gender = models.CharField(max_length=10, choices=gender_choices)
@@ -46,3 +46,8 @@ class Amazon_customers_Notifications(models.Model):
     amazon_offers = models.CharField(max_length=200, default=True)
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
+
+    def customer_registered(self, amazon_customer, customer_name):
+        message = "Congratulations {} being a part of Amazon Family".format(customer_name)
+        Amazon_customers_Notifications.objects.create(amazon_customer=amazon_customer,
+                                                      message=message)
