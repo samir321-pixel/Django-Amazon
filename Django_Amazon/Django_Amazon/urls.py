@@ -21,6 +21,9 @@ from rest_framework import permissions
 from django.conf.urls.static import static
 from django.conf import settings
 from rest_auth import urls
+from django.conf.urls import url
+from django.urls import re_path as url
+from django.urls import include, re_path
 
 schema_view = get_schema_view(
     openapi.Info(
