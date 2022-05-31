@@ -54,13 +54,51 @@ INSTALLED_APPS = [
     'amazon_seller',
     'amazon_proprietor',
     'amazon_mobile',
+    'allauth.socialaccount.providers.microsoft',
 ]
 # REST_FRAMEWORK = {
 #     'DEFAULT_AUTHENTICATION_CLASSES': (
-#         'rest_framework.authentication.TokenAuthentication',
-#     ),
+#         'rest_framework.authentication.SessionAuthentication',
+#     )
+# }
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        # For each OAuth based provider, either add a ``SocialApp``
+        # (``socialaccount`` app) containing the required client
+        # credentials, or list them here:
+        'APP': {
+            'client_id': '123',
+            'secret': '456',
+            'key': ''
+        }
+    }
+}
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+# MICROSOFT = {
+#     "app_id": "d716fc52-adcf-461e-9fc4-625a02f5df1b",
+#     "app_secret": "-h5131XtDOoIlTtU28xIXz9s_~7Pda-M61",
+#     "redirect": "http://localhost:8000/admin",
+#     "scopes": [""],
+#     "authority": "https://login.microsoftonline.com/d0db0b7e-ceac-44dc-8813-a89c1a10c5a6",
+#     "valid_email_domains": [""],
+#     "logout_uri": "http://localhost:8000/admin/logout"
 # }
 
+MICROSOFT = {
+    "app_id": "d716fc52-adcf-461e-9fc4-625a02f5df1b",
+    "app_secret": "-h5131XtDOoIlTtU28xIXz9s_~7Pda-M61",
+    "redirect": "http://localhost:8000/admin",
+    "scopes": ["openid+User.Read"],
+    "authority": "https://login.microsoftonline.com/d0db0b7e-ceac-44dc-8813-a89c1a10c5a6",
+    "valid_email_domains": [""],
+    "logout_uri": "http://localhost:8000/admin/logout",
+    "response_type": "code",
+    "state": "session_id()",
+    "approval_prompt": "auto"
+}
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = (
@@ -94,7 +132,7 @@ REST_AUTH_SERIALIZERS = {
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -140,7 +178,7 @@ DATABASES = {
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+#         'NAME': str(os.path.join(BASE_DIR, "db.sqlite3"))
 #     }
 # }
 
@@ -195,3 +233,5 @@ CSP_UPGRADE_INSECURE_REQUESTS = not DEBUG
 # For roughly 60% of the requests to our django server we should include the report URI.
 # This helps keep down the number of CSP reports sent from client web browsers
 CSP_REPORT_PERCENTAGE = 0.6
+LOGIN_URL = "/microsoft_authentication/login"
+LOGIN_REDIRECT_URL = "admin"

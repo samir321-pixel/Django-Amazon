@@ -1,0 +1,25 @@
+<html>
+{% csrf_token %}
+<div class="theme-panel">
+    <h2 class="theme-heading">Log in to Your Account</h2>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div>
+            <label>
+                username
+            </label><input type="text" placeholder="username" name="username" id="username">
+        </div>
+                <div>
+            <label>
+                password
+            </label><input type="text" placeholder="password" name="password" id="password">
+        </div>
+        <input type="submit" value="Submit">
+    </form>
+
+    <div class="theme-link-back">
+        <a class="dex-subtle-text" href="javascript:history.back()">Select another login method.</a>
+    </div>
+
+</div>
+</html>
